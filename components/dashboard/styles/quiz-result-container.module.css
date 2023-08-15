@@ -1,0 +1,46 @@
+.antDesignflagFilledIcon {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.b,
+.correctAnswers {
+  position: relative;
+}
+.correctAnswers {
+  font-size: var(--font-size-base);
+}
+.antDesignflagFilledParent,
+.frame {
+  /*width: 132px;*/
+  width: auto;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 0 var(--padding-11xs);
+  box-sizing: border-box;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.antDesignflagFilledParent {
+  /*width: 191px;*/
+  width: auto;
+  height: auto;
+  flex-direction: row;
+  padding: 0 var(--padding-12xs-5) var(--padding-mid);
+  align-items: center;
+  gap: var(--gap-6xs);
+  text-align: left;
+  font-size: var(--font-size-10xl);
+  color: var(--color-darkslategray-100);
+  font-family: var(--font-poppins);
+}
+
+@media screen and (max-width: 470px) {
+  .correctAnswers {
+    display: none;
+  }
+}

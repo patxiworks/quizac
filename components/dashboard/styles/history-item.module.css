@@ -1,0 +1,87 @@
+.historyImageIcon {
+  position: relative;
+  border-radius: var(--br-9xs);
+  width: 140px;
+  height: 92px;
+  object-fit: cover;
+}
+.historyDate,
+.historyItem {
+  align-self: stretch;
+  position: relative;
+}
+.historyItem {
+  font-size: var(--font-size-5xl);
+  line-height: 36px;
+  font-family: var(--font-changa-one);
+  color: var(--color-darkslategray-200);
+}
+.historyPoints {
+  flex: 1;
+}
+.historyBadgeName,
+.historyPoints {
+  position: relative;
+}
+.historyBadgeIcon {
+  position: relative;
+  border-radius: 50%;
+  width: 19px;
+  height: 19px;
+  object-fit: cover;
+}
+.historyCellBadge,
+.historyRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.historyCellBadge {
+  width: 70px;
+  height: 23px;
+  justify-content: flex-end;
+  gap: var(--gap-6xs);
+}
+.historyRow {
+  align-self: stretch;
+  justify-content: space-between;
+  font-size: var(--font-size-xl);
+}
+.historyCard,
+.historyInfo {
+  display: flex;
+  align-items: flex-start;
+}
+.historyInfo {
+  flex: 1;
+  flex-direction: column;
+  padding: var(--padding-11xs) 0 0;
+  justify-content: flex-start;
+  gap: 0;
+}
+.historyCard {
+  align-self: stretch;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-darkgray);
+  flex-direction: row;
+  padding: var(--padding-3xs) var(--padding-2xs);
+  justify-content: center;
+  gap: var(--gap-4xs);
+  text-align: left;
+  font-size: var(--font-size-smi);
+  color: var(--color-black);
+  font-family: var(--font-inter);
+}
+@media screen and (max-width: 420px) {
+  .historyImageIcon {
+    width: 100%;
+    height: 100px;
+  }
+  .historyInfo {
+    flex: unset;
+    align-self: stretch;
+  }
+  .historyCard {
+    flex-direction: column;
+  }
+}

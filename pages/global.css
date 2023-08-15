@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=ABeeZee:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Akshar:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Changa+One:wght@400&display=swap");
+
+body {
+  margin: 0;
+  line-height: normal;
+}
+:root {
+  /* fonts */
+  --font-roboto: Roboto;
+  --font-akshar: Akshar;
+  --font-abeezee: ABeeZee;
+  --font-inter: Inter;
+  --font-poppins: Poppins;
+  --font-changa-one: "Changa One";
+
+  /* font sizes */
+  --font-size-base: 12px;
+  --font-size-xl: 15px;
+  --font-size-17xl: 36px;
+  --font-size-lg: 18px;
+  --font-size-mini: 15px;
+  --font-size-6xl: 25px;
+  --font-size-10xl: 29px;
+  --font-size-13xl: 32px;
+  --font-size-5xl: 24px;
+  --font-size-smi: 13px;
+
+  /* Colors */
+  --color-whitesmoke: #f3f9fa;
+  --secondary-text: #313957;
+  --color-darkslategray-100: #162d3a;
+  --color-white: #fff;
+  --color-lightslategray-100: #959cb6;
+  --primary-text: #0c1421;
+  --link: #1e4ae9;
+  --color-silver: #bdb8b8;
+  --color-lightcyan: #dbf2f4;
+  --color-gainsboro: #cfdfe2;
+  --color-white: #fff;
+  --color-gray-100: #fafafa;
+  --color-gray-200: #868686;
+  --primary-text: #0c1421;
+  --color-black: #000;
+  --color-dimgray: #676767;
+  --color-darkslategray-200: #434343;
+  --secondary-text: #313957;
+  --color-silver-100: #c3bfbf;
+  --color-darkgray: #b2aeae;
+  --color-blueviolet: #8a53ff;
+  --color-slategray: #576074;
+  --color-whitesmoke: #f3f9fa;
+  --link: #1e4ae9;
+
+  /* Gaps */
+  --gap-base: 16px;
+  --gap-13xl: 32px;
+  --gap-203xl: 222px;
+  --gap-29xl: 48px;
+  --gap-5xl: 24px;
+  --gap-9xl: 28px;
+  --gap-xl: 20px;
+  --gap-lg: 18px;
+  --gap-4xs: 9px;
+  --gap-6xs: 7px;
+  --gap-21xl: 40px;
+  --gap-11xl: 30px;
+  --gap-sm: 14px;
+  --gap-12xs: 1px;
+  --gap-7xs: 6px;
+  --gap-lgi: 19px;
+  --gap-11xs: 2px;
+  --gap-3xs: 10px;
+
+  /* Paddings */
+  --padding-xs: 12px;
+  --padding-4xs: 9px;
+  --padding-base: 16px;
+  --padding-13xl: 32px;
+  --padding-mid: 17px;
+  --padding-xl: 20px;
+  --padding-21xl: 40px;
+  --padding-12xs-5: 0.5px;
+  --padding-11xs: 2px;
+  --padding-11xl: 30px;
+  --padding-3xs: 10px;
+  --padding-2xs: 11px;
+  --padding-sm: 14px;
+  --padding-5xl: 24px;
+  --padding-5xs: 8px;
+
+  /* border radiuses */
+  --br-xs: 12px;
+  --br-5xl: 24px;
+  --br-xl: 20px;
+  --br-xs: 12px;
+  --br-9xs: 4px;
+  --br-5xs: 8px;
+  --br-11xs: 2px;
+}
+
+/* Material UI search input style overrides */
+/* input padding */
+.css-1g24dm6-MuiInputBase-input-MuiOutlinedInput-input {
+  padding: 10px !important;
+}
+/* label position */
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
+  top: -5px;
+}

@@ -1,0 +1,36 @@
+.signUp {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 100%;
+  font-weight: bold;
+}
+.todayIsA {
+  margin: 0;
+}
+.todayIsAContainer {
+  position: relative;
+  font-size: var(--font-size-xl);
+  letter-spacing: 0.01em;
+  line-height: 160%;
+  font-family: var(--font-akshar);
+  color: var(--secondary-text);
+  text-align: left;
+}
+.intro {
+  align-self: stretch;
+  align-items: flex-start;
+  gap: var(--gap-9xl);
+}
+
+.signup {
+  position: relative;
+  background-color: var(--color-white);
+  width: 100%;
+  overflow: hidden;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: center;
+  font-size: var(--font-size-17xl);
+  color: var(--primary-text);
+  font-family: var(--font-abeezee);
+}

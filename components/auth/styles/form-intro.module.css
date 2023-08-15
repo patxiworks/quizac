@@ -1,0 +1,31 @@
+.introMessage {
+  font-weight: 600;
+}
+.introMessageContainer {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 100%;
+}
+.todayIsA {
+  margin: 0;
+}
+.todayIsAContainer {
+  position: relative;
+  font-size: var(--font-size-xl);
+  letter-spacing: 0.01em;
+  line-height: 160%;
+  color: var(--secondary-text);
+  text-align: left;
+}
+.intro {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-9xl);
+  text-align: center;
+  font-size: var(--font-size-17xl);
+  color: var(--primary-text);
+  font-family: var(--font-roboto);
+}

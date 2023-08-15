@@ -1,0 +1,7 @@
+.portalPopupOverlay {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  margin-top: 73px;
+  inset: 0;
+}

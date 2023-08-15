@@ -1,0 +1,9 @@
+.artIcon {
+  align-self: stretch;
+  flex: 1;
+  border-radius: var(--br-5xl);
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  object-fit: cover;
+}

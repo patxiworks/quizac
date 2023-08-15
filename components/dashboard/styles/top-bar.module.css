@@ -1,0 +1,43 @@
+.logoIcon {
+  position: relative;
+  /*width: 216px;*/
+  height: 40px;
+  object-fit: cover;
+}
+.searchbar {
+  border: 0;
+  background-color: transparent;
+}
+.searchbar .MuiInputBase-input {
+  padding: 10px !important;
+}
+.userAvatarIcon {
+  position: relative;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}
+.topBar,
+.userInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.userInfo {
+  justify-content: flex-start;
+  gap: var(--gap-sm);
+}
+.topBar {
+  align-self: stretch;
+  /*flex: 1;*/
+  border-bottom: 1px solid var(--color-silver-100);
+  padding: var(--padding-3xs) var(--padding-13xl);
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 600px) {
+  .topBar {
+    padding: var(--padding-3xs);
+  }
+}

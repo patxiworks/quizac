@@ -1,0 +1,27 @@
+.mainButton,
+.signIn {
+  display: flex;
+  align-items: center;
+}
+.signIn {
+  position: relative;
+  font-size: var(--font-size-xl);
+  letter-spacing: 0.01em;
+  line-height: 100%;
+  font-family: var(--font-roboto);
+  color: var(--color-white);
+  text-align: center;
+  justify-content: center;
+  width: 62px;
+  flex-shrink: 0;
+}
+.mainButton {
+  cursor: pointer;
+  border: 0;
+  padding: var(--padding-base) 0;
+  background-color: var(--color-darkslategray-100);
+  align-self: stretch;
+  border-radius: var(--br-xs);
+  flex-direction: row;
+  justify-content: space-between;
+}

@@ -1,0 +1,31 @@
+.moreIcon {
+  width: 21px;
+  height: 14.73px;
+}
+.contentTitle,
+.moreIcon {
+  position: relative;
+}
+.sep {
+  position: relative;
+  font-weight: 500;
+  font-family: var(--font-inter);
+}
+.categoryTypeSelect {
+  justify-content: flex-start;
+}
+.categoryInfo,
+.categoryTypeSelect,
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.categoryInfo {
+  /*height: 50px;*/
+  justify-content: flex-start;
+  gap: var(--gap-3xs);
+  text-align: right;
+  font-size: var(--font-size-6xl);
+  font-family: var(--font-changa-one);
+}

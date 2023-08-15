@@ -1,0 +1,131 @@
+.boxContainer {
+  flex: 1;
+}
+.yourHistory {
+  position: relative;
+  font-weight: 600;
+}
+.title,
+.titleBox {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.title {
+  width: 119px;
+  justify-content: space-between;
+}
+.titleBox {
+  background-color: var(--color-darkslategray-100);
+  border: 1px solid var(--color-black);
+  box-sizing: border-box;
+  flex-direction: column;
+  padding: var(--padding-xl) var(--padding-xl);
+  justify-content: flex-start;
+  gap: var(--gap-lg);
+  text-align: left;
+  color: var(--color-gray-100);
+  font-size: var(--font-size-xl);
+  font-family: var(--font-inter);
+  width: 150px;
+  margin-bottom: -2px;
+  box-shadow: 1px 4px 5px #ccc;
+  border-radius: var(--br-xs) var(--br-xs) 0 0;
+}
+.historyDate {
+  position: relative;
+}
+.historyCellDate {
+  width: 131px;
+  height: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+.historyCellCategory,
+.historyCellPoints {
+  width: 41px;
+  height: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.historyCellPoints {
+  width: 84px;
+}
+.historyBadgeIcon {
+  position: relative;
+  border-radius: 50%;
+  background-color: var(--color-gray-200);
+  width: 19px;
+  height: 19px;
+}
+.historyCellBadge,
+.historyRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.historyCellBadge {
+  width: 70px;
+  height: 23px;
+  justify-content: flex-end;
+  gap: var(--gap-6xs);
+}
+.historyRow {
+  align-self: stretch;
+  justify-content: space-between;
+}
+.moreText {
+  text-decoration: none;
+  position: relative;
+  color: inherit;
+  cursor: pointer;
+}
+.moreIcon {
+  position: relative;
+  width: 8.5px;
+  height: 7.36px;
+}
+.infoBox,
+.moreLink {
+  display: flex;
+  align-items: center;
+}
+.moreLink {
+  align-self: stretch;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: var(--gap-4xs);
+  font-size: var(--font-size-mini);
+  color: var(--color-dimgray);
+}
+.infoBox {
+  flex: 1;
+  border-radius: 0 0 var(--br-xl);
+  background-color: var(--color-gray-100);
+  border: 1px solid var(--color-black);
+  box-sizing: border-box;
+  height: 287px;
+  flex-direction: column;
+  padding: var(--padding-21xl) var(--padding-21xl);
+  justify-content: flex-start;
+  gap: var(--gap-lg);
+  text-align: left;
+  font-size: var(--font-size-xl);
+  color: var(--color-black);
+  font-family: var(--font-inter);
+  box-shadow: 1px 4px 5px #ccc;
+}
+@media screen and (max-width: 480px) {
+  .infoBox {
+    flex: unset;
+    align-self: stretch;
+  }
+  .boxContainer {
+    margin-bottom: 20px;
+  }
+}

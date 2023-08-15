@@ -1,0 +1,65 @@
+.gameInfo {
+  align-self: stretch;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0 var(--padding-13xl);
+  justify-content: flex-end;
+  gap: var(--gap-xl);
+}
+.copyright,
+.footer,
+.gameInfo {
+  display: flex;
+  align-items: center;
+}
+.copyright {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 100%;
+  justify-content: center;
+  width: 382px;
+  flex-shrink: 0;
+}
+.footer {
+  /*align-self: stretch;*/
+  overflow: hidden;
+  flex-direction: row;
+  padding: var(--padding-mid) 204px;
+  justify-content: space-between;
+}
+.dashboard,
+.mainContainer {
+  /*height: 1140px;*/
+  display: flex;
+  flex-direction: column;
+}
+.mainContainer {
+  align-self: stretch;
+  align-items: center;
+  /*justify-content: space-between;*/
+}
+.dashboard {
+  position: relative;
+  background-color: var(--color-white);
+  width: 100%;
+  overflow: hidden;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: center;
+  font-size: var(--font-size-base);
+  color: var(--color-lightslategray-100);
+  font-family: var(--font-roboto);
+}
+@media screen and (max-width: 480px) {
+  .gameInfo {
+    flex-direction: column;
+    gap: var(--gap-xl);
+    align-items: center;
+    justify-content: flex-end;
+    display: block;
+    padding: var(--padding-base);
+  }
+}
+@media screen and (max-width: 470px) {
+  
+}

@@ -1,0 +1,138 @@
+
+.or1,
+.orChild {
+  position: relative;
+}
+.orChild {
+  flex: 1;
+  border-top: 1px solid var(--color-gainsboro);
+  box-sizing: border-box;
+  height: 1px;
+}
+.or1 {
+  letter-spacing: 0.01em;
+  line-height: 100%;
+}
+.or {
+  width: 388px;
+  display: flex;
+  flex-direction: row;
+  padding: 10px 0;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-base);
+}
+.facebookIcon,
+.googleIcon {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.facebookIcon {
+  display: none;
+}
+.signInWith,
+.socialButton {
+  display: flex;
+  align-items: center;
+}
+.signInWith {
+  position: relative;
+  font-size: var(--font-size-base);
+  letter-spacing: 0.01em;
+  line-height: 100%;
+  font-family: var(--font-roboto);
+  color: var(--secondary-text);
+  text-align: left;
+  width: 159px;
+  flex-shrink: 0;
+}
+.socialButton {
+  cursor: pointer;
+  border: 1px solid var(--color-silver);
+  padding: var(--padding-xs) var(--padding-4xs);
+  background-color: var(--color-whitesmoke);
+  align-self: stretch;
+  border-radius: var(--br-xs);
+  flex-direction: row;
+  justify-content: center;
+  gap: var(--gap-base);
+}
+.socialButton:hover {
+  background-color: var(--color-lightcyan);
+}
+.socialButtonsColumns {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  width: 388px;
+  justify-content: flex-start;
+}
+.frame2,
+.socialButtonsColumns,
+.socialSignIn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.socialSignIn {
+  justify-content: flex-end;
+  gap: var(--gap-5xl);
+}
+.frame2 {
+  width: 388px;
+  overflow: hidden;
+  justify-content: flex-start;
+}
+.dontYouHave,
+.signUp {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 160%;
+}
+.signUp {
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--link);
+}
+.dontYouHaveAnAccountParent {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: var(--font-size-lg);
+  color: var(--secondary-text);
+}
+.frame1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 388px;
+  overflow: visible;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.login {
+  position: relative;
+  background-color: var(--color-white);
+  width: 100%;
+  overflow: hidden;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: center;
+  font-size: var(--font-size-base);
+  color: #294957;
+  font-family: var(--font-roboto);
+}
+@media screen and (max-width: 420px) {
+  .login {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,33 @@
+.firstName {
+  border: 0;
+  background-color: transparent;
+}
+.firstNameParent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--gap-5xl);
+}
+.sepIcon {
+  flex: 1;
+  position: relative;
+  max-height: 100%;
+  width: 388px;
+}
+.email {
+  border: 0;
+  background-color: transparent;
+  align-self: stretch;
+}
+.form,
+.signUpButton {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+}
+.form {
+  gap: var(--gap-5xl);
+}
