@@ -81,20 +81,6 @@ const Quiz = ({ }) => {
           <p>Quiz Ended</p>
           <p>Time Spent: {60 - timer} seconds</p>
           <p>Final Score: {score}</p>
-          {score === questions.length ? (
-          <p>EXCELLENT !! YOU'RE THE QUIZ MASTER</p>
-        ) : score > questions.length / 2 ? (
-          <div>
-            <p>GOOD JOB!!!</p>
-            <p>You're on the right track! Keep up the good work.</p>
-          </div>
-          
-        ) : (
-          <div>
-            <p>KEEP TRYING, YOU GOT THIS!!</p>
-            <p>Don't give up! Every step takes you closer to success.</p>
-          </div>
-        )}
         </div>
       ) : (
         <div>
