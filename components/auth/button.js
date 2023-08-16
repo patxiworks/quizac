@@ -1,6 +1,8 @@
 import { useMemo } from "react";
 import styles from "./styles/button.module.css";
+
 const Button = ({
+  onClick,
   signInText,
   typeDesktopPosition,
   typeDesktopWidth,
@@ -10,6 +12,7 @@ const Button = ({
   typeDesktopAlignSelf,
   signInDisplay,
   signInFlex,
+  
 }) => {
   const typeDesktopStyle = useMemo(() => {
     return {
@@ -38,7 +41,7 @@ const Button = ({
 
   return (
     <div className={styles.typedesktop} style={typeDesktopStyle}>
-      <div className={styles.signIn} style={signInStyle}>
+      <div className={styles.signIn} style={signInStyle} onClick={onClick}>
         {signInText}
       </div>
     </div>
