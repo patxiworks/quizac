@@ -5,18 +5,16 @@ import styles from "./styles/login-form.module.css";
 import signupStyles from "./styles/signup-form.module.css";
 import { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import {  app } from "../../firebase";
+import { db, app } from "../../firebase";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
- const [isSignInAttempted, setIsSignInAttempted] = useState(false);
   const router = useRouter()
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    setIsSignInAttempted(true);
     const auth = getAuth(app);
 
     signInWithEmailAndPassword(auth, email, password)
@@ -25,14 +23,12 @@ const LoginForm = () => {
         router.push('/dashboard')
         })
       .catch((error) => {
-        console.error("Login error:", error);
-        setError("Invalid credentials. Please try again.")
-        setPassword("");
+       const errorCode = error.code;
       });
   };
 
   return (
-    <form className={styles.form} >
+    <form className={styles.form} onClick={handleSignIn}>
       <TextField
         className={styles.input}
         color="primary"
@@ -49,7 +45,7 @@ const LoginForm = () => {
         className={styles.input}
         color="primary"
         variant="filled"
-        type="password"
+        type="text"
         label="Password"
         placeholder="At least 8 characters"
         size="medium"
@@ -57,13 +53,10 @@ const LoginForm = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      
-      {isSignInAttempted && <p className={styles.error}>{error}</p >}
       <a className={styles.forgotPassword}>Forgot Password?</a>
       {/*<MainButton label="Sign in" />*/}
       <div className={signupStyles.signUpButton}>
         <Button
-         onClick={handleSignIn}
           signInText="Sign in"
           typeDesktopPosition="unset"
           typeDesktopWidth="unset"
@@ -73,7 +66,6 @@ const LoginForm = () => {
           typeDesktopAlignSelf="stretch"
           signInDisplay="inline-block"
           signInFlex="1"
-       
         ></Button>
       </div>
     </form>
