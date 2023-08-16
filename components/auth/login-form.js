@@ -47,7 +47,7 @@ const LoginForm = () => {
         className={styles.input}
         color="primary"
         variant="filled"
-        type="text"
+        type="password"
         label="Password"
         placeholder="At least 8 characters"
         size="medium"

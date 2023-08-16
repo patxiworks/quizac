@@ -34,14 +34,10 @@ const SignupForm = () => {
     const auth = getAuth(app);
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in 
        const user = userCredential.user;
-       console.log("successful")
        router.push('/dashboard')
-        // ...
       })
       .catch((error) => {
-        alert(error)
         const errorCode = error.code;
       });
     
@@ -108,7 +104,7 @@ const SignupForm = () => {
         className={styles.email}
         color="primary"
         variant="filled"
-        type="text"
+        type="password"
         label="Password"
         placeholder="At least 8 characters"
         size="medium"
@@ -120,7 +116,7 @@ const SignupForm = () => {
         className={styles.email}
         color="primary"
         variant="filled"
-        type="text"
+        type="password"
         label="Password"
         size="medium"
         margin="none"
