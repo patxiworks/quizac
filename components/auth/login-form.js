@@ -23,7 +23,9 @@ const LoginForm = () => {
         router.push('/dashboard')
         })
       .catch((error) => {
-       const errorCode = error.code;
+        console.error("Login error:", error);
+        setError("Invalid credentials. Please try again.")
+        setPassword("");
       });
   };
 
@@ -45,7 +47,7 @@ const LoginForm = () => {
         className={styles.input}
         color="primary"
         variant="filled"
-        type="text"
+        type="password"
         label="Password"
         placeholder="At least 8 characters"
         size="medium"
@@ -53,6 +55,7 @@ const LoginForm = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+        <p className={styles.error}>{error}</p>
       <a className={styles.forgotPassword}>Forgot Password?</a>
       {/*<MainButton label="Sign in" />*/}
       <div className={signupStyles.signUpButton}>

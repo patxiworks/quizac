@@ -34,10 +34,8 @@ const SignupForm = () => {
     const auth = getAuth(app);
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in 
        const user = userCredential.user;
        router.push('/dashboard')
-        // ...
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -139,7 +137,7 @@ const SignupForm = () => {
           typeDesktopAlignSelf="stretch"
           signInDisplay="inline-block"
           signInFlex="1"
-          onClick={handleSignUp}
+         
         />
       </div>
 
