@@ -5,22 +5,18 @@ import styles from "./styles/login-form.module.css";
 import signupStyles from "./styles/signup-form.module.css";
 import { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import app from "@/firebase";
-
+import { db, app } from "../../firebase";
 
 const LoginForm = () => {
- 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const router = useRouter()
 
- 
-
   const handleSignIn = async (e) => {
     e.preventDefault();
-    
     const auth = getAuth(app);
+
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -32,7 +28,6 @@ const LoginForm = () => {
   };
 
   return (
-
     <form className={styles.form} onClick={handleSignIn}>
       <TextField
         className={styles.input}
@@ -62,7 +57,6 @@ const LoginForm = () => {
       {/*<MainButton label="Sign in" />*/}
       <div className={signupStyles.signUpButton}>
         <Button
-          
           signInText="Sign in"
           typeDesktopPosition="unset"
           typeDesktopWidth="unset"
@@ -74,11 +68,7 @@ const LoginForm = () => {
           signInFlex="1"
         ></Button>
       </div>
-
-       
     </form>
-
-    
   );
 };
 
