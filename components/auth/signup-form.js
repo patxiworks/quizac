@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import {
   TextField,
   FormControl,
@@ -8,9 +9,45 @@ import {
 } from "@mui/material";
 import Button from "./button";
 import styles from "./styles/signup-form.module.css";
+import React, { useState } from "react";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import app from "../../firebase";
+
 const SignupForm = () => {
+  const [firstName, setFirstName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [gender, setGender] = useState("Male");
+  const [country, setCountry] = useState("Nigeria");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState(null);
+  const router = useRouter()
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    const auth = getAuth(app);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+       const user = userCredential.user;
+       router.push('/dashboard')
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+      });
+    
+  }
+
+
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onClick={handleSignUp}>
       <div className={styles.firstNameParent}>
         <TextField
           className={styles.firstName}
@@ -63,6 +100,7 @@ const SignupForm = () => {
         size="medium"
         margin="none"
         required
+       onChange={(e) => setEmail(e.target.value)}
       />
       <TextField
         className={styles.email}
@@ -74,6 +112,7 @@ const SignupForm = () => {
         size="medium"
         margin="none"
         required
+        onChange={(e) => setPassword(e.target.value)}
       />
       <TextField
         className={styles.email}
@@ -84,10 +123,13 @@ const SignupForm = () => {
         size="medium"
         margin="none"
         required
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
       />
       <img className={styles.sepIcon} alt="" src="/sep.svg" />
       <div className={styles.signUpButton}>
         <Button
+        
           signInText="Sign up"
           typeDesktopPosition="unset"
           typeDesktopWidth="unset"
@@ -97,8 +139,10 @@ const SignupForm = () => {
           typeDesktopAlignSelf="stretch"
           signInDisplay="inline-block"
           signInFlex="1"
+          onClick={handleSignUp}
         />
       </div>
+
     </form>
   );
 };

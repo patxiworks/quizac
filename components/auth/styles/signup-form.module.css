@@ -27,7 +27,6 @@
   flex-direction: column;
   align-items: flex-end;
   justify-content: center;
-}
-.form {
   gap: var(--gap-5xl);
 }
+

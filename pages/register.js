@@ -3,7 +3,10 @@ import FormIntro from "../components/auth/form-intro";
 import SignupForm from "../components/auth/signup-form";
 import commonStyles from "./common.module.css";
 import styles from "./register.module.css";
+import React from "react";
 const Signup = () => {
+
+
   return (
     <div className={styles.signup}>
       <div className={commonStyles.mainContainer}>
