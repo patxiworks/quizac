@@ -5,7 +5,7 @@ import LoginForm from "../components/auth/login-form";
 import commonStyles from "./common.module.css";
 import styles from "./index.module.css";
 import { useState } from "react";
-import { getAuth,  GoogleAuthProvider, signInWithPopup, signInAnonymously } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInAnonymously } from 'firebase/auth';
 import app from "@/firebase";
 
 
@@ -13,7 +13,7 @@ const Login = () => {
   const provider = new GoogleAuthProvider();
 
   const [user, setUser] = useState(null);
- 
+
 
   const SIGN_IN_WITH_GOOGLE = () => {
     const auth = getAuth(app);
@@ -31,21 +31,21 @@ const Login = () => {
 
 
   const SIGN_IN_ANONYMOUSLY = () => {
-const auth = getAuth();
+    const auth = getAuth();
 
-signInAnonymously(auth)
-  .then(() => {
-    console.log("you have signed in as guest")
-    alert(user)
-    // Signed in..
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+    signInAnonymously(auth)
+      .then(() => {
+        console.log("you have signed in as guest")
+        alert(user)
+        // Signed in..
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
 
-    // ...
-  });
-};
+        // ...
+      });
+  };
 
 
   return (
@@ -59,8 +59,8 @@ signInAnonymously(auth)
             <div className={commonStyles.leftSide8Column}>
               <div className={commonStyles.pageForm}>
                 <div className={commonStyles.frame}>
-                  <FormIntro 
-                    title="Welcome back" 
+                  <FormIntro
+                    title="Welcome back"
                     intro="Log in to your account to start a quiz."
                     icon="👋"
                   />
@@ -87,10 +87,10 @@ signInAnonymously(auth)
                             src="/facebook.svg"
                           />
                           <div className={styles.signInWith}>
-                          <button onClick={SIGN_IN_WITH_GOOGLE} className={`${styles.button} ${styles.google}`}>
+                            <div onClick={SIGN_IN_WITH_GOOGLE} className={`${styles.button} ${styles.google}`}>
 
-                      Sign in with Google
-                            </button>
+                              Sign in with Google
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -107,9 +107,9 @@ signInAnonymously(auth)
                             src="/facebook.svg"
                           />
                           <div className={styles.signInWith}>
-                          <button onClick={SIGN_IN_ANONYMOUSLY} className={`${styles.button} ${styles.google}`}>
-                            Sign in as a guest
-                            </button>
+                            <div onClick={SIGN_IN_ANONYMOUSLY} className={`${styles.button} ${styles.google}`}>
+                              Sign in as a guest
+                            </div>
                           </div>
                         </div>
                       </div>
