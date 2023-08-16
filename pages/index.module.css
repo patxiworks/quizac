@@ -41,7 +41,7 @@
 }
 .signInWith {
   position: relative;
-  font-size: var(--font-size-base);
+  font-size: 1.35em;
   letter-spacing: 0.01em;
   line-height: 100%;
   font-family: var(--font-roboto);

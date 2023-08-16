@@ -11,7 +11,9 @@
     align-items: center;
     gap: var(--gap-13xl);
 }
-
+.fullWidthButton {
+  width: 100%;
+}
 .mainContent {
     display: flex;
     align-self: stretch;
