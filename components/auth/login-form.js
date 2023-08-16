@@ -5,16 +5,18 @@ import styles from "./styles/login-form.module.css";
 import signupStyles from "./styles/signup-form.module.css";
 import { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { db, app } from "../../firebase";
+import {  app } from "../../firebase";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+ const [isSignInAttempted, setIsSignInAttempted] = useState(false);
   const router = useRouter()
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+    setIsSignInAttempted(true);
     const auth = getAuth(app);
 
     signInWithEmailAndPassword(auth, email, password)
@@ -30,7 +32,7 @@ const LoginForm = () => {
   };
 
   return (
-    <form className={styles.form} onClick={handleSignIn}>
+    <form className={styles.form} >
       <TextField
         className={styles.input}
         color="primary"
@@ -55,11 +57,13 @@ const LoginForm = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-        <p className={styles.error}>{error}</p>
+      
+      {isSignInAttempted && <p className={styles.error}>{error}</p >}
       <a className={styles.forgotPassword}>Forgot Password?</a>
       {/*<MainButton label="Sign in" />*/}
       <div className={signupStyles.signUpButton}>
         <Button
+         onClick={handleSignIn}
           signInText="Sign in"
           typeDesktopPosition="unset"
           typeDesktopWidth="unset"
@@ -69,6 +73,7 @@ const LoginForm = () => {
           typeDesktopAlignSelf="stretch"
           signInDisplay="inline-block"
           signInFlex="1"
+       
         ></Button>
       </div>
     </form>
