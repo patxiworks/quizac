@@ -87,10 +87,10 @@ const Login = () => {
                             src="/facebook.svg"
                           />
                           <div className={styles.signInWith}>
-                            <button onClick={SIGN_IN_WITH_GOOGLE} className={`${styles.button} ${styles.google}`}>
+                            <div onClick={SIGN_IN_WITH_GOOGLE} className={`${styles.button} ${styles.google}`}>
 
                               Sign in with Google
-                            </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -107,9 +107,9 @@ const Login = () => {
                             src="/facebook.svg"
                           />
                           <div className={styles.signInWith}>
-                            <button onClick={SIGN_IN_ANONYMOUSLY} className={`${styles.button} ${styles.google}`}>
+                            <div onClick={SIGN_IN_ANONYMOUSLY} className={`${styles.button} ${styles.google}`}>
                               Sign in as a guest
-                            </button>
+                            </div>
                           </div>
                         </div>
                       </div>
