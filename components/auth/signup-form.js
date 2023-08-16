@@ -36,10 +36,12 @@ const SignupForm = () => {
       .then((userCredential) => {
         // Signed in 
        const user = userCredential.user;
+       console.log("successful")
        router.push('/dashboard')
         // ...
       })
       .catch((error) => {
+        alert(error)
         const errorCode = error.code;
       });
     
@@ -106,7 +108,7 @@ const SignupForm = () => {
         className={styles.email}
         color="primary"
         variant="filled"
-        type="password"
+        type="text"
         label="Password"
         placeholder="At least 8 characters"
         size="medium"
@@ -118,7 +120,7 @@ const SignupForm = () => {
         className={styles.email}
         color="primary"
         variant="filled"
-        type="password"
+        type="text"
         label="Password"
         size="medium"
         margin="none"
@@ -139,7 +141,7 @@ const SignupForm = () => {
           typeDesktopAlignSelf="stretch"
           signInDisplay="inline-block"
           signInFlex="1"
-          onClick={handleSignUp}
+         
         />
       </div>
 
