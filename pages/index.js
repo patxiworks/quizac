@@ -4,7 +4,50 @@ import FormIntro from "../components/auth/form-intro";
 import LoginForm from "../components/auth/login-form";
 import commonStyles from "./common.module.css";
 import styles from "./index.module.css";
+import { useState } from "react";
+import { getAuth,  GoogleAuthProvider, signInWithPopup, signInAnonymously } from 'firebase/auth';
+import app from "@/firebase";
+
+
 const Login = () => {
+  const provider = new GoogleAuthProvider();
+
+  const [user, setUser] = useState(null);
+ 
+
+  const SIGN_IN_WITH_GOOGLE = () => {
+    const auth = getAuth(app);
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        console.log("user >>>", user);
+        setUser(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        alert(errorCode);
+      });
+  };
+
+
+  const SIGN_IN_ANONYMOUSLY = () => {
+const auth = getAuth();
+
+signInAnonymously(auth)
+  .then(() => {
+    console.log("you have signed in as guest")
+    alert(user)
+    // Signed in..
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+
+    // ...
+  });
+};
+
+
   return (
     <div className={styles.login}>
       <div className={commonStyles.mainContainer}>
@@ -44,7 +87,10 @@ const Login = () => {
                             src="/facebook.svg"
                           />
                           <div className={styles.signInWith}>
-                            Sign in with Google
+                          <button onClick={SIGN_IN_WITH_GOOGLE} className={`${styles.button} ${styles.google}`}>
+
+                      Sign in with Google
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -61,7 +107,9 @@ const Login = () => {
                             src="/facebook.svg"
                           />
                           <div className={styles.signInWith}>
+                          <button onClick={SIGN_IN_ANONYMOUSLY} className={`${styles.button} ${styles.google}`}>
                             Sign in as a guest
+                            </button>
                           </div>
                         </div>
                       </div>

@@ -10,10 +10,9 @@ const clientCredentials = {
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   };
 
-  //firebase.initializeApp(clientCredentials);
+//firebase.initializeApp(clientCredentials);
 
-  const app = initializeApp(clientCredentials);
-  const db = getFirestore();
+const app = initializeApp(clientCredentials);
+const db = getFirestore();
 
-  export {app, db}
-
+export {app, db}
