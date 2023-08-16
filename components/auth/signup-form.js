@@ -44,6 +44,8 @@ const SignupForm = () => {
       });
     
   }
+
+
   return (
     <form className={styles.form} onClick={handleSignUp}>
       <div className={styles.firstNameParent}>
@@ -127,6 +129,7 @@ const SignupForm = () => {
       <img className={styles.sepIcon} alt="" src="/sep.svg" />
       <div className={styles.signUpButton}>
         <Button
+        
           signInText="Sign up"
           typeDesktopPosition="unset"
           typeDesktopWidth="unset"
@@ -139,7 +142,9 @@ const SignupForm = () => {
           onClick={handleSignUp}
         />
       </div>
+
     </form>
   );
 };
+
 export default SignupForm;

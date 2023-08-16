@@ -87,10 +87,10 @@ signInAnonymously(auth)
                             src="/facebook.svg"
                           />
                           <div className={styles.signInWith}>
-                          <div onClick={SIGN_IN_WITH_GOOGLE} className={`${styles.button} ${styles.google}`}>
+                          <button onClick={SIGN_IN_WITH_GOOGLE} className={`${styles.button} ${styles.google}`}>
 
                       Sign in with Google
-                            </div>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -107,10 +107,9 @@ signInAnonymously(auth)
                             src="/facebook.svg"
                           />
                           <div className={styles.signInWith}>
-                          <div onClick={SIGN_IN_ANONYMOUSLY} className={`${styles.button} ${styles.google}`}>
+                          <button onClick={SIGN_IN_ANONYMOUSLY} className={`${styles.button} ${styles.google}`}>
                             Sign in as a guest
-                            </div>
-
+                            </button>
                           </div>
                         </div>
                       </div>
