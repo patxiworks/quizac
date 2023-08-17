@@ -42,9 +42,8 @@ const Quiz = () => {
       return () => clearInterval(countdown);
     } else {
       if (currentQuestionIndex < questions.length - 1) {
-        //  to move to the next question when timer elapses
         setCurrentQuestionIndex(currentQuestionIndex + 1);
-        setTimer(10); 
+        setTimer(10);
       } else {
         endQuiz();
       }
@@ -61,10 +60,9 @@ const Quiz = () => {
 
   const handleNextQuestion = () => {
     setCurrentQuestionIndex(currentQuestionIndex + 1);
-    setTimer(10); 
+    setTimer(10);
   };
 
-  
   const endQuiz = async () => {
     setIsQuizEnded(true);
 
@@ -82,7 +80,7 @@ const Quiz = () => {
         score: finalScore,
       });
 
-      const newCol = collection(db, "quizresult",docRef.id, "scores");
+      const newCol = collection(db, "quizresult", docRef.id, "scores");
     }
   };
 
@@ -92,11 +90,12 @@ const Quiz = () => {
       {isQuizEnded ? (
         <div>
           <p>Quiz Ended</p>
-          <p>Final Score: {score}</p>         
+          <p>Final Score: {score}</p>
         </div>
       ) : (
         <div>
-          {!isQuizEnded && questions.length > 0 && (
+          <p>{timer > 0 ? `Time Remaining: ${timer} seconds` : ''}</p>
+          {questions.length > 0 && (
             <div>
               <h2>{questions[currentQuestionIndex].question}</h2>
               <form>
