@@ -80,7 +80,7 @@ const Quiz = ({ }) => {
         <div>
           <p>Quiz Ended</p>
           <p>Time Spent: {60 - timer} seconds</p>
-          <p>Final Score: {score}</p>
+          <p>Final Score: {score}</p>         
         </div>
       ) : (
         <div>
