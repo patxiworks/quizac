@@ -1,36 +1,43 @@
 import { useState, useEffect } from 'react';
-import {db} from '../../firebase'
-import {collection, getDocs,addDoc } from 'firebase/firestore';
+import { db } from '../../firebase';
+import { collection, addDoc, getDocs } from 'firebase/firestore';
 
-const Quiz = ({ }) => {
+const levels = [
+  { number: 1, minScoreToUnlock: 0 },
+  { number: 2, minScoreToUnlock: 2 },
+];
+
+const Quiz = ({}) => {
   const [questions, setQuestions] = useState([]);
   const [score, setScore] = useState(0);
   const [timer, setTimer] = useState(60);
   const [isQuizEnded, setIsQuizEnded] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [currentLevel, setCurrentLevel] = useState(1);
+  const [showResetButton, setShowResetButton] = useState(false);
 
   useEffect(() => {
-    async function fetchData() {
-      const dataCollection = collection(db, 'quizz');
-      try {
-        const querySnapshot = await getDocs(dataCollection);
-        const fetchedQuestions = querySnapshot.docs.map((doc) => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            question: data.questions,
-            options: data.options,
-            answer: data.answer,
-          };
-        });
-        setQuestions(fetchedQuestions);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
+    async function fetchDataForLevel(levelNumber) {
+      const questionsCollection = collection(
+        db,
+        `quizzQuestions/level${levelNumber}/questions`
+      );
+      const querySnapshot = await getDocs(questionsCollection);
+
+      const fetchedQuestions = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          question: data.question,
+          options: data.options,
+          answer: data.answer,
+        };
+      });
+      setQuestions(fetchedQuestions);
     }
-    fetchData();
-  }, []);
+    fetchDataForLevel(currentLevel);
+  }, [currentLevel]);
 
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -38,7 +45,6 @@ const Quiz = ({ }) => {
         setTimer(timer - 1);
       } else {
         clearInterval(countdown);
-        endQuiz();
       }
     }, 1000);
 
@@ -53,9 +59,37 @@ const Quiz = ({ }) => {
     }
   };
 
+  const moveToNextLevel = () => {
+    const nextLevel = currentLevel + 1;
+    if (nextLevel <= levels.length) {
+      if (score >= levels[nextLevel - 1].minScoreToUnlock) {
+        setCurrentLevel(nextLevel);
+        setSelectedOptions([]);
+        setIsQuizEnded(false);
+        setTimer(60);
+        setScore(0);
+        setQuizSubmitted(false);
+        setShowResetButton(false);
+      } else {
+        alert("You need a higher score to unlock the next level.");
+        setShowResetButton(true);
+      }
+    } else {
+      alert("Congratulations! You've completed all levels.");
+    }
+  };
+
+  const resetLevel = () => {
+    setSelectedOptions([]);
+    setIsQuizEnded(false);
+    setTimer(60);
+    setScore(0);
+    setQuizSubmitted(false);
+    setShowResetButton(false);
+  };
+
   const endQuiz = async () => {
     setIsQuizEnded(true);
-
     if (!quizSubmitted) {
       let score = 0;
       for (let i = 0; i < questions.length; i++) {
@@ -63,15 +97,22 @@ const Quiz = ({ }) => {
           score++;
         }
       }
+
+      const levelScoresCollection = collection(
+        db,
+        `quizzresult/level${currentLevel}/scores`
+      );
+
+      await addDoc(levelScoresCollection, { score: score });
+
       setScore(score);
       setQuizSubmitted(true);
-
-      const docRef = await addDoc(collection(db, "quizresult"), {
-        score: score,
-      });
-      const newCol = collection(db, "quizresult",docRef.id, "scores");
+      if (score < levels[currentLevel - 1].minScoreToUnlock) {
+        setShowResetButton(true);
+      }
     }
-  }
+  };
+
   return (
     <div>
       <h1>Quiz Game</h1>
@@ -80,7 +121,10 @@ const Quiz = ({ }) => {
         <div>
           <p>Quiz Ended</p>
           <p>Time Spent: {60 - timer} seconds</p>
-          <p>Final Score: {score}</p>
+          <p>Your Level: {currentLevel}</p>
+          <p>Score: {score}</p>
+          <button onClick={moveToNextLevel}>Next Level</button>
+          {showResetButton && <button onClick={resetLevel}>Reset Level</button>}
         </div>
       ) : (
         <div>
@@ -106,11 +150,11 @@ const Quiz = ({ }) => {
               ))}
             </div>
           )}
-
           <button onClick={endQuiz}>Submit</button>
         </div>
       )}
     </div>
   );
 };
-export default Quiz;
+
+export default Quiz;
