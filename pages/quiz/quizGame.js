@@ -12,6 +12,12 @@ const Quiz = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizSubmitted, setQuizSubmitted] = useState(false);
+   const [moraleBooster, setMoraleBooster] = useState('');
+  const [moraleBoosters, setMoraleBoosters] = useState({
+    complete: [],
+    half: [],
+    wrong: [],
+  });
 
   useEffect(() => {
     async function fetchData() {
@@ -32,8 +38,25 @@ const Quiz = () => {
           console.error("Error fetching data: ", error);
         }
       }
-      fetchData();
+
+      async function fetchMoraleBoosters() {
+        const moraleBoosterCollection = collection(db, 'morale_boosters');
+        try {
+          const querySnapshot = await getDocs(moraleBoosterCollection);
+          const fetchedBoosters = querySnapshot.docs[0].data();
+         
+          setMoraleBoosters(fetchedBoosters);
+        } catch (error) {
+        
+        }
+      }
+      
+fetchData()
+fetchMoraleBoosters();
+
     }, []);
+   
+
   
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -55,11 +78,17 @@ const Quiz = () => {
       setSelectedOptions(newSelectedOptions);
     }
   };
+  const displayRandomMoraleBooster = (category) => {
+   console.log(category)
+    const randomIndex = Math.floor(Math.random() * moraleBoosters[category].length);
+    return moraleBoosters[category][randomIndex];
+  };
+  
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setTimer(10); // Reset the timer for the next question
+      setTimer(10); 
     } else {
       endQuiz();
     }
@@ -67,7 +96,7 @@ const Quiz = () => {
 
   const endQuiz = async () => {
     setIsQuizEnded(true);
-
+  
     if (!quizSubmitted) {
       let userScore = 0;
       for (let i = 0; i < questions.length; i++) {
@@ -78,11 +107,24 @@ const Quiz = () => {
       setScore(userScore);
       setQuizSubmitted(true);
 
-      const docRef = await addDoc(collection(db, "quizresult"), {
-        score: userScore,
-      });
+      
+      let moraleBoosterText = '';
+      if (userScore === questions.length) {
+        moraleBoosterText = displayRandomMoraleBooster('complete');
+      } else if (userScore >= questions.length / 2) {
+        moraleBoosterText = displayRandomMoraleBooster('half');
+      } else {
+        moraleBoosterText = displayRandomMoraleBooster('wrong');
+      }
+      setMoraleBooster(moraleBoosterText);
+
+
+  
     }
   };
+  
+
+  
 
   return (
     <div className={styles.quizContainer}>
@@ -90,20 +132,15 @@ const Quiz = () => {
     {isQuizEnded ? (
       <div className={styles.quizResults}>
         <p>Quiz Ended</p>
-        <p>Final Score: {score}</p>
-          {score === questions.length ? (
-          <p>EXCELLENT !! YOU'RE THE QUIZ MASTER</p>
-        ) : score > questions.length / 2 ? (
-          <div>
-            <p>GOOD JOB!!!</p>
-            <p>You're on the right track! Keep up the good work.</p>
-          </div>
-        ) : (
-          <div>
-            <p>KEEP TRYING, YOU GOT THIS!!</p>
-            <p>Don't give up! Every step takes you closer to success.</p>
-          </div>
-        )}
+<p>Final Score: {score}</p>
+{moraleBooster !== '' && (
+      <div className={styles.moraleBooster}>
+        <p>{moraleBooster}</p>
+      </div>
+)}
+
+
+
       </div>
    
       ) : (
