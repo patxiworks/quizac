@@ -102,7 +102,7 @@ const Quiz = ({}) => {
 
       const levelScoresCollection = collection(
         db,
-        "quizzresult",auth.currentUser.displayName,`level${currentLevel}`,      );
+        "quizzresult",auth.currentUser.email,`level${currentLevel}`,      );
 
       await addDoc(levelScoresCollection, { score: score });
 
