@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { db } from '../../firebase';
+import { db, app } from '../../firebase';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth'
 
 const levels = [
   { number: 1, minScoreToUnlock: 0 },
   { number: 2, minScoreToUnlock: 2 },
 ];
+const auth = getAuth(app);
 
 const Quiz = ({}) => {
   const [questions, setQuestions] = useState([]);
@@ -100,8 +102,7 @@ const Quiz = ({}) => {
 
       const levelScoresCollection = collection(
         db,
-        `quizzresult/level${currentLevel}/scores`
-      );
+        "quizzresult",auth.currentUser.email,`level${currentLevel}`,      );
 
       await addDoc(levelScoresCollection, { score: score });
 
@@ -112,7 +113,6 @@ const Quiz = ({}) => {
       }
     }
   };
-
   return (
     <div>
       <h1>Quiz Game</h1>
