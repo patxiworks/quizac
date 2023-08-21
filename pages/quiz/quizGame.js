@@ -12,7 +12,7 @@ const Quiz = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizSubmitted, setQuizSubmitted] = useState(false);
-   const [moraleBooster, setMoraleBooster] = useState('');
+  const [moraleBooster, setMoraleBooster] = useState('');
   const [moraleBoosters, setMoraleBoosters] = useState({
     complete: [],
     half: [],
@@ -44,21 +44,15 @@ const Quiz = () => {
         try {
           const querySnapshot = await getDocs(moraleBoosterCollection);
           const fetchedBoosters = querySnapshot.docs[0].data();
-         
           setMoraleBoosters(fetchedBoosters);
         } catch (error) {
-        
         }
       }
-      
 fetchData()
 fetchMoraleBoosters();
-
-    }, []);
+ }, []);
    
-
-  
-  useEffect(() => {
+useEffect(() => {
     const countdown = setInterval(() => {
       if (timer > 0 && !isQuizEnded) {
         setTimer(timer - 1);
@@ -79,12 +73,10 @@ fetchMoraleBoosters();
     }
   };
   const displayRandomMoraleBooster = (category) => {
-   console.log(category)
     const randomIndex = Math.floor(Math.random() * moraleBoosters[category].length);
     return moraleBoosters[category][randomIndex];
   };
   
-
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -107,7 +99,6 @@ fetchMoraleBoosters();
       setScore(userScore);
       setQuizSubmitted(true);
 
-      
       let moraleBoosterText = '';
       if (userScore === questions.length) {
         moraleBoosterText = displayRandomMoraleBooster('complete');
@@ -117,31 +108,22 @@ fetchMoraleBoosters();
         moraleBoosterText = displayRandomMoraleBooster('wrong');
       }
       setMoraleBooster(moraleBoosterText);
-
-
-  
     }
   };
   
-
-  
-
   return (
     <div className={styles.quizContainer}>
     <h1 className={styles.quizTitle}>Quiz Game</h1>
     {isQuizEnded ? (
       <div className={styles.quizResults}>
         <p>Quiz Ended</p>
-<p>Final Score: {score}</p>
-{moraleBooster !== '' && (
+        <p>Final Score: {score}</p>
+         {moraleBooster !== '' && (
       <div className={styles.moraleBooster}>
         <p>{moraleBooster}</p>
       </div>
 )}
-
-
-
-      </div>
+</div>
    
       ) : (
         <div>
