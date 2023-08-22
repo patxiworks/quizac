@@ -7,7 +7,7 @@ import styles from ".//quiz.module.css";
 const Quiz = () => {
   const [questions, setQuestions] = useState([]);
   const [score, setScore] = useState(0);
-  const [timer, setTimer] = useState(10); // Change the timer to 10 seconds per question
+  const [timer, setTimer] = useState(10);
   const [isQuizEnded, setIsQuizEnded] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -21,38 +21,38 @@ const Quiz = () => {
 
   useEffect(() => {
     async function fetchData() {
-        const dataCollection = collection(db, 'quizz');
-        try {
-          const querySnapshot = await getDocs(dataCollection);
-          const fetchedQuestions = querySnapshot.docs.map((doc) => {
-            const data = doc.data();
-            return {
-              id: doc.id,
-              question: data.questions,
-              options: data.options,
-              answer: data.answer,
-            };
-          });
-          setQuestions(fetchedQuestions);
-        } catch (error) {
-          console.error("Error fetching data: ", error);
-        }
+      const dataCollection = collection(db, 'quizz');
+      try {
+        const querySnapshot = await getDocs(dataCollection);
+        const fetchedQuestions = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            question: data.questions,
+            options: data.options,
+            answer: data.answer,
+          };
+        });
+        setQuestions(fetchedQuestions);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
       }
+    }
 
-      async function fetchMoraleBoosters() {
-        const moraleBoosterCollection = collection(db, 'morale_boosters');
-        try {
-          const querySnapshot = await getDocs(moraleBoosterCollection);
-          const fetchedBoosters = querySnapshot.docs[0].data();
-          setMoraleBoosters(fetchedBoosters);
-        } catch (error) {
-        }
+    async function fetchMoraleBoosters() {
+      const moraleBoosterCollection = collection(db, 'morale_boosters');
+      try {
+        const querySnapshot = await getDocs(moraleBoosterCollection);
+        const fetchedBoosters = querySnapshot.docs[0].data();
+        setMoraleBoosters(fetchedBoosters);
+      } catch (error) {
       }
-fetchData()
-fetchMoraleBoosters();
- }, []);
-   
-useEffect(() => {
+    }
+    fetchData()
+    fetchMoraleBoosters();
+  }, []);
+
+  useEffect(() => {
     const countdown = setInterval(() => {
       if (timer > 0 && !isQuizEnded) {
         setTimer(timer - 1);
@@ -76,19 +76,18 @@ useEffect(() => {
     const randomIndex = Math.floor(Math.random() * moraleBoosters[category].length);
     return moraleBoosters[category][randomIndex];
   };
-  
+
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setTimer(10); 
+      setTimer(10);
     } else {
       endQuiz();
     }
   };
-
   const endQuiz = async () => {
     setIsQuizEnded(true);
-  
+
     if (!quizSubmitted) {
       let userScore = 0;
       for (let i = 0; i < questions.length; i++) {
@@ -110,21 +109,19 @@ useEffect(() => {
       setMoraleBooster(moraleBoosterText);
     }
   };
-  
   return (
     <div className={styles.quizContainer}>
-    <h1 className={styles.quizTitle}>Quiz Game</h1>
-    {isQuizEnded ? (
-      <div className={styles.quizResults}>
-        <p>Quiz Ended</p>
-        <p>Final Score: {score}</p>
-         {moraleBooster !== '' && (
-      <div className={styles.moraleBooster}>
-        <p>{moraleBooster}</p>
-      </div>
-)}
-</div>
-   
+      <h1 className={styles.quizTitle}>Quiz Game</h1>
+      {isQuizEnded ? (
+        <div className={styles.quizResults}>
+          <p>Quiz Ended</p>
+          <p>Final Score: {score}</p>
+          {moraleBooster !== '' && (
+            <div className={styles.moraleBooster}>
+              <p>{moraleBooster}</p>
+            </div>
+          )}
+        </div>
       ) : (
         <div>
           <p className={styles.timer}>Time Remaining: {timer} seconds</p>
