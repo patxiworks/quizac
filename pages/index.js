@@ -1,19 +1,28 @@
+import { useState, useEffect } from "react";
+import { useRouter } from 'next/router';
 import Link from "next/link";
 import ArtWork from "../components/auth/art-work";
 import FormIntro from "../components/auth/form-intro";
 import LoginForm from "../components/auth/login-form";
 import commonStyles from "./common.module.css";
 import styles from "./index.module.css";
-import { useState } from "react";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInAnonymously } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInAnonymously } from 'firebase/auth';
 import app from "@/firebase";
 
 
 const Login = () => {
-  const provider = new GoogleAuthProvider();
-
   const [user, setUser] = useState(null);
+  const provider = new GoogleAuthProvider();
+  const router = useRouter();
+  const auth = getAuth();
 
+  useEffect(() => {
+    onAuthStateChanged(auth, (userInfo) => {
+      if (userInfo) {
+        router.push('/dashboard')
+      }
+    });
+  }, [])
 
   const SIGN_IN_WITH_GOOGLE = () => {
     const auth = getAuth(app);
@@ -25,7 +34,7 @@ const Login = () => {
       })
       .catch((error) => {
         const errorCode = error.code;
-        alert(errorCode);
+        //alert(errorCode);
       });
   };
 
@@ -36,13 +45,12 @@ const Login = () => {
     signInAnonymously(auth)
       .then(() => {
         console.log("you have signed in as guest")
-        alert(user)
+        //alert(user)
         // Signed in..
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-
         // ...
       });
   };
