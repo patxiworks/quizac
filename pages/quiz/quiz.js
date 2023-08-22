@@ -3,10 +3,6 @@ import { db, app } from '../../firebase';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth'
 
-const levels = [
-  { number: 1, minScoreToUnlock: 0, timeLimit: 60 }, 
-  { number: 2, minScoreToUnlock: 2, timeLimit: 30 },
-];
 const auth = getAuth(app);
 
 const Quiz = ({}) => {
@@ -18,6 +14,23 @@ const Quiz = ({}) => {
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [currentLevel, setCurrentLevel] = useState(1);
   const [showResetButton, setShowResetButton] = useState(false);
+  const [levels, setLevels] = useState([]); 
+
+  useEffect(() => {
+    async function fetchLevels() {
+      const levelsCollection = collection(db, 'levels');
+      const querySnapshot = await getDocs(levelsCollection);
+      const levelData = querySnapshot.docs.map((doc) => doc.data());
+      setLevels(levelData);
+    }
+    fetchLevels();
+  }, []);
+
+  useEffect(() => {
+    if (currentLevel <= levels.length) {
+      setTimer(levels[currentLevel - 1]?.timeLimit || 60);
+    }
+  }, [currentLevel, levels]);
 
   useEffect(() => {
     async function fetchDataForLevel(levelNumber) {
@@ -72,7 +85,7 @@ const Quiz = ({}) => {
         setCurrentLevel(nextLevel);
         setSelectedOptions([]);
         setIsQuizEnded(false);
-        setTimer(levels[nextLevel - 1].timeLimit); // Set the time limit for the next level
+        setTimer(levels[nextLevel - 1].timeLimit); 
         setScore(0);
         setQuizSubmitted(false);
         setShowResetButton(false);
@@ -88,11 +101,13 @@ const Quiz = ({}) => {
   const resetLevel = () => {
     setSelectedOptions([]);
     setIsQuizEnded(false);
-    setTimer(60);
+    const timeLimitForCurrentLevel = levels[currentLevel - 1]?.timeLimit || 60;
+    setTimer(timeLimitForCurrentLevel);
     setScore(0);
     setQuizSubmitted(false);
     setShowResetButton(false);
   };
+  
 
   const endQuiz = async () => {
     setIsQuizEnded(true);
