@@ -6,11 +6,12 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import ArtWork from "../components/auth/art-work";
 import FormIntro from "../components/auth/form-intro";
-import SignupForm from "../components/auth/signup-form";
+import LoginForm from "../components/auth/login-form";
+import ExternalLogin from "../components/auth/ext-login";
 import commonStyles from "./common.module.css";
-import styles from "./register.module.css";
+import styles from "./index.module.css";
 
-const Signup = () => {
+const Login = () => {
   const [showForm, setShowForm] = useState(false);
   const router = useRouter();
   const auth = getAuth(app)
@@ -18,7 +19,7 @@ const Signup = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (userInfo) => {
       if (userInfo) {
-        router.push('/dashboard');
+        //router.push('/dashboard');
       } else {
         setShowForm(true)
       }
@@ -26,22 +27,38 @@ const Signup = () => {
   }, [])
 
   return (
-    <div className={styles.signup}>
+    <div className={styles.login}>
       <div className={commonStyles.mainContainer}>
-        <ArtWork image="/art@2x.png" radius={1} />
-        {showForm ? 
+        <div className={commonStyles.leftContent}>
+        <div className={commonStyles.logo}>Quizac</div>
+        <iframe className={commonStyles.gacFrame} src={`https://embed.culturalspot.org/embedv2/asset/hQFiKbLgmwYEpQ`}></iframe>
+        
+        <div className={commonStyles.imageFooter}></div>
+        </div>
+        {!showForm ? 
         <div className={commonStyles.mainContent}>
           <div className={commonStyles.topImage}></div>
           <div className={commonStyles.homeContent}>
             <div className={commonStyles.leftSide8Column}>
               <div className={commonStyles.pageForm}>
                 <div className={commonStyles.frame}>
-                  <FormIntro 
-                    title="Register here" 
-                    intro="Fill in your details below to get started."
-                    icon="✍"
+                  <FormIntro
+                    title="Welcome back"
+                    intro="Log in to your account to start a quiz."
+                    icon="👋"
                   />
-                  <SignupForm />
+                  <LoginForm />
+                </div>
+                <div className={styles.frame1}>
+                  <ExternalLogin />
+                  <div className={styles.dontYouHaveAnAccountParent}>
+                    <div
+                      className={styles.dontYouHave}
+                    >{`Don't you have an account? `}</div>
+                    <Link className={styles.signUp} href="/register">
+                      Sign up
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -61,4 +78,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;

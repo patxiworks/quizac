@@ -106,6 +106,8 @@ const Quiz = ({}) => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setTimer(levels[currentLevel - 1]?.timeLimit || 10);
+      setTimer(levels[currentLevel - 1]?.timeLimit || 10); // Set the timer based on the level's time limit
+    } else {
       endQuiz();
     }
   };
@@ -130,7 +132,6 @@ const Quiz = ({}) => {
       setUnlockMessage("Congratulations! You've completed all levels.");
     }
   };
-  
   
   const resetLevel = () => {
     setSelectedOptions([]);

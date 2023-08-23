@@ -30,7 +30,7 @@
   flex-direction: column;
   align-items: flex-start;
   text-align: center;
-  font-size: var(--font-size-17xl);
+  /*font-size: var(--font-size-17xl);*/
   color: var(--primary-text);
   font-family: var(--font-abeezee);
 }
