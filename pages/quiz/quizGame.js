@@ -16,6 +16,8 @@ const Quiz = ({}) => {
   const [currentLevel, setCurrentLevel] = useState(1);
   const [showResetButton, setShowResetButton] = useState(false);
   const [levels, setLevels] = useState([]); 
+  const [unlockMessage, setUnlockMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [moraleBooster, setMoraleBooster] = useState('');
   const [moraleBoosters, setMoraleBoosters] = useState({
     complete: [],
@@ -103,6 +105,7 @@ const Quiz = ({}) => {
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setTimer(levels[currentLevel - 1]?.timeLimit || 10);
       setTimer(levels[currentLevel - 1]?.timeLimit || 10); // Set the timer based on the level's time limit
     } else {
       endQuiz();
@@ -122,11 +125,11 @@ const Quiz = ({}) => {
         setQuizSubmitted(false);
         setShowResetButton(false);
       } else {
-        alert("You need a higher score to unlock the next level.");
+        setErrorMessage("You need a higher score to unlock the next level.");
         setShowResetButton(true);
       }
     } else {
-      alert("Congratulations! You've completed all levels.");
+      setUnlockMessage("Congratulations! You've completed all levels.");
     }
   };
   
@@ -187,6 +190,8 @@ const Quiz = ({}) => {
         <p>{moraleBooster}</p>
       </div>
 )}
+ {unlockMessage && <p className={styles.unlockMessage}>{unlockMessage}</p>}
+ {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
           <button onClick={moveToNextLevel}>Next Level</button>
           {showResetButton && <button onClick={resetLevel}>Reset Level</button>}
         </div>
