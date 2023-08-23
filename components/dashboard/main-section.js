@@ -5,6 +5,15 @@ import TypeDesktop from "./type-desktop1";
 import QuizResultContainer from "./quiz-result-container";
 import HistorySummary from "./history-summary";
 import styles from "./styles/main-section.module.css";
+
+const GacFrame = ( {style, type, id} ) => {
+  return (
+    <div className={styles[style]}>
+      <iframe className={styles.gacFrame} src={`https://embed.culturalspot.org/embedv2/${type}/${id}`}></iframe>
+    </div>
+  )
+}
+
 const MainSection = () => {
   const [isCategoriesPopupOpen, setCategoriesPopupOpen] = useState(false);
   const mainContainer = "dashboard";
@@ -24,12 +33,10 @@ const MainSection = () => {
   return (
     <>
       <div className={styles.mainSection}>
-        <img className={styles.artIcon} alt="" src="/art@2x.png" />
+        <GacFrame style='sideGacBox' type="asset" id="eQHH3QrjkD0OUQ?nzh" />
         <div className={styles.mainContent}>
           <div className={styles.homeContent}>
-            
-              <img className={styles.artMobile} alt="" src="/art@2x.png" />
-            
+            <GacFrame style='topGacBox' type="asset" id="eQHH3QrjkD0OUQ?nzh" />
             <div className={styles.contentTitle}>Welcome back, Gerald!</div>
             <div className={styles.contentBox}>
               <div className={styles.contentMessage}>

@@ -8,6 +8,7 @@
   align-items: center;
   justify-content: flex-end;
   gap: var(--gap-5xl);
+  width: 100%;
 }
 .sepIcon {
   flex: 1;

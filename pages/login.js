@@ -4,7 +4,7 @@ import Link from "next/link";
 import app from "@/firebase";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-import ArtWork from "../components/auth/art-work";
+import LogoArt from "../components/auth/logo-art";
 import FormIntro from "../components/auth/form-intro";
 import LoginForm from "../components/auth/login-form";
 import ExternalLogin from "../components/auth/ext-login";
@@ -19,7 +19,7 @@ const Login = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (userInfo) => {
       if (userInfo) {
-        //router.push('/dashboard');
+        router.push('/dashboard');
       } else {
         setShowForm(true)
       }
@@ -29,15 +29,12 @@ const Login = () => {
   return (
     <div className={styles.login}>
       <div className={commonStyles.mainContainer}>
-        <div className={commonStyles.leftContent}>
-        <div className={commonStyles.logo}>Quizac</div>
-        <iframe className={commonStyles.gacFrame} src={`https://embed.culturalspot.org/embedv2/asset/hQFiKbLgmwYEpQ`}></iframe>
-        
-        <div className={commonStyles.imageFooter}></div>
-        </div>
-        {!showForm ? 
+        <LogoArt assetId='hQFiKbLgmwYEpQ' />
+        {showForm ? 
         <div className={commonStyles.mainContent}>
-          <div className={commonStyles.topImage}></div>
+          <div className={commonStyles.topImage}>
+            <LogoArt assetId='hQFiKbLgmwYEpQ' />
+          </div>
           <div className={commonStyles.homeContent}>
             <div className={commonStyles.leftSide8Column}>
               <div className={commonStyles.pageForm}>
