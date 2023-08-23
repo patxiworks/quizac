@@ -1,68 +1,38 @@
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/router';
 import Link from "next/link";
+import app from "@/firebase";
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
 import ArtWork from "../components/auth/art-work";
 import FormIntro from "../components/auth/form-intro";
 import LoginForm from "../components/auth/login-form";
+import ExternalLogin from "../components/auth/ext-login";
 import commonStyles from "./common.module.css";
 import styles from "./index.module.css";
-import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInAnonymously } from 'firebase/auth';
-import app from "@/firebase";
-
 
 const Login = () => {
-  const [user, setUser] = useState(null);
-  const provider = new GoogleAuthProvider();
+  const [showForm, setShowForm] = useState(false);
   const router = useRouter();
-  const auth = getAuth();
+  const auth = getAuth(app)
 
   useEffect(() => {
     onAuthStateChanged(auth, (userInfo) => {
       if (userInfo) {
-        router.push('/dashboard')
+        router.push('/dashboard');
+      } else {
+        setShowForm(true)
       }
     });
   }, [])
 
-  const SIGN_IN_WITH_GOOGLE = () => {
-    const auth = getAuth(app);
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        console.log("user >>>", user);
-        setUser(user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        //alert(errorCode);
-      });
-  };
-
-
-  const SIGN_IN_ANONYMOUSLY = () => {
-    const auth = getAuth();
-
-    signInAnonymously(auth)
-      .then(() => {
-        console.log("you have signed in as guest")
-        //alert(user)
-        // Signed in..
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ...
-      });
-  };
-
-
   return (
     <div className={styles.login}>
       <div className={commonStyles.mainContainer}>
-        <ArtWork image="/art1@2x.png" />
+        <ArtWork image="/art1@2x.png" radius={1} />
+        {showForm ? 
         <div className={commonStyles.mainContent}>
-          <div className={commonStyles.topImage}>
-          </div>
+          <div className={commonStyles.topImage}></div>
           <div className={commonStyles.homeContent}>
             <div className={commonStyles.leftSide8Column}>
               <div className={commonStyles.pageForm}>
@@ -75,54 +45,7 @@ const Login = () => {
                   <LoginForm />
                 </div>
                 <div className={styles.frame1}>
-                  <div className={styles.frame2}>
-                    <div className={styles.socialSignIn}>
-                      <div className={styles.or}>
-                        <div className={styles.orChild} />
-                        <div className={styles.or1}>Or</div>
-                        <div className={styles.orChild} />
-                      </div>
-                      <div className={styles.socialButtonsColumns}>
-                        <div className={styles.socialButton}>
-                          <img
-                            className={styles.googleIcon}
-                            alt=""
-                            src="/google1.svg"
-                          />
-                          <img
-                            className={styles.facebookIcon}
-                            alt=""
-                            src="/facebook.svg"
-                          />
-                          <div className={styles.signInWith}>
-                            <div onClick={SIGN_IN_WITH_GOOGLE} className={`${styles.button} ${styles.google}`}>
-
-                              Sign in with Google
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.socialButtonsColumns}>
-                        <div className={styles.socialButton}>
-                          <img
-                            className={styles.googleIcon}
-                            alt=""
-                            src="/google2.svg"
-                          />
-                          <img
-                            className={styles.facebookIcon}
-                            alt=""
-                            src="/facebook.svg"
-                          />
-                          <div className={styles.signInWith}>
-                            <div onClick={SIGN_IN_ANONYMOUSLY} className={`${styles.button} ${styles.google}`}>
-                              Sign in as a guest
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <ExternalLogin />
                   <div className={styles.dontYouHaveAnAccountParent}>
                     <div
                       className={styles.dontYouHave}
@@ -137,6 +60,14 @@ const Login = () => {
           </div>
           <div className={commonStyles.copyright}>© 2023 Some rights reserved</div>
         </div>
+        : 
+        <div className={commonStyles.mainContent}>
+          <div>
+            Loading...
+            <h2>You're already logged in. <p><Link href="/dashboard">Click here to go to your dashboard</Link></p></h2>
+          </div>
+        </div>
+        }
       </div>
     </div>
   );

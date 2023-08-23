@@ -1,8 +1,8 @@
 .artIcon {
-  max-height: 400px;
+  max-height: 450px;
   align-self: stretch;
   flex: 1;
-  border-radius: var(--br-5xl);
+  border-radius: 0 0 var(--br-5xl);
   max-width: 100%;
   overflow: hidden;
   object-fit: cover;
@@ -77,6 +77,8 @@
 .homeContent {
   /*height: 552px;*/
   flex-direction: column;
+  margin: var(--padding-13xl);
+  margin-left: 0;
   padding: var(--padding-13xl);
   box-sizing: border-box;
   align-items: flex-start;
@@ -97,7 +99,8 @@
 .mainSection {
   height: auto;
   flex-direction: row;
-  padding: var(--padding-13xl);
+  /*padding: var(--padding-13xl);*/
+  padding: 0 var(--padding-13xl) var(--padding-13xl) 0;
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
@@ -107,6 +110,13 @@
   font-family: var(--font-inter);
 }
 @media screen and (max-width: 900px) {
+  .mainSection {
+    padding: var(--padding-13xl);
+  }
+  .homeContent {
+    margin: 0px;
+    padding: 0px;
+  }
   .artIcon {
     display: none;
   }
