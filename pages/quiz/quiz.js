@@ -174,5 +174,4 @@ const Quiz = ({}) => {
     </div>
   );
 };
-
-export default Quiz;git 
+export default Quiz;
