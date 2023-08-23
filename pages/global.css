@@ -113,7 +113,12 @@ body {
 .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
   top: -5px;
 }
-/* input box */
-.css-1ff8729-MuiInputBase-root-MuiFilledInput-root:before {
+/* input and select boxes */
+.css-1ff8729-MuiInputBase-root-MuiFilledInput-root:before,
+.css-llrb4p-MuiInputBase-root-MuiFilledInput-root-MuiSelect-root:before {
   border-bottom: 2px solid #000;
+}
+/* select box */
+.css-d9oaum-MuiSelect-select-MuiInputBase-input-MuiFilledInput-input.MuiSelect-select {
+  text-align: left;
 }

@@ -68,7 +68,7 @@
   border: 0;
   padding: 0;
   background-color: transparent;
-  width: 388px;
+  width: 100%;
   justify-content: flex-start;
 }
 .frame2,
@@ -81,4 +81,10 @@
 .socialSignIn {
   justify-content: flex-end;
   gap: var(--gap-5xl);
+}
+
+@media screen and (max-width: 600px) {
+    .or, .socialButtonsColumns {
+        width: 350px;
+    }
 }

@@ -4,7 +4,7 @@ import Link from "next/link";
 import app from "@/firebase";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-import ArtWork from "../components/auth/art-work";
+import LogoArt from "../components/auth/logo-art";
 import FormIntro from "../components/auth/form-intro";
 import SignupForm from "../components/auth/signup-form";
 import commonStyles from "./common.module.css";
@@ -18,7 +18,7 @@ const Signup = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (userInfo) => {
       if (userInfo) {
-        router.push('/dashboard');
+        //router.push('/dashboard');
       } else {
         setShowForm(true)
       }
@@ -28,10 +28,12 @@ const Signup = () => {
   return (
     <div className={styles.signup}>
       <div className={commonStyles.mainContainer}>
-        <ArtWork image="/art@2x.png" radius={1} />
-        {showForm ? 
+        <LogoArt assetId='eQHH3QrjkD0OUQ?nzh' />
+        {!showForm ? 
         <div className={commonStyles.mainContent}>
-          <div className={commonStyles.topImage}></div>
+          <div className={commonStyles.topImage}>
+            <LogoArt assetId='eQHH3QrjkD0OUQ?nzh' />
+          </div>
           <div className={commonStyles.homeContent}>
             <div className={commonStyles.leftSide8Column}>
               <div className={commonStyles.pageForm}>
