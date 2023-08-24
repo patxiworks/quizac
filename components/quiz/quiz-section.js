@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { db, app } from '../../firebase';
 import { doc, collection, getDoc } from 'firebase/firestore';
-import { Router } from "next/router";
+import { useRouter } from "next/router";
 import { CircularProgress } from '@mui/material';
 import PortalPopup from "../dashboard/portal-popup";
 import Quiz from "./quiz";
@@ -68,14 +68,13 @@ const QuizSection = ({ category, title }) => {
 
   return (
     <>
+      { quizCategory && quizTitle ?
       <div className={styles.mainSection}>
         { gac('sideGacBox') }
         <div className={styles.mainContent}>
           <div className={styles.homeContent}>
             { gac('topGacBox') }
-            { 
-            quizCategory && quizTitle ?
-              quizCategory !== 'error' && quizTitle !== 'error' ?
+            { quizCategory !== 'error' && quizTitle !== 'error' ?
               <>
               <div className={styles.contentTitle}>
                 <div>{quizCategory.name}: {quizTitle.name}</div>
@@ -111,17 +110,13 @@ const QuizSection = ({ category, title }) => {
               </div>
               <div className={styles.notFoundMessage}>No Quiz Found!</div>
             </>
-            : 
-            <>
-              <div className={styles.contentTitle}>
-                <div>Loading...</div>
-              </div>
-              <div className={styles.notFoundMessage}><CircularProgress /></div>
-            </>
             }
           </div>
         </div>
       </div>
+      :
+      <div className={styles.emptySection}><CircularProgress /></div>
+      }
       {isCategoriesPopupOpen && (
         <PortalPopup
           overlayColor="rgba(0, 0, 0, 0.9)"

@@ -4,6 +4,7 @@ import styles from "./styles/categories.module.css";
 import commonStyles from "./styles/common.module.css";
 
 const Categories = ({ categories, onClose }) => {
+
   return (
     <div className={styles.categories}>
       <div className={styles.mainContainer}>
@@ -12,7 +13,7 @@ const Categories = ({ categories, onClose }) => {
           <div className={commonStyles.contentTitle}>Choose a category</div>
         </div>
         <div className={styles.mainContent}>
-          {categories.map((cat,i) => {
+          {categories.map((cat, i) => {
             return (
               <CategoryItem
                 key={i}

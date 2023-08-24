@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/router';
-import Link from "next/link";
 import { collection, getDocs } from 'firebase/firestore';
 import { app, db } from "@/firebase";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -48,6 +47,7 @@ const Dashboard = () => {
 
   return (
     <div id="dashboard" className={styles.dashboard}>
+      {user ? 
       <div className={styles.mainContainer}>
         <TopBar />
         <MainSection categories={categories} />
@@ -59,6 +59,7 @@ const Dashboard = () => {
           <div className={styles.copyright}>© 2023 Some rights reserved</div>
         </div>
       </div>
+      : ''}
     </div>
   );
 };

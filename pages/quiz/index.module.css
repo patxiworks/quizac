@@ -21,13 +21,12 @@
   flex-shrink: 0;
 }
 .footer {
-  /*align-self: stretch;*/
   overflow: hidden;
   flex-direction: row;
   padding: var(--padding-mid) 204px;
-  justify-content: space-between;
+  justify-content: center;
+  font-size: var(--font-size-base);
 }
-.dashboard,
 .mainContainer {
   /*height: 1140px;*/
   display: flex;
@@ -38,13 +37,16 @@
   align-items: center;
   /*justify-content: space-between;*/
 }
-.dashboard {
+.quiz {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   position: relative;
   background-color: var(--color-white);
   width: 100%;
   overflow: hidden;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
   font-size: var(--font-size-base);
   color: var(--color-lightslategray-100);

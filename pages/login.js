@@ -12,6 +12,7 @@ import commonStyles from "./common.module.css";
 import styles from "./index.module.css";
 
 const Login = () => {
+  const [user, setUser] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const router = useRouter();
   const auth = getAuth(app)
@@ -19,6 +20,7 @@ const Login = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (userInfo) => {
       if (userInfo) {
+        setUser(userInfo);
         router.push('/dashboard');
       } else {
         setShowForm(true)
