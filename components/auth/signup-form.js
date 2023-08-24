@@ -40,9 +40,7 @@ const SignupForm = () => {
       .catch((error) => {
         const errorCode = error.code;
       });
-    
   }
-
 
   return (
     <form className={styles.form} onClick={handleSignUp}>
