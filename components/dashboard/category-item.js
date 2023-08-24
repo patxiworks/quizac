@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Quizzes from "./quizzes";
 import PortalPopup from "./portal-popup";
 import styles from "./styles/category-item.module.css";
@@ -30,7 +30,7 @@ const CategoryItem = ({ id, image, title, description }) => {
           placement="Centered"
           onOutsideClick={false}
         >
-          <Quizzes onClose={closeQuizzesPopup} category={title} />
+          <Quizzes catid={id} title={title} onClose={closeQuizzesPopup} />
         </PortalPopup>
       )}
     </>

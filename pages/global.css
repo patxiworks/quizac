@@ -122,3 +122,13 @@ body {
 .css-d9oaum-MuiSelect-select-MuiInputBase-input-MuiFilledInput-input.MuiSelect-select {
   text-align: left;
 }
+/* user menu items */
+.MuiMenuItem-root a {
+  text-decoration: none;
+}
+.MuiMenuItem-root a:visited {
+  color: var(--color-black)
+}
+.MuiMenuItem-root a:hover {
+  color: var(--color-blueviolet);
+}

@@ -18,7 +18,7 @@ const Signup = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (userInfo) => {
       if (userInfo) {
-        //router.push('/dashboard');
+        router.push('/dashboard');
       } else {
         setShowForm(true)
       }
@@ -29,7 +29,7 @@ const Signup = () => {
     <div className={styles.signup}>
       <div className={commonStyles.mainContainer}>
         <LogoArt assetId='eQHH3QrjkD0OUQ?nzh' />
-        {!showForm ? 
+        {showForm ? 
         <div className={commonStyles.mainContent}>
           <div className={commonStyles.topImage}>
             <LogoArt assetId='eQHH3QrjkD0OUQ?nzh' />

@@ -6,8 +6,6 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import TopBar from "@/components/dashboard/top-bar";
 import QuizSection from "@/components/quiz/quiz-section";
-//import HistorySummary from "../../components/dashboard/history-summary";
-//import LeaderSummary from "../../components/dashboard/leader-summary";
 import styles from "../../index.module.css";
 
 const Dashboard = () => {
@@ -27,17 +25,19 @@ const Dashboard = () => {
   }, [])
 
   return (
-    <div id="dashboard" className={styles.dashboard}>
+    <>
+    <div id="quiz" className={styles.quiz}>
       <div className={styles.mainContainer}>
         <TopBar />
         <QuizSection category={category} title={title} />
         <div className={styles.gameInfo}>
         </div>
-        <div className={styles.footer}>
-          <div className={styles.copyright}>© 2023 Some rights reserved</div>
-        </div>
       </div>
     </div>
+    <div className={styles.footer}>
+      <div className={styles.copyright}>© 2023 Some rights reserved</div>
+  </div>
+  </>
   );
 };
 
