@@ -12,13 +12,16 @@ const Categories = ({ categories, onClose }) => {
           <div className={commonStyles.contentTitle}>Choose a category</div>
         </div>
         <div className={styles.mainContent}>
-          {categories.map(cat => {
-            return <CategoryItem
-              id={cat.id}
-              image={cat.image ? cat.image : "/unsplashc-zhkgezy3u1@2x.png"}
-              title={cat.name}
-              description={cat.description}
-            />
+          {categories.map((cat,i) => {
+            return (
+              <CategoryItem
+                key={i}
+                id={cat.id}
+                image={cat.image ? cat.image : "/unsplashc-zhkgezy3u1@2x.png"}
+                title={cat.name}
+                description={cat.description}
+              />
+            )
           })}
         </div>
       </div>
