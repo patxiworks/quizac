@@ -1,5 +1,7 @@
+import Link from "next/link";
 import styles from "./styles/quiz-item.module.css";
-const QuizItem = ({ image, title, description }) => {
+
+const QuizItem = ({ image, title, description, url }) => {
   return (
     <div className={styles.storyBigCard}>
       <img className={styles.loginArt} alt="" src={image} />
@@ -9,14 +11,14 @@ const QuizItem = ({ image, title, description }) => {
             <div className={styles.itemTitle}>{title}</div>
             <div className={styles.itemDesc}>{description}</div>
           </div>
-          <button className={styles.playButton}>
+          <Link className={styles.playButton} href={url}>
             <div className={styles.playButtonChild} />
             <img
               className={styles.playButtonItem}
               alt=""
               src="/polygon-1.svg"
             />
-          </button>
+          </Link>
         </div>
       </div>
     </div>

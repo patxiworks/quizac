@@ -1,7 +1,24 @@
 import { useState } from "react";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { TextField, Button, Menu, MenuItem } from "@mui/material";
 import styles from "./styles/top-bar.module.css";
+import { getAuth, signOut } from "firebase/auth";
+
 const TopBar = () => {
+  const auth = getAuth();
+  const router = useRouter();
+
+  const logout = () => {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      router.replace('/login');
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
+
+
   const [
     dropdownButtonSimpleTextOAnchorEl,
     setDropdownButtonSimpleTextOAnchorEl,
@@ -15,6 +32,11 @@ const TopBar = () => {
   const handleDropdownButtonSimpleTextOClose = () => {
     setDropdownButtonSimpleTextOAnchorEl(null);
   };
+
+  const logoutClick = () => {
+    handleDropdownButtonSimpleTextOClose();
+    logout();
+  }
 
   return (
     <div className={styles.topBar}>
@@ -57,9 +79,12 @@ const TopBar = () => {
               Profile
             </MenuItem>
             <MenuItem onClick={handleDropdownButtonSimpleTextOClose}>
-              Settings
+              <Link href='/dashboard'>Dashboard</Link>
             </MenuItem>
             <MenuItem onClick={handleDropdownButtonSimpleTextOClose}>
+              Settings
+            </MenuItem>
+            <MenuItem onClick={logoutClick}>
               Logout
             </MenuItem>
           </Menu>

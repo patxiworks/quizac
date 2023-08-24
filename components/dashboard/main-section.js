@@ -91,7 +91,7 @@ const MainSection = ({ categories }) => {
           </div>
         </div>
       </div>
-      {isCategoriesPopupOpen && (
+      {categories && isCategoriesPopupOpen && (
         <PortalPopup
           overlayColor="rgba(0, 0, 0, 0.9)"
           placement="Centered"
