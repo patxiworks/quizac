@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { db, app } from '../../firebase';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth'
-import styles from ".//quiz.module.css";
+import styles from "./styles/quiz.module.css";
 const auth = getAuth(app);
 
-const Quiz = ({}) => {
+const Quiz = ({category, title, getScore}) => {
   const [questions, setQuestions] = useState([]);
   const [score, setScore] = useState(0);
   const [timer, setTimer] = useState(10);
@@ -46,7 +46,6 @@ const Quiz = ({}) => {
   useEffect(() => {
     if (currentLevel <= levels.length) {
       setTimer(levels[currentLevel - 1]?.timeLimit || 10);
-      
     }
   }, [currentLevel, levels]);
 
@@ -54,7 +53,7 @@ const Quiz = ({}) => {
     async function fetchDataForLevel(levelNumber) {
       const questionsCollection = collection(
         db,
-        `quizzQuestions/level${levelNumber}/questions`
+        `quizzQuestions/${category}/titles/${title}/questions`
       );
       const querySnapshot = await getDocs(questionsCollection);
 
@@ -71,7 +70,7 @@ const Quiz = ({}) => {
     } 
   
     fetchDataForLevel(currentLevel);
-  }, [currentLevel]);
+  }, [category, title, currentLevel]);
 
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -86,8 +85,6 @@ const Quiz = ({}) => {
     return () => clearInterval(countdown);
   }, [timer, isQuizEnded]);
 
-  
-
   const handleOptionChange = (event, questionIndex) => {
     if (!isQuizEnded) {
       const newSelectedOptions = [...selectedOptions];
@@ -95,6 +92,7 @@ const Quiz = ({}) => {
       setSelectedOptions(newSelectedOptions);
     }
   };
+
   const displayRandomMoraleBooster = (category) => {
     const randomIndex = Math.floor(Math.random() * moraleBoosters[category].length);
     return moraleBoosters[category][randomIndex];
@@ -140,7 +138,6 @@ const Quiz = ({}) => {
     setQuizSubmitted(false);
     setShowResetButton(false);
   };
-  
 
   const endQuiz = async () => {
     setIsQuizEnded(true);
@@ -158,6 +155,7 @@ const Quiz = ({}) => {
       await addDoc(levelScoresCollection, { score: score });
 
       setScore(score);
+      getScore(score);
       setQuizSubmitted(true);
       
       let moraleBoosterText = '';
@@ -174,25 +172,30 @@ const Quiz = ({}) => {
       }
     }
   };
+
   return (
     <div className={styles.quizContainer}>
-    <h1 className={styles.quizTitle}>Quiz Game</h1>
-      {isQuizEnded ? (
-          <div className={styles.quizResults}>
-          <p>Quiz Ended</p>
-          <p>Your Level: {currentLevel}</p>
-          <p>Score: {score}</p>
-          {moraleBooster !== '' && (
-      <div className={styles.moraleBooster}>
-        <p>{moraleBooster}</p>
+      <div className={styles.scoreBox}>
+        <div className={styles.scorePanel}>
+          <div>Level: {currentLevel}</div>
+          <div>Score: {score}</div>
+        </div>
       </div>
-)}
-          <button onClick={moveToNextLevel}>Next Level</button>
-          {showResetButton && <button onClick={resetLevel}>Reset Level</button>}
+      {isQuizEnded ? (
+        <div className={styles.quizResults}>
+          <p>Quiz Ended</p>
+          
+          {moraleBooster !== '' && (
+            <div className={styles.moraleBooster}>
+              <p>{moraleBooster}</p>
+            </div>
+          )}
+          <button className={styles.nextButton} onClick={moveToNextLevel}>Next Level</button>
+          {showResetButton && <button className={styles.nextButton} onClick={resetLevel}>Try again</button>}
         </div>
       ) : (
         <div>
-        <p className={styles.timer}>Time Remaining: {timer} seconds</p>
+        <div className={styles.timer}><p style={{color: "#ff0000"}}>{timer} seconds</p></div>
         {questions.length > 0 && currentQuestionIndex < questions.length &&(
           <div className={styles.questionContainer}>
             <h2 className={styles.question}>{questions[currentQuestionIndex].question}</h2>
@@ -223,4 +226,4 @@ const Quiz = ({}) => {
 );
 };
 
-export default Quiz;
+export default Quiz;

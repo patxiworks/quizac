@@ -1,9 +1,29 @@
 .quizContainer {
-  background-color: #f8f8f8;
-  padding: 20px;
+  align-self: stretch;
+  /*background-color: #f8f8f8;*/
+  /*padding: 0 0 0 20px;*/
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+  /*text-align: center;*/
+}
+.scoreBox {
+  display: flex;
+  justify-content: flex-end;
+}
+.scorePanel {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: auto;
+  gap: var(--gap-xl);
+  padding: var(--padding-5xs) var(--padding-3xs);
+  border: 1px solid #000;
+  border-top: none;
+  border-radius: 0 0 var(--padding-3xs) var(--padding-3xs);
+  background-color: var(--color-blueviolet);
+  color: #fff;
+  font-size: var(--font-size-mini);
+  font-weight: bold;
 }
 .optionButton {
   display: block;
@@ -29,19 +49,20 @@
 
 .quizResults {
   font-size: 18px;
-  margin: 20px 0;
+  /*margin: 20px 0;*/
 }
 
 .timer {
   font-size: 16px;
-  margin-bottom: 10px;
+  font-weight: bold;
+  margin-top: -40px;
 }
 
 .questionContainer {
-  padding: 20px;
+  padding: 5px 0 0 0;
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  /*box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);*/
 }
 
 .question {
@@ -59,6 +80,7 @@
   background-color: #007bff;
   color: white;
   border: none;
+  margin: 5px 5px 5px 0;
   padding: 10px 20px;
   font-size: 16px;
   border-radius: 5px;

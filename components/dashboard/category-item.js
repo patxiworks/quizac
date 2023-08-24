@@ -2,7 +2,8 @@ import { useState, useCallback } from "react";
 import Quizzes from "./quizzes";
 import PortalPopup from "./portal-popup";
 import styles from "./styles/category-item.module.css";
-const CategoryItem = ({ image, title, description }) => {
+
+const CategoryItem = ({ id, image, title, description }) => {
   const [isQuizzesPopupOpen, setQuizzesPopupOpen] = useState(false);
 
   const openQuizzesPopup = useCallback((item) => {

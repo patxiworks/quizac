@@ -14,7 +14,7 @@ const GacFrame = ( {style, type, id} ) => {
   )
 }
 
-const MainSection = () => {
+const MainSection = ({ categories }) => {
   const [isCategoriesPopupOpen, setCategoriesPopupOpen] = useState(false);
   const mainContainer = "dashboard";
 
@@ -97,7 +97,7 @@ const MainSection = () => {
           placement="Centered"
           onOutsideClick={false}
         >
-          <Categories onClose={closeCategoriesPopup} />
+          <Categories categories={categories} onClose={closeCategoriesPopup} />
         </PortalPopup>
       )}
     </>
