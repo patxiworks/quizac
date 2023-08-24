@@ -4,7 +4,6 @@ import styles from "./styles/categories.module.css";
 import commonStyles from "./styles/common.module.css";
 
 const Categories = ({ categories, onClose }) => {
-
   return (
     <div className={styles.categories}>
       <div className={styles.mainContainer}>

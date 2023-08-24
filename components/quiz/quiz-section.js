@@ -123,7 +123,7 @@ const QuizSection = ({ category, title }) => {
           placement="Centered"
           onOutsideClick={false}
         >
-          <Categories onClose={closeCategoriesPopup} />
+          {/*<Categories onClose={closeCategoriesPopup} />*/}
         </PortalPopup>
       )}
     </>
