@@ -4,7 +4,7 @@ import Link from "next/link";
 import app from "@/firebase";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-import ArtWork from "../components/auth/art-work";
+import LogoArt from "../components/auth/logo-art";
 import FormIntro from "../components/auth/form-intro";
 import LoginForm from "../components/auth/login-form";
 import ExternalLogin from "../components/auth/ext-login";
@@ -29,8 +29,7 @@ const Login = () => {
   return (
     <div className={styles.login}>
       <div className={commonStyles.mainContainer}>
-        <ArtWork image="/art1@2x.png" radius={1} />
-        {showForm ? 
+        <LogoArt assetId='hQFiKbLgmwYEpQ' />
         <div className={commonStyles.mainContent}>
           <div className={commonStyles.topImage}></div>
           <div className={commonStyles.homeContent}>
@@ -38,36 +37,24 @@ const Login = () => {
               <div className={commonStyles.pageForm}>
                 <div className={commonStyles.frame}>
                   <FormIntro
-                    title="Welcome back"
-                    intro="Log in to your account to start a quiz."
+                    title="Welcome to Quizac"
+                    intro=""
                     icon="👋"
                   />
-                  <LoginForm />
+                  <div>
+                  <p style={{fontSize: '20px'}}>Quizac is a platform that will help you learn about Nigeria and its culture.
+                  You can choose to <Link className={styles.signUp} href="/login">sign in to account</Link> or just <Link className={styles.signUp} href="#">play as a random user</Link>.</p>
+                  </div>
                 </div>
                 <div className={styles.frame1}>
-                  <ExternalLogin />
-                  <div className={styles.dontYouHaveAnAccountParent}>
-                    <div
-                      className={styles.dontYouHave}
-                    >{`Don't you have an account? `}</div>
-                    <Link className={styles.signUp} href="/register">
-                      Sign up
-                    </Link>
-                  </div>
+                  
+                  
                 </div>
               </div>
             </div>
           </div>
           <div className={commonStyles.copyright}>© 2023 Some rights reserved</div>
         </div>
-        : 
-        <div className={commonStyles.mainContent}>
-          <div>
-            Loading...
-            <h2>You're already logged in. <p><Link href="/dashboard">Click here to go to your dashboard</Link></p></h2>
-          </div>
-        </div>
-        }
       </div>
     </div>
   );

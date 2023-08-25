@@ -83,6 +83,7 @@ const Quiz = ({category, title, getScore}) => {
     }, 1000);
 
     return () => clearInterval(countdown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timer, isQuizEnded]);
 
   const handleOptionChange = (event, questionIndex) => {

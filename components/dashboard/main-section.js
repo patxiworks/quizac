@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import Image from 'next/image';
 import Categories from "./categories";
 import PortalPopup from "./portal-popup";
 import TypeDesktop from "./type-desktop1";
@@ -64,7 +65,7 @@ const MainSection = ({ categories }) => {
                   />
                 </button>
               </div>
-              <img className={styles.sepIcon} alt="" src="/sep2.svg" />
+              <Image className={styles.sepIcon} width={100} height={100} alt="" src="/sep2.svg" />
               <div className={styles.summaryInfo}>
                 <div className={styles.summaryBox}>
                   <QuizResultContainer

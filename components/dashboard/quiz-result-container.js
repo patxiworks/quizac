@@ -1,5 +1,7 @@
 import { useMemo } from "react";
+import Image from 'next/image';
 import styles from "./styles/quiz-result-container.module.css";
+
 const QuizResultContainer = ({ icon, value, message, propWidth }) => {
   const frameStyle = useMemo(() => {
     return {
@@ -9,7 +11,7 @@ const QuizResultContainer = ({ icon, value, message, propWidth }) => {
 
   return (
     <div className={styles.antDesignflagFilledParent}>
-      <img className={styles.antDesignflagFilledIcon} alt="" src={icon} />
+      <Image className={styles.antDesignflagFilledIcon} width={100} height={100} alt="" src={icon} />
       <div className={styles.frame} style={frameStyle}>
         <b className={styles.b}>{value}</b>
         <div className={styles.correctAnswers}>{message}</div>

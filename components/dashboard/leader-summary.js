@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import Image from 'next/image';
 import Leaderboard from "./leaderboard";
 import PortalPopup from "./portal-popup";
 import styles from "./styles/leader-summary.module.css";
@@ -96,7 +97,7 @@ const LeaderSummary = () => {
           <a className={styles.moreText} onClick={openLeaderboardPopup}>
             See more
           </a>
-          <img className={styles.moreIcon} alt="" src="/more-icon.svg" />
+          <Image className={styles.moreIcon} width={100} height={100} alt="" src="/more-icon.svg" />
         </div>
       </div>
       </div>

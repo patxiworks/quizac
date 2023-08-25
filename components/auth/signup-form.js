@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import {
   TextField,
@@ -7,9 +8,10 @@ import {
   FormHelperText,
   Select,
 } from "@mui/material";
+import Image from 'next/image';
 import Button from "./button";
 import styles from "./styles/signup-form.module.css";
-import React, { useState } from "react";
+
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import app from "../../firebase";
 
@@ -85,7 +87,7 @@ const SignupForm = () => {
           <FormHelperText />
         </FormControl>
       </div>
-      <img className={styles.sepIcon} alt="" src="/sep.svg" />
+      <Image className={styles.sepIcon} width={100} height={100} alt="" src="/sep.svg" />
       <TextField
         className={styles.email}
         color="primary"
@@ -122,7 +124,7 @@ const SignupForm = () => {
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
-      <img className={styles.sepIcon} alt="" src="/sep.svg" />
+      <Image className={styles.sepIcon} width={100} height={100} alt="" src="/sep.svg" />
       <div className={styles.signUpButton}>
         <Button
         
