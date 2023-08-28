@@ -11,8 +11,7 @@ import {
 import Image from 'next/image';
 import Button from "./button";
 import styles from "./styles/signup-form.module.css";
-
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword , updateProfile} from "firebase/auth";
 import app from "../../firebase";
 
 const SignupForm = () => {
@@ -34,16 +33,22 @@ const SignupForm = () => {
       return;
     }
     const auth = getAuth(app);
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-       const user = userCredential.user;
-       router.push('/dashboard')
-      })
-      .catch((error) => {
-        const errorCode = error.code;
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      const displayName = `${firstName} `;
+     updateProfile(user, {
+        displayName: displayName,
       });
+      router.push({
+        pathname: '/dashboard',
+        query: { displayName: displayName },
+      });
+    } catch (error) {
+      const errorCode = error.code;
+    }
   }
-
+  
   return (
     <form className={styles.form} onClick={handleSignUp}>
       <div className={styles.firstNameParent}>
@@ -57,6 +62,8 @@ const SignupForm = () => {
           size="medium"
           margin="none"
           required
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
         />
         <TextField
           className={styles.firstName}
@@ -68,6 +75,8 @@ const SignupForm = () => {
           size="medium"
           margin="none"
           required
+          value={surname}
+          onChange={(e) => setSurname(e.target.value)}
         />
       </div>
       <div className={styles.firstNameParent}>

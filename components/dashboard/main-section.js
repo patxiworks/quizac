@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Image from 'next/image';
 import Categories from "./categories";
 import PortalPopup from "./portal-popup";
@@ -6,7 +6,7 @@ import TypeDesktop from "./type-desktop1";
 import QuizResultContainer from "./quiz-result-container";
 import HistorySummary from "./history-summary";
 import styles from "./styles/main-section.module.css";
-
+import { useRouter } from 'next/router';
 const GacFrame = ( {style, type, id} ) => {
   return (
     <div className={styles[style]}>
@@ -16,6 +16,10 @@ const GacFrame = ( {style, type, id} ) => {
 }
 
 const MainSection = ({ categories }) => {
+  const router = useRouter();
+  const { displayName } = router.query;
+  const storedDisplayName = localStorage.getItem('displayName') || '';
+
   const [isCategoriesPopupOpen, setCategoriesPopupOpen] = useState(false);
   const mainContainer = "dashboard";
 
@@ -31,6 +35,12 @@ const MainSection = ({ categories }) => {
     mainDiv.style.position = "relative";
   }, []);
 
+  useEffect(() => {
+    if (storedDisplayName) {
+      router.query.displayName = storedDisplayName;
+    }
+  }, [storedDisplayName]);
+
   return (
     <>
       <div className={styles.mainSection}>
@@ -38,7 +48,7 @@ const MainSection = ({ categories }) => {
         <div className={styles.mainContent}>
           <div className={styles.homeContent}>
             <GacFrame style='topGacBox' type="asset" id="eQHH3QrjkD0OUQ?nzh" />
-            <div className={styles.contentTitle}>Welcome back, Gerald!</div>
+            <div className={styles.contentTitle}>Welcome back,{storedDisplayName || displayName}! </div>
             <div className={styles.contentBox}>
               <div className={styles.contentMessage}>
                 <div className={styles.contentText}>
