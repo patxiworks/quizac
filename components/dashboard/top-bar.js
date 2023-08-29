@@ -41,7 +41,8 @@ const TopBar = () => {
 
   return (
     <div className={styles.topBar}>
-      <Image className={styles.logoIcon} width={100} height={100} alt="Logo" src="/logo@2x.png" />
+      {/*<Image className={styles.logoIcon} width={100} height={100} alt="Logo" src="/logo@2x.png" />*/}
+      <div className={styles.logoText}>Quizac</div>
       <TextField
         className={styles.searchbar}
         sx={{ width: 500 }}
@@ -50,7 +51,7 @@ const TopBar = () => {
         type="search"
         name="Searchquiz"
         label="Search"
-        placeholder="Search for a quiz"
+        placeholder=""
         size="medium"
         margin="none"
         padding="10px"
