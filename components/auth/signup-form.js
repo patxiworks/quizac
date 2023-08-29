@@ -36,10 +36,12 @@ const SignupForm = () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+      console.log(user)
       const displayName = `${firstName} `;
      updateProfile(user, {
         displayName: displayName,
       });
+      setDisplayName(displayName);
       router.push({
         pathname: '/dashboard',
         query: { displayName: displayName },

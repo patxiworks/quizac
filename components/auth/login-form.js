@@ -22,7 +22,6 @@ const LoginForm = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        localStorage.setItem('displayName', user.displayName || '');
         router.push('/dashboard')
         })
       .catch((error) => {
