@@ -20,6 +20,7 @@ const QuizSection = ({ category, title }) => {
   const [quizCategory, setQuizCategory] = useState('');
   const [quizTitle, setQuizTitle] = useState('');
   const [score, setScore] = useState(0);
+  const [totalScore, setTotalScore] = useState(0); 
   const [isCategoriesPopupOpen, setCategoriesPopupOpen] = useState(false);
   const mainContainer = "dashboard";
 
@@ -66,6 +67,11 @@ const QuizSection = ({ category, title }) => {
     )
   }
 
+  const resetTotalScore = () => {
+    setTotalScore(0); // Reset the total score
+    setStartQuiz(true); // Start the quiz again
+  };
+
   return (
     <>
       { quizCategory && quizTitle ?
@@ -78,7 +84,7 @@ const QuizSection = ({ category, title }) => {
               <>
               <div className={styles.contentTitle}>
                 <div>{quizCategory.name}: {quizTitle.name}</div>
-                <div>Total score: {score}</div>
+                <div>Total score: {totalScore}</div>
               </div>
               <div className={styles.contentBox}>
                 <div className={styles.contentMessage}>
@@ -93,8 +99,12 @@ const QuizSection = ({ category, title }) => {
                     <button className={styles.startButton} onClick={()=>setStartQuiz(true)}>Start the quiz</button>
                   </div>
                   :
-                  <Quiz category={category} title={title} getScore={setScore} />
-                }
+                  <Quiz
+                  category={category}
+                  title={title}
+                  getScore={(score) => setTotalScore(totalScore + score)} 
+                  onTryAgain={resetTotalScore}
+                />                }
                   <button
                     className={styles.startQuiz}
                     onClick={openCategoriesPopup}
@@ -130,4 +140,4 @@ const QuizSection = ({ category, title }) => {
   );
 };
 
-export default QuizSection;
+export default QuizSection;
