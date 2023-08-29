@@ -6,7 +6,8 @@
 .typedesktop {
   position: relative;
   border-radius: var(--br-xs);
-  background-color: var(--color-darkslategray-100);
+  /*background-color: var(--color-darkslategray-100);*/
+  background-color: var(--color-blueviolet);
   width: 388px;
   display: flex;
   flex-direction: row;

@@ -8,6 +8,7 @@
     align-items: center;
     justify-content: space-between;
     font-size: var(--font-size-lg);
+    background-color: var(--color-lightcyan);
 }
 .backLink {
     font-size: var(--font-size-mini);

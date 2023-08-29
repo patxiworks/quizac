@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import Image from 'next/image';
+//import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import styles from "./styles/quiz-result-container.module.css";
 
 const QuizResultContainer = ({ icon, value, message, propWidth }) => {
