@@ -102,12 +102,47 @@ body {
   --br-9xs: 4px;
   --br-5xs: 8px;
   --br-11xs: 2px;
+
+
+  --teal1: #091915;
+  --teal2: #04201b;
+  --teal3: #062923;
+  --teal4: #07312b;
+  --teal5: #083932;
+  --teal6: #09443c;
+  --teal7: #0b544a;
+  --teal8: #0c6d62;
+  --teal9: #12a594;
+  --teal10: #10b3a3;
+  --teal11: #0ac5b3;
+  --teal12: #e1faf4;
+  --sage1: #141716;
+  --sage2: #191d1b;
+  --sage3: #1f2421;
+  --sage4: #252a27;
+  --sage5: #2a2f2c;
+  --sage6: #303633;
+  --sage7: #393f3c;
+  --sage8: #4a524e;
+  --sage9: #66736d;
+  --sage10: #75817b;
+  --sage11: #99a29e;
+  --sage12: #eceeed;
+  --sage13: #000;
 }
+
+
 
 /* Material UI search input style overrides */
 /* input padding */
 .css-1g24dm6-MuiInputBase-input-MuiOutlinedInput-input {
   padding: 10px !important;
+}
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
+  top: -5px;
+}
+.css-1g24dm6-MuiInputBase-input-MuiOutlinedInput-input {
+  color: var(--color-lightcyan) !important;
 }
 /* label position */
 .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
@@ -131,4 +166,11 @@ body {
 }
 .MuiMenuItem-root a:hover {
   color: var(--color-blueviolet);
+}
+/* search input */
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--color-lightcyan) !important;
+}
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+  color: var(--color-lightcyan) !important;
 }

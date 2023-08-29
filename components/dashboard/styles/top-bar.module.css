@@ -1,7 +1,21 @@
+.topBar {
+  align-self: stretch;
+  border-bottom: 1px solid var(--color-slategray);
+  box-shadow: 1px 1px 1px #ccc;
+  padding: var(--padding-3xs) var(--padding-13xl);
+  justify-content: space-between;
+  background: var(--color-black);
+}
 .logoIcon {
   position: relative;
   height: 40px;
   object-fit: cover;
+}
+.logoText {
+  font-weight: 600;
+  font-size: var(--font-size-6xl);
+  color: var(--color-lightcyan);
+  margin-left: var(--padding-3xs);
 }
 .searchbar {
   border: 0;
@@ -26,13 +40,6 @@
 .userInfo {
   justify-content: flex-start;
   gap: var(--gap-sm);
-}
-.topBar {
-  align-self: stretch;
-  border-bottom: 1px solid var(--color-slategray);
-  box-shadow: 1px 1px 1px #ccc;
-  padding: var(--padding-3xs) var(--padding-13xl);
-  justify-content: space-between;
 }
 
 @media screen and (max-width: 600px) {
