@@ -26,6 +26,7 @@ const ExternalLogin = () => {
             console.log("you have signed in as guest")
             //alert(user)
             // Signed in..
+            
           })
           .catch((error) => {
             const errorCode = error.code;

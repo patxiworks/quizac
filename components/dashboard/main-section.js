@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Image from 'next/image';
 import Categories from "./categories";
 import PortalPopup from "./portal-popup";
@@ -6,6 +6,9 @@ import TypeDesktop from "./type-desktop1";
 import QuizResultContainer from "./quiz-result-container";
 import HistorySummary from "./history-summary";
 import styles from "./styles/main-section.module.css";
+import { useRouter } from 'next/router';
+import { getAuth, signInAnonymously } from 'firebase/auth';
+import app from '../../firebase';
 
 const GacFrame = ( {style, type, id} ) => {
   return (
@@ -16,6 +19,10 @@ const GacFrame = ( {style, type, id} ) => {
 }
 
 const MainSection = ({ categories }) => {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [displayName, setDisplayName] = useState('');
+
   const [isCategoriesPopupOpen, setCategoriesPopupOpen] = useState(false);
   const mainContainer = "dashboard";
 
@@ -31,6 +38,25 @@ const MainSection = ({ categories }) => {
     mainDiv.style.position = "relative";
   }, []);
 
+  useEffect(() => {
+    const auth = getAuth(app);
+    auth.onAuthStateChanged(async user => {
+      if (user) {
+        setIsAuthenticated(true);
+        await setDisplayName(user.displayName || '');
+      } else {
+        setIsAuthenticated(false);
+        setDisplayName('Guest');
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (isAuthenticated && !displayName) {
+      setDisplayName('Guest');
+    }
+  }, [isAuthenticated, displayName]);
+
   return (
     <>
       <div className={styles.mainSection}>
@@ -38,8 +64,8 @@ const MainSection = ({ categories }) => {
         <div className={styles.mainContent}>
           <div className={styles.homeContent}>
             <GacFrame style='topGacBox' type="asset" id="eQHH3QrjkD0OUQ?nzh" />
-            <div className={styles.contentTitle}>Welcome back, Gerald!</div>
-            <div className={styles.contentBox}>
+            <div className={styles.contentTitle}> Welcome back, {isAuthenticated ? displayName : 'Guest'} </div>
+             <div className={styles.contentBox}>
               <div className={styles.contentMessage}>
                 <div className={styles.contentText}>
                   Lorem ipsum dolor sit amet consectetur. Magnis integer quis
