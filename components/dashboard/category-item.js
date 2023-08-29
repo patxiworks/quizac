@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import Image from 'next/image';
 import Quizzes from "./quizzes";
 import PortalPopup from "./portal-popup";
 import styles from "./styles/category-item.module.css";
@@ -17,12 +18,12 @@ const CategoryItem = ({ id, image, title, description }) => {
   return (
     <>
       <a className={styles.storyCard} onClick={openQuizzesPopup}>
-        <img className={styles.storyImageIcon} alt="" src={image} />
+        <Image className={styles.storyImageIcon} width={100} height={100} alt="" src={image} />
         <div className={styles.storyText}>
           <div className={styles.navTitle}>{title}</div>
           <div className={styles.text}>{description}</div>
         </div>
-        <img className={styles.navIcon} alt="" src="/nav-icon.svg" />
+        <Image className={styles.navIcon} width={100} height={100} alt="" src="/nav-icon.svg" />
       </a>
       {isQuizzesPopupOpen && (
         <PortalPopup

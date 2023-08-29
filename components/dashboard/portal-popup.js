@@ -58,6 +58,7 @@ const PortalPopup = ({
     }
     style.opacity = 1;
     return style;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [placement, overlayColor, zIndex, relativeLayerRef?.current]);
 
   const setPosition = useCallback(() => {
@@ -98,6 +99,7 @@ const PortalPopup = ({
       //style.maxHeight = "90%";
       setRelativeStyle(style);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     left,
     right,

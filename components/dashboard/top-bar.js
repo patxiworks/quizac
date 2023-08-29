@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { TextField, Button, Menu, MenuItem } from "@mui/material";
 import styles from "./styles/top-bar.module.css";
@@ -40,7 +41,7 @@ const TopBar = () => {
 
   return (
     <div className={styles.topBar}>
-      <img className={styles.logoIcon} alt="Logo" src="/logo@2x.png" />
+      <Image className={styles.logoIcon} width={100} height={100} alt="Logo" src="/logo@2x.png" />
       <TextField
         className={styles.searchbar}
         sx={{ width: 500 }}
@@ -64,8 +65,9 @@ const TopBar = () => {
             onClick={handleDropdownButtonSimpleTextOClick}
             color="primary"
           >
-            <img
+            <Image
               className={styles.userAvatarIcon}
+              width={100} height={100}
               alt=""
               src="/user-avatar@2x.png"
             />

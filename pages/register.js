@@ -23,6 +23,7 @@ const Signup = () => {
         setShowForm(true)
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -54,7 +55,7 @@ const Signup = () => {
         <div className={commonStyles.mainContent}>
           <div>
             Loading...
-            <h2>You're already logged in. <p><Link href="/dashboard">Click here to go to your dashboard</Link></p></h2>
+            <h2>You are already logged in. <p><Link href="/dashboard">Click here to go to your dashboard</Link></p></h2>
           </div>
         </div>
         }
