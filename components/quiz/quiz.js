@@ -5,7 +5,7 @@ import { getAuth } from 'firebase/auth'
 import styles from "./styles/quiz.module.css";
 const auth = getAuth(app);
 
-const Quiz = ({category, title, getScore}) => {
+const Quiz = ({category, title, getScore, onTryAgain}) => {
   const [questions, setQuestions] = useState([]);
   const [score, setScore] = useState(0);
   const [timer, setTimer] = useState(10);
@@ -138,6 +138,7 @@ const Quiz = ({category, title, getScore}) => {
     setScore(0);
     setQuizSubmitted(false);
     setShowResetButton(false);
+    onTryAgain(); 
   };
 
   const endQuiz = async () => {
@@ -227,4 +228,4 @@ const Quiz = ({category, title, getScore}) => {
 );
 };
 
-export default Quiz;
+export default Quiz;
