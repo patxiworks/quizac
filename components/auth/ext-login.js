@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInAnonymously } from 'firebase/auth';
 import app from "@/firebase";
+import Image from 'next/image';
 import styles from "./styles/ext-login.module.css";
 
 const ExternalLogin = () => {
@@ -25,6 +26,7 @@ const ExternalLogin = () => {
             console.log("you have signed in as guest")
             //alert(user)
             // Signed in..
+            
           })
           .catch((error) => {
             const errorCode = error.code;
@@ -43,13 +45,15 @@ const ExternalLogin = () => {
                 </div>
                 <div className={styles.socialButtonsColumns}>
                     <div className={styles.socialButton}>
-                        <img
+                        <Image
                             className={styles.googleIcon}
+                            width={100} height={100}
                             alt=""
                             src="/google1.svg"
                         />
-                        <img
+                        <Image
                             className={styles.facebookIcon}
+                            width={100} height={100}
                             alt=""
                             src="/facebook.svg"
                         />
@@ -62,13 +66,15 @@ const ExternalLogin = () => {
                 </div>
                 <div className={styles.socialButtonsColumns}>
                     <div className={styles.socialButton}>
-                        <img
+                        <Image
                             className={styles.googleIcon}
+                            width={100} height={100}
                             alt=""
                             src="/google2.svg"
                         />
-                        <img
+                        <Image
                             className={styles.facebookIcon}
+                            width={100} height={100}
                             alt=""
                             src="/facebook.svg"
                         />

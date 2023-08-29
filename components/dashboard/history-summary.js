@@ -1,7 +1,9 @@
 import { useState, useCallback } from "react";
+import Image from 'next/image';
 import HistoryInfo from "./history";
 import PortalPopup from "./portal-popup";
 import styles from "./styles/history-summary.module.css";
+
 const HistorySummary = () => {
   const [isHistoryPopupOpen, setHistoryPopupOpen] = useState(false);
   const mainContainer = "dashboard";
@@ -91,7 +93,7 @@ const HistorySummary = () => {
             <a className={styles.moreText} onClick={openHistoryPopup}>
               See more
             </a>
-            <img className={styles.moreIcon} alt="" src="/more-icon.svg" />
+            <Image className={styles.moreIcon} width={100} height={100} alt="" src="/more-icon.svg" />
           </div>
         </div>
       </div>

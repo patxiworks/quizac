@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import {
   TextField,
@@ -7,10 +8,10 @@ import {
   FormHelperText,
   Select,
 } from "@mui/material";
+import Image from 'next/image';
 import Button from "./button";
 import styles from "./styles/signup-form.module.css";
-import React, { useState } from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword , updateProfile} from "firebase/auth";
 import app from "../../firebase";
 
 const SignupForm = () => {
@@ -32,16 +33,24 @@ const SignupForm = () => {
       return;
     }
     const auth = getAuth(app);
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-       const user = userCredential.user;
-       router.push('/dashboard')
-      })
-      .catch((error) => {
-        const errorCode = error.code;
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      console.log(user)
+      const displayName = `${firstName} `;
+     updateProfile(user, {
+        displayName: displayName,
       });
+      setDisplayName(displayName);
+      router.push({
+        pathname: '/dashboard',
+        query: { displayName: displayName },
+      });
+    } catch (error) {
+      const errorCode = error.code;
+    }
   }
-
+  
   return (
     <form className={styles.form} onClick={handleSignUp}>
       <div className={styles.firstNameParent}>
@@ -55,6 +64,8 @@ const SignupForm = () => {
           size="medium"
           margin="none"
           required
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
         />
         <TextField
           className={styles.firstName}
@@ -66,6 +77,8 @@ const SignupForm = () => {
           size="medium"
           margin="none"
           required
+          value={surname}
+          onChange={(e) => setSurname(e.target.value)}
         />
       </div>
       <div className={styles.firstNameParent}>
@@ -85,7 +98,7 @@ const SignupForm = () => {
           <FormHelperText />
         </FormControl>
       </div>
-      <img className={styles.sepIcon} alt="" src="/sep.svg" />
+      <Image className={styles.sepIcon} width={100} height={100} alt="" src="/sep.svg" />
       <TextField
         className={styles.email}
         color="primary"
@@ -122,7 +135,7 @@ const SignupForm = () => {
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
-      <img className={styles.sepIcon} alt="" src="/sep.svg" />
+      <Image className={styles.sepIcon} width={100} height={100} alt="" src="/sep.svg" />
       <div className={styles.signUpButton}>
         <Button
         
