@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Link from "next/link";
 import app from "@/firebase";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-
+import { CircularProgress } from '@mui/material';
 import LogoArt from "../components/auth/logo-art";
 import FormIntro from "../components/auth/form-intro";
 import LoginForm from "../components/auth/login-form";
@@ -67,10 +67,10 @@ const Login = () => {
         </div>
         : 
         <div className={commonStyles.mainContent}>
-          <div>
-            Loading...
-            <h2>You are already logged in. <p><Link href="/dashboard">Click here to go to your dashboard</Link></p></h2>
-          </div>
+          <div style={{display: 'flex',
+  height: '450px',
+  justifyContent: 'center',
+  alignItems: 'center'}}><CircularProgress /></div>
         </div>
         }
       </div>
