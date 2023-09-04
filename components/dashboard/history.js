@@ -40,4 +40,4 @@ const HistoryInfo = ({ onClose }) => {
   );
 };
 
-export default HistoryInfo;
+export default HistoryInfo;

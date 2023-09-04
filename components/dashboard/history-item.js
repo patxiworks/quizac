@@ -26,4 +26,4 @@ const HistoryItem = ({
   );
 };
 
-export default HistoryItem;
+export default HistoryItem;
