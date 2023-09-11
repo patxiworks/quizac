@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { db, app } from '../../firebase';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { collection, addDoc, getDocs, Timestamp } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth'
 import styles from "./styles/quiz.module.css";
 const auth = getAuth(app);
@@ -152,9 +152,18 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
       }
       const levelScoresCollection = collection(
         db,
-        "quizzresult",auth.currentUser.email,`level${currentLevel}`,      );
+        "quizzresult",auth.currentUser.email,`level${currentLevel}`,      
+        );
+        const timestamp = Timestamp.fromDate(new Date());
 
-      await addDoc(levelScoresCollection, { score: score });
+        await addDoc(levelScoresCollection, {
+          userEmail: auth.currentUser.email,
+          score: score,
+          title: title,
+          category: category,
+          level: `level${currentLevel}`,
+          timestamp: timestamp,
+        });
 
       setScore(score);
       getScore(score);
@@ -176,6 +185,7 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
   };
 
   return (
+    
     <div className={styles.quizContainer}>
       <div className={styles.scoreBox}>
         <div className={styles.scorePanel}>
@@ -183,6 +193,7 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
           <div>Score: {score}</div>
         </div>
       </div>
+
       {isQuizEnded ? (
         <div className={styles.quizResults}>
           <p>Quiz Ended</p>
