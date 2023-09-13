@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { db, app } from '../../firebase';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { collection, getDocs ,doc, setDoc, addDoc} from 'firebase/firestore';
 import { getAuth } from 'firebase/auth'
 import styles from "./styles/quiz.module.css";
 const auth = getAuth(app);
@@ -42,12 +42,14 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
     fetchLevels();
     fetchMoraleBoosters();
   }, []);
-
+  
   useEffect(() => {
     if (currentLevel <= levels.length) {
       setTimer(levels[currentLevel - 1]?.timeLimit || 10);
     }
   }, [currentLevel, levels]);
+
+  
 
   useEffect(() => {
     async function fetchDataForLevel(levelNumber) {
@@ -98,11 +100,36 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
     const randomIndex = Math.floor(Math.random() * moraleBoosters[category].length);
     return moraleBoosters[category][randomIndex];
   };
-  
+  const startQuiz = async () => {
+    const userId = auth.currentUser.email;
+    const quizId = `quiz_${category}_${title}`; 
+    const userDocRef = doc(db, 'results', userId); 
+    const scoreDocRef = doc(userDocRef, 'scores', quizId);
+    const newScore = calculateScore();
+    setScore(newScore);
+    const userData = {
+      
+    };
+    await setDoc(userDocRef, userData);
+    await setDoc(scoreDocRef, { score: newScore });
+  }
+  const calculateScore = () => {
+    let newScore = 0;
+    for (let i = 0; i < questions.length; i++) {
+      if (selectedOptions[i] === questions[i].answer) {
+        newScore++;
+      }
+    }
+    return newScore;
+  };
+  useEffect(() => {
+    startQuiz(); 
+  }, []); 
+
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setTimer(levels[currentLevel - 1]?.timeLimit || 10); // Set the timer based on the level's time limit
+      setTimer(levels[currentLevel - 1]?.timeLimit || 10); 
     } else {
       endQuiz();
     }
@@ -174,7 +201,6 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
       }
     }
   };
-
   return (
     <div className={styles.quizContainer}>
       <div className={styles.scoreBox}>
