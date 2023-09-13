@@ -3,10 +3,19 @@ import { useRouter } from 'next/router';
 import Link from "next/link";
 import app from "@/firebase";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-
+import {
+  getCategories,
+  getCategory,
+  getTitles,
+  getTitle,
+  getQuestions,
+  getQuestion,
+} from '../../../../data/categoriess';
 import TopBar from "@/components/dashboard/top-bar";
 import QuizSection from "@/components/quiz/quiz-section";
 import styles from "../../index.module.css";
+
+
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
