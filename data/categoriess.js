@@ -53,7 +53,6 @@ async function getTitles(documentId) {
     console.error('Error:', error);
   }
 }
-
 getTitles('cuisine');
 
 async function getTitle(categoryId, titleId) {
@@ -96,7 +95,7 @@ async function getquestion(categoryId, questionId) {
     const questionDocSnap = await getDoc(questionRef);
 
     if (questionDocSnap.exists()) {
-      console.log('question data:', questionDocSnap.data());
+      console.log('Question data:', questionDocSnap.data());
     } else {
       console.log('question document does not exist');
     }
