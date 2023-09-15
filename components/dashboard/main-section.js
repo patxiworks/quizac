@@ -3,20 +3,13 @@ import Image from 'next/image';
 import Categories from "./categories";
 import PortalPopup from "./portal-popup";
 import TypeDesktop from "./type-desktop1";
+import QuizFrame from "../quiz/quiz-frame";
 import QuizResultContainer from "./quiz-result-container";
 import HistorySummary from "./history-summary";
 import styles from "./styles/main-section.module.css";
 import { useRouter } from 'next/router';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 import app from '../../firebase';
-
-const GacFrame = ( {style, type, id} ) => {
-  return (
-    <div className={styles[style]}>
-      <iframe className={styles.gacFrame} src={`https://embed.culturalspot.org/embedv2/${type}/${id}`}></iframe>
-    </div>
-  )
-}
 
 const MainSection = ({ categories }) => {
   const router = useRouter();
@@ -60,10 +53,10 @@ const MainSection = ({ categories }) => {
   return (
     <>
       <div className={styles.mainSection}>
-        <GacFrame style='sideGacBox' type="asset" id="eQHH3QrjkD0OUQ?nzh" />
+        <QuizFrame style='sideGacBox' type="asset" id="eQHH3QrjkD0OUQ?nzh" fullscreen={false} />
         <div className={styles.mainContent}>
           <div className={styles.homeContent}>
-            <GacFrame style='topGacBox' type="asset" id="eQHH3QrjkD0OUQ?nzh" />
+            <QuizFrame style='topGacBox' type="asset" id="eQHH3QrjkD0OUQ?nzh" fullscreen={false} />
             <div className={styles.contentTitle}> Welcome back, {isAuthenticated ? displayName : 'Guest'} </div>
              <div className={styles.contentBox}>
               <div className={styles.contentMessage}>
