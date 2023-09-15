@@ -1,19 +1,17 @@
 import { useState, useEffect, useCallback } from "react";
+import Link from 'next/link';
 import { db, app } from '../../firebase';
 import { doc, collection, getDoc } from 'firebase/firestore';
 import { useRouter } from "next/router";
 import { CircularProgress } from '@mui/material';
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import Categories from "../dashboard/categories";
 import PortalPopup from "../dashboard/portal-popup";
+import QuizFrame from "./quiz-frame";
 import Quiz from "./quiz";
+import { getCategories, getCategory, getTitles } from "@/data/fetch";
 import styles from "./styles/quiz-section.module.css";
-
-const QuizFrame = ( {style, type, id} ) => {
-  return (
-    <div className={styles[style]}>
-      <iframe className={styles.gacFrame} src={`https://embed.culturalspot.org/embedv2/${type}/${id}`}></iframe>
-    </div>
-  )
-}
 
 const QuizSection = ({ category, title }) => {
   const [startQuiz, setStartQuiz] = useState(false);
@@ -22,28 +20,36 @@ const QuizSection = ({ category, title }) => {
   const [score, setScore] = useState(0);
   const [totalScore, setTotalScore] = useState(0); 
   const [isCategoriesPopupOpen, setCategoriesPopupOpen] = useState(false);
-  const mainContainer = "dashboard";
+
+  const [categories, setCategories] = useState(null);
+  const [titles, setTitles] = useState([]);
+  const [visited, setVisited] = useState([]);
+  const [nextTitle, setNextTitle] = useState('');
+  const [prevTitle, setPrevTitle] = useState('');
+  const mainContainer = "quiz";
 
   useEffect(() => {
-    async function fetchData(path, setData) {
-      try {
-        const docRef = doc(db, path);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setData(docSnap.data());
-        } else {
-          setData('error');
-        }
-      } catch(e) {
-        console.log(e)
-        // redirect to dashboard?
-      }
-    } 
-    if (category && title) {
-      fetchData(`quizzQuestions/${category}`, setQuizCategory);
-      fetchData(`quizzQuestions/${category}/titles/${title}`, setQuizTitle);
+    if (category) {
+      getCategories(setCategories);
+      getTitles(category, setTitles); // get titles
+      getCategory(category, setQuizCategory); // set quizCategory
     }
-  }, [category, title]);
+  }, [category])
+
+  useEffect(() => {
+    // set nextTitle
+    setVisited(prevVisited => [...prevVisited, title]);
+    let rem = titles?.filter(i => !visited.includes(i.id) && i.id !== title);
+    if (!rem.length) { setVisited([]); rem = titles; }
+    //console.log(visited, rem)
+    // get random item from titles array
+    const randTitle = rem[(Math.floor(Math.random() * rem.length))];
+    setNextTitle(randTitle?.id);
+
+    // set quizTitle
+    const arrQuizTitle = titles?.filter(t => t.id === title);
+    setQuizTitle(arrQuizTitle && arrQuizTitle.length ? arrQuizTitle[0] : null);
+  },[title, titles])
 
   const openCategoriesPopup = useCallback(() => {
     setCategoriesPopupOpen(true);
@@ -62,7 +68,10 @@ const QuizSection = ({ category, title }) => {
       quizTitle
       ? quizTitle === 'error'
         ? <div className={styles[pos]}><div className={styles.noAsset}>No asset found in the collection</div></div>
-        : <QuizFrame style={pos} type="asset" id={quizTitle.gacId+'?nzh'} />
+        : 
+        <>
+          <QuizFrame style={pos} type="asset" id={quizTitle.id+'?nzh'} fullscreen={true} />
+        </>
       : <div className={styles[pos]}><CircularProgress /></div>
     )
   }
@@ -76,14 +85,26 @@ const QuizSection = ({ category, title }) => {
     <>
       { quizCategory && quizTitle ?
       <div className={styles.mainSection}>
-        { gac('sideGacBox') }
+        <div className={styles.leftSection}>
+          { gac('sideGacBox') }
+        </div>
         <div className={styles.mainContent}>
-          <div className={styles.homeContent}>
+          <div className={styles.topSection}>
             { gac('topGacBox') }
+          </div>
+          <div className={styles.pageNav}>
+              <div onClick={openCategoriesPopup}>{quizCategory.name}</div>
+              <Link href={`/quiz/${category}/${nextTitle}`}><ArrowCircleRightIcon fontSize="large" color="primary" className={styles.navIcon} /></Link>
+          </div>
+          <div className={styles.homeContent}>
+            
             { quizCategory !== 'error' && quizTitle !== 'error' ?
               <>
               <div className={styles.contentTitle}>
-                <div>{quizCategory.name}: {quizTitle.name}</div>
+                <div>
+                  <div className={styles.categoryName}>{quizCategory.name}</div>
+                  <div>{quizTitle.title}</div>
+                </div>
                 <div>Total score: {totalScore}</div>
               </div>
               <div className={styles.contentBox}>
@@ -91,20 +112,16 @@ const QuizSection = ({ category, title }) => {
                 {
                 !startQuiz ?
                   <div className={styles.contentText}>
-                    <p>Lorem ipsum dolor sit amet consectetur. Magnis integer quis
-                    faucibus neque sit pulvinar ac quis mauris. Sed at sit
-                    elementum nulla sit non augue orci nisi. Fermentum eget eget
-                    nunc convallis a phasellus. Quis metus sed donec cursus id
-                    adipiscing mauris.</p>
+                    <p>{quizTitle.description}</p>
                     <button className={styles.startButton} onClick={()=>setStartQuiz(true)}>Start the quiz</button>
                   </div>
                   :
                   <Quiz
-                  category={category}
-                  title={title}
-                  getScore={(score) => setTotalScore(totalScore + score)} 
-                  onTryAgain={resetTotalScore}
-                />                }
+                    category={category}
+                    title={title}
+                    getScore={(score) => setTotalScore(totalScore + score)} 
+                    onTryAgain={resetTotalScore}
+                  />                }
                   <button
                     className={styles.startQuiz}
                     onClick={openCategoriesPopup}
@@ -133,7 +150,7 @@ const QuizSection = ({ category, title }) => {
           placement="Centered"
           onOutsideClick={false}
         >
-          {/*<Categories onClose={closeCategoriesPopup} />*/}
+          <Categories categories={categories} onClose={closeCategoriesPopup} />
         </PortalPopup>
       )}
     </>

@@ -17,5 +17,5 @@
 .contentTitle {
     position: relative;
     font-weight: 500;
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-mini);
 }

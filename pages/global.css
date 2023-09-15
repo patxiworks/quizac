@@ -10,6 +10,10 @@ body {
   margin: 0;
   line-height: normal;
 }
+.gac-fullscreen {
+  height: 100vh;
+  overflow: hidden;
+}
 :root {
   /* fonts */
   --font-roboto: Roboto;
@@ -166,11 +170,4 @@ body {
 }
 .MuiMenuItem-root a:hover {
   color: var(--color-blueviolet);
-}
-/* search input */
-.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: var(--color-lightcyan) !important;
-}
-.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
-  color: var(--color-lightcyan) !important;
 }

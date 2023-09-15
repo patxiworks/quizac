@@ -1,21 +1,12 @@
-.sideGacBox {
-  height: 450px;
+.leftSection {
+  display: flex;
+  flex-direction: column;
+  flex: 2 0;
+  align-items: flex-start;
   align-self: stretch;
-  flex: 1;
-  border-radius: 0 0 var(--br-5xl);
-  max-width: 100%;
-  overflow: hidden;
-  object-fit: cover;
-  border: 1px solid var(--color-slategray);
-  border-left: none;
-  border-top: none;
+  height: 500px;
 }
-.gacFrame {
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-.topGacBox {
+.topSection {
   display: none;
 }
 .noAsset {
@@ -26,6 +17,34 @@
   background: var(--primary-text);
   color: #fff;
 }
+.pageNav {
+  display: flex;
+  margin: var(--padding-3xs) var(--padding-13xl);
+  justify-content: space-between;
+  align-self: stretch;
+}
+.navIcon:hover {
+  color: #000;
+}
+.arrow {
+  border: solid #000;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 5px;
+  margin: 11px 15px 11px 0;
+}
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+.contentTitle .categoryName {
+  font-size: var(--font-size-base);
+  font-weight: normal;
+}
 .contentTitle {
   display: flex;
   flex-direction: row;
@@ -33,7 +52,7 @@
   font-weight: 600;
   font-size: var(--font-size-lg);
   border-bottom: 1px solid var(--color-slategray);
-  padding: 0 var(--padding-3xs) var(--padding-3xs) 0;
+  padding: 0 0 var(--padding-3xs) 0;
 }
 .contentText,
 .contentTitle {
@@ -74,7 +93,7 @@
 .homeContent {
   /*height: 552px;*/
   flex-direction: column;
-  margin: var(--padding-13xl);
+  margin: 0 0 var(--padding-13xl);
   margin-left: 0;
   padding: var(--padding-13xl);
   box-sizing: border-box;
@@ -135,28 +154,21 @@
     margin: 0px;
     padding: 0px;
   }
-  .sideGacBox {
-    border: none;
+  .leftSection {
     display: none;
   }
-  .topGacBox {
+  .topSection {
     display: block;
-    max-height: 200px;
-    align-self: stretch;
-    flex: 1 1;
-    border-radius: 0 0 var(--br-5xl) var(--br-5xl);
-    max-width: 100%;
-    overflow: hidden;
-    object-fit: cover;
-    margin-bottom: var(--br-5xl);
+    width: 100%;
   }
-  .gacFrame {
-    height: 400px;
+  .pageNav {
+    margin: var(--padding-3xs) var(--padding-base);
+    border-bottom: 1px solid #ccc;
   }
 }
 @media screen and (max-width: 600px) {
   .homeContent {
-    padding: 0;
+    padding: 0 var(--padding-base);
   }
   .contentBox {
     flex-direction: column;
@@ -165,7 +177,7 @@
 
 @media screen and (max-width: 480px) {
   .mainSection {
-    padding: 0 var(--padding-base);
+    padding: 0;
   }
   .contentBox {
     gap: var(--gap-xl);
