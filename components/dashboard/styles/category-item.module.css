@@ -7,7 +7,7 @@
 .storyImageIcon {
   border-radius: var(--br-9xs);
   max-height: 100%;
-  width: auto;
+  /*width: auto;*/
   object-fit: cover;
 }
 .text {
@@ -49,19 +49,19 @@
   font-family: var(--font-changa-one);
 }
 @media screen and (max-width: 420px) {
-  .storyImageIcon {
+  /*.storyImageIcon {
     width: 100% !important;
     height: auto !important;
-  }
+  }*/
   .storyText {
     flex: unset;
     align-self: stretch;
   }
-  .storyCard {
+  /*.storyCard {
     flex-direction: column;
     gap: 0;
     padding-bottom: var(--padding-xl);
-  }
+  }*/
   .navIcon {
     display: none;
   }

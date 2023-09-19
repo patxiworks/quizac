@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import CategoriesHead from "./categories-head";
 import CategoriesContent from "./categories-content";
+import PopupBox from "./popup-box";
 import styles from "./styles/quizzes.module.css";
 import commonStyles from "./styles/common.module.css";
 import { collection, getDocs } from 'firebase/firestore';

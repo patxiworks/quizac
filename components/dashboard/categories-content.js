@@ -1,21 +1,33 @@
+import { useState, useEffect, useCallback } from "react";
 import QuizItem from "./quiz-item";
+import PopupBox from "./popup-box";
 import styles from "./styles/categories-content.module.css";
 
-const CategoriesContent = ({ catid, quizzes }) => {
+import { getTitles } from "@/data/fetch";
+
+const CategoriesContent = ({ category, onClose }) => {
+  const [titles, setTitles] = useState(null);
+
+  useEffect(() => {
+    console.log(category)
+    if (category) getTitles(category, setTitles);
+  },[category])
+
   return (
-    <div className={styles.mainContent}>
-      {quizzes && quizzes.map((quiz, i) => {
+    <PopupBox onClose={onClose}>
+      {titles && titles.map((quiz, i) => {
         return (
           <QuizItem
             key={i}
             image={quiz.image ? quiz.image : "/art1@2x.png"}
-            title={quiz.name}
+            title={quiz.title}
             description={quiz.description}
-            url={`/quiz/${catid}/${quiz.id}`}
+            url={`/quiz/${category}/${quiz.id}`}
+            onClose={onClose}
           />
         )
       })}
-    </div>
+    </PopupBox>
   );
 };
 

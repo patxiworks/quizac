@@ -114,7 +114,7 @@ const MainSection = ({ categories }) => {
       {categories && isCategoriesPopupOpen && (
         <PortalPopup
           overlayColor="rgba(0, 0, 0, 0.9)"
-          placement="Centered"
+          placement="Top left"
           onOutsideClick={false}
         >
           <Categories categories={categories} onClose={closeCategoriesPopup} />

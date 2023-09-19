@@ -3,6 +3,7 @@
 .loginArt {
   align-self: stretch;
   position: relative;
+  font-size: var(--font-size-xl);
 }
 .loginArt {
   border-radius: 4px;
@@ -10,7 +11,7 @@
   overflow: hidden;
   flex-shrink: 0;
   object-fit: cover;
-  width: 100%;
+  width: 170px;
   height: 100px;
 }
 .itemDesc {
@@ -25,7 +26,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: var(--gap-11xs);
+  gap: var(--gap-7xs);
 }
 .playButtonChild {
   position: absolute;
@@ -69,24 +70,24 @@
 }
 .bigStoryItems {
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--gap-9xl);
 }
 .bigStoryBody,
 .storyBigCard {
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
 }
 .bigStoryBody {
   border-radius: 0 0 var(--br-5xs) var(--br-5xs);
   background-color: var(--color-white);
   padding: var(--padding-sm) 0;
-  margin-top: -2px;
+  margin-left: 10px;
 }
 .storyBigCard {
   flex: 1;
   border-bottom: 1px solid var(--color-black);
-  padding: 0 var(--padding-xl);
+  padding: var(--padding-xl);
   text-align: left;
   font-size: var(--font-size-5xl);
   color: var(--color-darkslategray-200);

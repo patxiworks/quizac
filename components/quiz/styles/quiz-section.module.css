@@ -41,6 +41,15 @@
   transform: rotate(135deg);
   -webkit-transform: rotate(135deg);
 }
+.categoryName {
+  font-size: 26px;
+  font-family: var(--font-changa-one);
+  color: var(--color-primary-deep);
+  cursor: pointer;
+}
+.categoryName:hover {
+  color: var(--color-black);
+}
 .contentTitle .categoryName {
   font-size: var(--font-size-base);
   font-weight: normal;
@@ -58,6 +67,13 @@
 .contentTitle {
   align-self: stretch;
   position: relative;
+}
+.titleColumn {
+  flex: 1;
+}
+.totalScore {
+  font-size: var(--font-size-base);
+  font-weight: normal;
 }
 .contentMessage,
 .startQuiz {

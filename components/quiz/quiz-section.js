@@ -30,7 +30,6 @@ const QuizSection = ({ category, title }) => {
 
   useEffect(() => {
     if (category) {
-      getCategories(setCategories);
       getTitles(category, setTitles); // get titles
       getCategory(category, setQuizCategory); // set quizCategory
     }
@@ -93,7 +92,7 @@ const QuizSection = ({ category, title }) => {
             { gac('topGacBox') }
           </div>
           <div className={styles.pageNav}>
-              <div onClick={openCategoriesPopup}>{quizCategory.name}</div>
+              <div className={styles.categoryName} onClick={openCategoriesPopup}>{quizCategory.name}</div>
               <Link href={`/quiz/${category}/${nextTitle}`}><ArrowCircleRightIcon fontSize="large" color="primary" className={styles.navIcon} /></Link>
           </div>
           <div className={styles.homeContent}>
@@ -101,11 +100,10 @@ const QuizSection = ({ category, title }) => {
             { quizCategory !== 'error' && quizTitle !== 'error' ?
               <>
               <div className={styles.contentTitle}>
-                <div>
-                  <div className={styles.categoryName}>{quizCategory.name}</div>
+                <div className={styles.titleColumn}>
                   <div>{quizTitle.title}</div>
                 </div>
-                <div>Total score: {totalScore}</div>
+                <div className={styles.totalScore}>Total score: {totalScore}</div>
               </div>
               <div className={styles.contentBox}>
                 <div className={styles.contentMessage}>
@@ -147,10 +145,10 @@ const QuizSection = ({ category, title }) => {
       {isCategoriesPopupOpen && (
         <PortalPopup
           overlayColor="rgba(0, 0, 0, 0.9)"
-          placement="Centered"
+          placement="Top left"
           onOutsideClick={false}
         >
-          <Categories categories={categories} onClose={closeCategoriesPopup} />
+          <Categories onClose={closeCategoriesPopup} />
         </PortalPopup>
       )}
     </>

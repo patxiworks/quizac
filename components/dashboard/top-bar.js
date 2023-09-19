@@ -111,9 +111,10 @@ const TopBar = () => {
             ListboxProps={{ style: {maxHeight: '450px', borderRadius: '0 0 20px 20px'}}}
             renderOption={(props, option) => (
               <Box style={{paddingTop: '15px', paddingBottom: '15px'}} component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                <img
+                <Image
                   loading="lazy"
                   width="50"
+                  height="50"
                   src={option.thumbnail}
                   srcSet={`${option.thumbnail} 2x`}
                   alt=""
@@ -146,8 +147,8 @@ const TopBar = () => {
         <div className={styles.userInfo}>
           <div>
             <Button
-              id="button-Gerald Jones"
-              aria-controls="menu-Gerald Jones"
+              id="button-name"
+              aria-controls="menu-name"
               aria-haspopup="true"
               aria-expanded={dropdownButtonSimpleTextOOpen ? "true" : undefined}
               onClick={handleDropdownButtonSimpleTextOClick}

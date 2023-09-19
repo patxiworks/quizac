@@ -14,6 +14,9 @@ body {
   height: 100vh;
   overflow: hidden;
 }
+a {
+  text-decoration: none;;
+}
 :root {
   /* fonts */
   --font-roboto: Roboto;
@@ -60,6 +63,9 @@ body {
   --color-slategray: #576074;
   --color-whitesmoke: #f3f9fa;
   --link: #1e4ae9;
+
+  --color-primary: #4c98e8;
+  --color-primary-deep: #2b74c0;
 
   /* Gaps */
   --gap-base: 16px;
