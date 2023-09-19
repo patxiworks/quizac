@@ -5,3 +5,13 @@
   margin-top: 73px;
   inset: 0;
 }
+
+.portalPopupOverlay {
+  opacity: 1 !important;
+  transition: opacity 0.3s;
+}
+
+.portalPopupOverlay .hidePosition {
+  margin-left: -600px;
+  transition: margin-left 0.2s;
+}

@@ -91,7 +91,7 @@ const CategoriesHead = ({ category }) => {
       {isCategoriesPopupOpen && (
         <PortalPopup
           overlayColor="rgba(0, 0, 0, 0.9)"
-          placement="Centered"
+          placement="Top left"
           onOutsideClick={false}
         >
           <Categories onClose={closeCategoriesPopup} />

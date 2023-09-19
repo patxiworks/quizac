@@ -1,5 +1,4 @@
 import { useMemo, useCallback, useState, useRef, useEffect } from "react";
-
 import { createPortal } from "react-dom";
 import styles from "./styles/portal-popup.module.css";
 
@@ -34,6 +33,7 @@ const PortalPopup = ({
           break;
         case "Top left":
           style.alignItems = "flex-start";
+          style.marginLeft = "0px";
           break;
         case "Top center":
           style.alignItems = "center";
@@ -62,6 +62,7 @@ const PortalPopup = ({
   }, [placement, overlayColor, zIndex, relativeLayerRef?.current]);
 
   const setPosition = useCallback(() => {
+    relContainerRef.current.classList.add("hidePosition");
     const relativeItem = relativeLayerRef?.current?.getBoundingClientRect();
     const containerItem = relContainerRef?.current?.getBoundingClientRect();
     const style = { opacity: 1 };
