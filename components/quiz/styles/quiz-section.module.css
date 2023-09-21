@@ -47,6 +47,10 @@
   color: var(--color-primary-deep);
   cursor: pointer;
 }
+.categoryName div {
+  color: var(--color-primary-deep);
+  cursor: pointer;
+}
 .categoryName:hover {
   color: var(--color-black);
 }
@@ -61,17 +65,22 @@
   font-weight: 600;
   font-size: var(--font-size-lg);
   border-bottom: 1px solid var(--color-slategray);
-  padding: 0 0 var(--padding-3xs) 0;
+  padding: var(--padding-3xs) 0 var(--padding-3xs) 0;
 }
 .contentText,
 .contentTitle {
   align-self: stretch;
   position: relative;
+  font-size: var(--font-size-mini);
+}
+.contentDescription {
+  margin: var(--padding-3xs) 0;
 }
 .titleColumn {
   flex: 1;
 }
 .totalScore {
+  padding-top: var(--padding-3xs);
   font-size: var(--font-size-base);
   font-weight: normal;
 }

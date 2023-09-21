@@ -17,6 +17,10 @@ const getTitles = (catId, setData) => {
     getDocuments(`${catCollection[0]}/${catId}/${catCollection[1]}`, setData);
 }
 
+const getTitlesByField = (catId, setData, groupData) => {
+    getDocumentsByQuery(`${catCollection[0]}/${catId}/${catCollection[1]}`, setData, groupData);
+}
+
 const getTitle = (catId, titleId, setData) => {
     getDocument(`${catCollection[0]}/${catId}/${catCollection[1]}/${titleId}`, setData);
 }
@@ -80,10 +84,29 @@ async function getDocument(path, setData) {
     }
 }
 
+// fetches all documents in a collection
+async function getDocumentsByQuery(path, setData, data) {
+    const result = [];
+    try {
+      const coll = collection(db, path);
+      const q = query(coll, where(data[0], "==", data[1]));
+      const querySnapshot = await getDocs(q);
+  
+      querySnapshot.forEach((doc) => {
+        result.push(doc.data());
+      });
+      setData(result);
+  
+    } catch (e) {
+      setData(['error', e])
+    }
+}
+
 export {
     getCategories,
     getCategory,
     getTitles,
+    getTitlesByField,
     getTitle,
     getQuestions,
     getQuestion,
