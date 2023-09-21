@@ -3,26 +3,42 @@ import Link from 'next/link';
 import { db, app } from '../../firebase';
 import { doc, collection, getDoc } from 'firebase/firestore';
 import { useRouter } from "next/router";
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, bottomNavigationActionClasses } from '@mui/material';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import Categories from "../dashboard/categories";
+import CategoriesContent from "../dashboard/categories-content";
 import PortalPopup from "../dashboard/portal-popup";
 import QuizFrame from "./quiz-frame";
 import Quiz from "./quiz";
+import { LongText } from "../utils";
 import { getCategories, getCategory, getTitles } from "@/data/fetch";
 import styles from "./styles/quiz-section.module.css";
+
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Switch from '@mui/material/Switch';
 
 const QuizSection = ({ category, title }) => {
   const [startQuiz, setStartQuiz] = useState(false);
   const [quizCategory, setQuizCategory] = useState('');
+  const [quizCategoryNames, setQuizCategoryNames] = useState([]);
   const [quizTitle, setQuizTitle] = useState('');
   const [score, setScore] = useState(0);
   const [totalScore, setTotalScore] = useState(0); 
   const [isCategoriesPopupOpen, setCategoriesPopupOpen] = useState(false);
+  const [isQuizzesPopupOpen, setQuizzesPopupOpen] = useState(false);
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [popupPage, setPopupPage] = useState(null);
 
-  const [categories, setCategories] = useState(null);
+  const [categories, setCategories] = useState([]);
   const [titles, setTitles] = useState([]);
+  const [groupTitles, setGroupTitles] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
   const [visited, setVisited] = useState([]);
   const [nextTitle, setNextTitle] = useState('');
   const [prevTitle, setPrevTitle] = useState('');
@@ -30,17 +46,29 @@ const QuizSection = ({ category, title }) => {
 
   useEffect(() => {
     if (category) {
+      getCategories(setCategories); // get all categories
       getTitles(category, setTitles); // get titles
       getCategory(category, setQuizCategory); // set quizCategory
     }
   }, [category])
 
   useEffect(() => {
+    if (titles.length) {
+      setGroups([...new Set(titles.map(item => item.group))])
+    }
+  }, [titles, quizTitle?.group])
+
+  useEffect(() => {
+    setGroupTitles(getGroupTitles(titles, quizTitle?.group))
+  }, [quizTitle])
+
+  useEffect(() => {
+    const mTitle = titles.filter(t => t.id == title);
+    const sTitles = titles.filter(item => item.group == mTitle[0].group);
     // set nextTitle
-    setVisited(prevVisited => [...prevVisited, title]);
-    let rem = titles?.filter(i => !visited.includes(i.id) && i.id !== title);
-    if (!rem.length) { setVisited([]); rem = titles; }
-    //console.log(visited, rem)
+    setVisited(prev => [...prev, title]);
+    let rem = sTitles?.filter(i => !visited.includes(i.id) && i.id !== title);
+    if (!rem.length) { setVisited([]); rem = sTitles; }
     // get random item from titles array
     const randTitle = rem[(Math.floor(Math.random() * rem.length))];
     setNextTitle(randTitle?.id);
@@ -48,16 +76,35 @@ const QuizSection = ({ category, title }) => {
     // set quizTitle
     const arrQuizTitle = titles?.filter(t => t.id === title);
     setQuizTitle(arrQuizTitle && arrQuizTitle.length ? arrQuizTitle[0] : null);
-  },[title, titles])
 
-  const openCategoriesPopup = useCallback(() => {
-    setCategoriesPopupOpen(true);
+    // set array of quizCategory names
+    setQuizCategoryNames(categories.map(cat => cat.name))
+  },[title, titles, categories])
+
+  const getGroupTitles = (items, group) => {
+    return items.filter(t => t.group == group)
+  }
+  
+  const popupCategories = (event) => {
+    openPopup();
+    setSelectedItem(event.target.value);
+    setPopupPage('categories');
+  }
+
+  const popupTitles = (event) => {
+    openPopup();
+    setSelectedItem(event.target.value);
+    setPopupPage('titles');
+  }
+
+  const openPopup = useCallback(() => {
+    setPopupOpen(true);
     const mainDiv = document.getElementById(mainContainer);
     mainDiv.style.position = "fixed";
   }, []);
 
-  const closeCategoriesPopup = useCallback(() => {
-    setCategoriesPopupOpen(false);
+  const closePopup = useCallback(() => {
+    setPopupOpen(false);
     const mainDiv = document.getElementById(mainContainer);
     mainDiv.style.position = "relative";
   }, []);
@@ -72,6 +119,46 @@ const QuizSection = ({ category, title }) => {
           <QuizFrame style={pos} type="asset" id={quizTitle.id+'?nzh'} fullscreen={true} />
         </>
       : <div className={styles[pos]}><CircularProgress /></div>
+    )
+  }
+
+  const itemSelect = (items, item, popup) => {
+    return (
+      <>
+        <Select
+          sx={{
+            boxShadow: "none",
+            ".MuiOutlinedInput-notchedOutline": { border: 0 },
+            "&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+              {
+                border: 0,
+              },
+            "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+              {
+                border: 0,
+              },
+              "&.MuiOutlinedInput-root .MuiSelect-select.MuiSelect-outlined":
+              {
+                padding: 0,
+                paddingRight: '32px',
+                fontWeight: 'bold',
+              }
+          }}
+          autoFocus
+          value={item}
+          onChange={popup}
+          label=""
+          inputProps={{
+            name: 'dropdown',
+            id: 'dropdown',
+          }}
+        >
+          <MenuItem value={item}>{item}</MenuItem>
+          {items.map((i,j) => {
+            if (i !== item) return <MenuItem key={j} value={i}>{i}</MenuItem>
+          })}
+        </Select>
+    </>
     )
   }
 
@@ -92,25 +179,27 @@ const QuizSection = ({ category, title }) => {
             { gac('topGacBox') }
           </div>
           <div className={styles.pageNav}>
-              <div className={styles.categoryName} onClick={openCategoriesPopup}>{quizCategory.name}</div>
-              <Link href={`/quiz/${category}/${nextTitle}`}><ArrowCircleRightIcon fontSize="large" color="primary" className={styles.navIcon} /></Link>
+              <div className={styles.categoryName}>
+                {itemSelect(quizCategoryNames, quizCategory.name, popupCategories)}
+                {itemSelect(groups, quizTitle.group, popupTitles)}
+              </div>
+              <div className={styles.totalScore}>Total score: {totalScore}</div>
           </div>
           <div className={styles.homeContent}>
-            
             { quizCategory !== 'error' && quizTitle !== 'error' ?
               <>
               <div className={styles.contentTitle}>
                 <div className={styles.titleColumn}>
                   <div>{quizTitle.title}</div>
                 </div>
-                <div className={styles.totalScore}>Total score: {totalScore}</div>
+                <Link href={`/quiz/${category}/${nextTitle}`}><ArrowCircleRightIcon fontSize="small" color="primary" className={styles.navIcon} /></Link>
               </div>
               <div className={styles.contentBox}>
                 <div className={styles.contentMessage}>
                 {
                 !startQuiz ?
                   <div className={styles.contentText}>
-                    <p>{quizTitle.description}</p>
+                    <div className={styles.contentDescription}><LongText content={quizTitle.description} limit={50} /></div>
                     <button className={styles.startButton} onClick={()=>setStartQuiz(true)}>Start the quiz</button>
                   </div>
                   :
@@ -122,7 +211,7 @@ const QuizSection = ({ category, title }) => {
                   />                }
                   <button
                     className={styles.startQuiz}
-                    onClick={openCategoriesPopup}
+                    onClick={openPopup}
                   >
                   </button>
                 </div>
@@ -142,17 +231,21 @@ const QuizSection = ({ category, title }) => {
       :
       <div className={styles.emptySection}><CircularProgress /></div>
       }
-      {isCategoriesPopupOpen && (
+      {isPopupOpen && (
         <PortalPopup
           overlayColor="rgba(0, 0, 0, 0.9)"
           placement="Top left"
           onOutsideClick={false}
         >
-          <Categories onClose={closeCategoriesPopup} />
+          {
+          popupPage === 'titles'
+          ?  <CategoriesContent category={category} groupTitles={getGroupTitles(titles, selectedItem)} onClose={closePopup} popupTitle={`Choose from '${selectedItem}'`} />
+          :  <Categories onClose={closePopup} popupTitle={'Choose a category'} />
+          }
         </PortalPopup>
       )}
     </>
   );
 };
 
-export default QuizSection;
+export default QuizSection;

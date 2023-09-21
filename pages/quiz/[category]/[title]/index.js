@@ -8,7 +8,7 @@ import TopBar from "@/components/dashboard/top-bar";
 import QuizSection from "@/components/quiz/quiz-section";
 import styles from "../../index.module.css";
 
-const Dashboard = () => {
+const QuizDashboard = () => {
   const [user, setUser] = useState(null);
   const auth = getAuth(app)
   const router = useRouter();
@@ -42,4 +42,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default QuizDashboard;

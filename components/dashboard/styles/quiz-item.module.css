@@ -81,7 +81,7 @@
 .bigStoryBody {
   border-radius: 0 0 var(--br-5xs) var(--br-5xs);
   background-color: var(--color-white);
-  padding: var(--padding-sm) 0;
+  padding: 0 0 var(--padding-sm) 0;
   margin-left: 10px;
 }
 .storyBigCard {
