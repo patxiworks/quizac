@@ -26,11 +26,11 @@ const getTitle = (catId, titleId, setData) => {
 }
 
 const getQuestions = (catId, titleId, setData) => {
-    getDocuments(`${catCollection[0]}/${catId}/${catCollection[1]}/${titleId}/${catCollection[3]}`, setData);
+    getDocuments(`${catCollection[0]}/${catId}/${catCollection[1]}/${titleId}/${catCollection[2]}`, setData);
 }
 
 const getQuestion = (catId, titleId, questionId, setData) => {
-    getDocument(`${catCollection[0]}/${catId}/${catCollection[1]}/${titleId}/${catCollection[3]}/${questionId}`, setData);
+    getDocument(`${catCollection[0]}/${catId}/${catCollection[1]}/${titleId}/${catCollection[2]}/${questionId}`, setData);
 }
 
 // Users collection

@@ -18,7 +18,6 @@ const CategoryItem = ({ id, image, title, description, onClose }) => {
 
   const clickCategory = () => {
     setQuizzesPopupOpen(true);
-    
   }
 
   return (

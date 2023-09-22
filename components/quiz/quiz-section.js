@@ -10,7 +10,8 @@ import Categories from "../dashboard/categories";
 import CategoriesContent from "../dashboard/categories-content";
 import PortalPopup from "../dashboard/portal-popup";
 import QuizFrame from "./quiz-frame";
-import Quiz from "./quiz";
+//import Quiz from "./quiz";
+import Quiz from "./main/quiz";
 import { LongText } from "../utils";
 import { getCategories, getCategory, getTitles } from "@/data/fetch";
 import styles from "./styles/quiz-section.module.css";
@@ -30,7 +31,6 @@ const QuizSection = ({ category, title }) => {
   const [score, setScore] = useState(0);
   const [totalScore, setTotalScore] = useState(0); 
   const [isCategoriesPopupOpen, setCategoriesPopupOpen] = useState(false);
-  const [isQuizzesPopupOpen, setQuizzesPopupOpen] = useState(false);
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [popupPage, setPopupPage] = useState(null);
 
@@ -208,7 +208,8 @@ const QuizSection = ({ category, title }) => {
                     title={title}
                     getScore={(score) => setTotalScore(totalScore + score)} 
                     onTryAgain={resetTotalScore}
-                  />                }
+                  />            
+                  }
                   <button
                     className={styles.startQuiz}
                     onClick={openPopup}

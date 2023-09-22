@@ -74,7 +74,7 @@
   font-size: var(--font-size-mini);
 }
 .contentDescription {
-  margin: var(--padding-3xs) 0;
+  margin: var(--padding-3xs) 0 var(--padding-11xl);
 }
 .titleColumn {
   flex: 1;
