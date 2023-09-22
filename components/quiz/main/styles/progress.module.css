@@ -1,0 +1,53 @@
+.progress {
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+  
+.bullets {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+  
+.bullets .bullet {
+  width: 7px;
+  height: 7px;
+  background-color: #E4E4E4;
+  border-radius: 100%;
+}
+  
+.bullet:not(:last-of-type) {
+          margin-right: 6px;
+        }
+  
+        .bullet.past {
+          background-color: #A3D4FF;
+        }
+  
+        .bullet.current {
+          width: 9px;
+          height: 9px;
+          background-color: #3395EA;
+        }
+  
+          .bullet:not(:first-of-type) {
+            margin-left: -1px;
+          }
+  
+          .bullet:not(:last-of-type) {
+            margin-right: 5px;
+          }
+  
+    .numbers {
+      font-size: 14px;
+      line-height: 157%;
+      color: #9D9D9D;
+    }
+  
+      .numbers strong {
+        font-size: 15px;
+        line-height: 147%;
+        color: #000000;
+      }

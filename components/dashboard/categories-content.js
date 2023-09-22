@@ -7,13 +7,13 @@ import styles from "./styles/categories-content.module.css";
 import { getTitles } from "@/data/fetch";
 
 const CategoriesContent = ({ category, groupTitles, onClose, popupTitle }) => {
-  const [titles, setTitles] = useState(null);
+  const [titles, setTitles] = useState([]);
 
   useEffect(() => {
-    if (!groupTitles?.length) {
-      if (category) getTitles(category, setTitles);
-    } else {
+    if (groupTitles && groupTitles.length) {
       setTitles(groupTitles);
+    } else {
+      if (category) getTitles(category, setTitles);
     }
   }, [category])
 

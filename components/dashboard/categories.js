@@ -11,6 +11,7 @@ const Categories = ({ onClose }) => {
 
   useEffect(() => {
     getCategories(setCategories);
+    console.log(categories)
   },[])
 
   return (
