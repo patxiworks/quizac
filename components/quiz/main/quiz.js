@@ -3,6 +3,12 @@ import { useState, useEffect } from "react";
 import Progress from "./progress";
 import { getTitles, getQuestions } from "@/data/fetch";
 import styles from "./styles/quiz.module.css";
+import { setUserScoreWithLevel } from './set';
+import { app } from '../../../firebase';
+import { getAuth } from 'firebase/auth';
+
+const auth = getAuth(app); 
+
 
 function Quiz({ category, title }) {
     const [level, setLevel] = useState("");
@@ -33,22 +39,26 @@ function Quiz({ category, title }) {
       setScore(0);
     };
   
-    const handleOptionClick = (selectedOption) => {
-      const isCorrect =
-        selectedOption === questions[currentQuestion].answer;
+    const handleOptionClick = async (selectedOption) => {
+      const isCorrect = selectedOption === questions[currentQuestion].answer;
       if (isCorrect) {
-        setScore(score + 1);
+          setScore(score + 1);
       }
-  
+
       const nextQuestion = currentQuestion + 1;
       if (nextQuestion < questions.length) {
-        setCurrentQuestion(nextQuestion);
+          setCurrentQuestion(nextQuestion);
       } else {
-        alert(`Your score is ${score}/${questions.length}`);
-        setLevel("");
+          alert(`Your score is ${score}/${questions.length}`);
+          setLevel("");
+          if (auth.currentUser) { 
+              await setUserScoreWithLevel(auth.currentUser.email, category, title, level, score);
+          } else {
+              console.error('User is not authenticated.');
+          }
       }
-    };
-  
+  };
+
     return (
       <>
       { questions && questions.length ? 
