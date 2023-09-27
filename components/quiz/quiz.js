@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import { db, app } from '../../firebase';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth'
+import QuizResults from '@/pages/quiz/[category]/[title]/quizresults';
 import styles from "./styles/quiz.module.css";
 const auth = getAuth(app);
 
-const Quiz = ({category, title, getScore, onTryAgain}) => {
+const Quiz = ({ category, title, getScore }) => {
   const [questions, setQuestions] = useState([]);
   const [score, setScore] = useState(0);
   const [timer, setTimer] = useState(10);
@@ -15,8 +16,10 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [currentLevel, setCurrentLevel] = useState(1);
   const [showResetButton, setShowResetButton] = useState(false);
-  const [levels, setLevels] = useState([]); 
+  const [levels, setLevels] = useState([]);
   const [moraleBooster, setMoraleBooster] = useState('');
+  const [showAnswers, setShowAnswers] = useState(false);
+  const [resultsViewed, setResultsViewed] = useState(false);
   const [moraleBoosters, setMoraleBoosters] = useState({
     complete: [],
     half: [],
@@ -67,8 +70,8 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
         };
       });
       setQuestions(fetchedQuestions);
-    } 
-  
+    }
+
     fetchDataForLevel(currentLevel);
   }, [category, title, currentLevel]);
 
@@ -98,7 +101,7 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
     const randomIndex = Math.floor(Math.random() * moraleBoosters[category].length);
     return moraleBoosters[category][randomIndex];
   };
-  
+
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -107,7 +110,7 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
       endQuiz();
     }
   };
-  
+
   const moveToNextLevel = () => {
     const nextLevel = currentLevel + 1;
     if (nextLevel <= levels.length) {
@@ -115,7 +118,7 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
         setCurrentLevel(nextLevel);
         setSelectedOptions([]);
         setIsQuizEnded(false);
-        setTimer(10); 
+        setTimer(10);
         setScore(0);
         setCurrentQuestionIndex(0);
         setQuizSubmitted(false);
@@ -128,7 +131,7 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
       alert("Congratulations! You've completed all levels.");
     }
   };
-  
+
   const resetLevel = () => {
     setSelectedOptions([]);
     setIsQuizEnded(false);
@@ -138,7 +141,6 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
     setScore(0);
     setQuizSubmitted(false);
     setShowResetButton(false);
-    onTryAgain(); 
   };
 
   const endQuiz = async () => {
@@ -152,14 +154,14 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
       }
       const levelScoresCollection = collection(
         db,
-        "quizzresult",auth.currentUser.email,`level${currentLevel}`,      );
+        "quizzresult", auth.currentUser.email, `level${currentLevel}`,);
 
       await addDoc(levelScoresCollection, { score: score });
 
       setScore(score);
       getScore(score);
       setQuizSubmitted(true);
-      
+
       let moraleBoosterText = '';
       if (score === questions.length) {
         moraleBoosterText = displayRandomMoraleBooster('complete');
@@ -172,7 +174,13 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
       if (score < levels[currentLevel - 1].minScoreToUnlock) {
         setShowResetButton(true);
       }
+
     }
+  };
+  const toggleShowAnswers = () => {
+    setShowAnswers(!showAnswers);
+    setResultsViewed(true);
+
   };
 
   return (
@@ -186,46 +194,70 @@ const Quiz = ({category, title, getScore, onTryAgain}) => {
       {isQuizEnded ? (
         <div className={styles.quizResults}>
           <p>Quiz Ended</p>
-          
+
           {moraleBooster !== '' && (
             <div className={styles.moraleBooster}>
               <p>{moraleBooster}</p>
             </div>
+
           )}
-          <button className={styles.nextButton} onClick={moveToNextLevel}>Next Level</button>
-          {showResetButton && <button className={styles.nextButton} onClick={resetLevel}>Try again</button>}
+
+          <button
+            className={styles.nextButton}
+            onClick={moveToNextLevel}
+            disabled={!resultsViewed || (showResetButton && score < levels[currentLevel - 1]?.minScoreToUnlock)}
+          >
+            Next Level
+          </button>
+          {showResetButton && (
+            <button
+              className={styles.nextButton}
+              onClick={resetLevel}
+              disabled={!resultsViewed}
+            >
+              Try again
+            </button>
+          )}
+
+          <button onClick={toggleShowAnswers}>View Results</button>
+          {showAnswers && (
+            <QuizResults
+              questions={questions}
+              selectedOptions={selectedOptions}
+            />
+          )}
         </div>
       ) : (
         <div>
-        <div className={styles.timer}><p style={{color: "#ff0000"}}>{timer} seconds</p></div>
-        {questions.length > 0 && currentQuestionIndex < questions.length &&(
-          <div className={styles.questionContainer}>
-            <h2 className={styles.question}>{questions[currentQuestionIndex].question}</h2>
-            <form>
-              {questions[currentQuestionIndex].options.map((option, optionIndex) => (
-                <label key={optionIndex} className={styles.optionLabel}>
-                  <input
-                    type="radio"
-                    value={option}
-                    checked={selectedOptions[currentQuestionIndex] === option}
-                    onChange={(event) => handleOptionChange(event, currentQuestionIndex)}
-                  />
-                  {option}
-                </label>
-              ))}
-            </form>
-            <button
-              className={styles.nextButton}
-              onClick={handleNextQuestion}
-            >
-              {currentQuestionIndex < questions.length - 1 ? "Next Question" : "Submit"}
-            </button>
-          </div>
-        )}
-      </div>
-    )}
-  </div>
-);
+          <div className={styles.timer}><p style={{ color: "#ff0000" }}>{timer} seconds</p></div>
+          {questions.length > 0 && currentQuestionIndex < questions.length && (
+            <div className={styles.questionContainer}>
+              <h2 className={styles.question}>{questions[currentQuestionIndex].question}</h2>
+              <form>
+                {questions[currentQuestionIndex].options.map((option, optionIndex) => (
+                  <label key={optionIndex} className={styles.optionLabel}>
+                    <input
+                      type="radio"
+                      value={option}
+                      checked={selectedOptions[currentQuestionIndex] === option}
+                      onChange={(event) => handleOptionChange(event, currentQuestionIndex)}
+                    />
+                    {option}
+                  </label>
+                ))}
+              </form>
+              <button
+                className={styles.nextButton}
+                onClick={handleNextQuestion}
+              >
+                {currentQuestionIndex < questions.length - 1 ? "Next Question" : "Submit"}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
 };
 
-export default Quiz;
+export default Quiz;
