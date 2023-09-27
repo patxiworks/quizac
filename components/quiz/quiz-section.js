@@ -10,8 +10,7 @@ import Categories from "../dashboard/categories";
 import CategoriesContent from "../dashboard/categories-content";
 import PortalPopup from "../dashboard/portal-popup";
 import QuizFrame from "./quiz-frame";
-//import Quiz from "./quiz";
-import Quiz from "./main/quiz";
+import QuizRender from "./quiz-render";
 import { LongText } from "../utils";
 import { getCategories, getCategory, getTitles } from "@/data/fetch";
 import styles from "./styles/quiz-section.module.css";
@@ -22,6 +21,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
+
 
 const QuizSection = ({ category, title }) => {
   const [startQuiz, setStartQuiz] = useState(false);
@@ -36,6 +36,7 @@ const QuizSection = ({ category, title }) => {
 
   const [categories, setCategories] = useState([]);
   const [titles, setTitles] = useState([]);
+  const [objTitle, setObjTitle] = useState([]);
   const [groupTitles, setGroupTitles] = useState([]);
   const [groups, setGroups] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -64,7 +65,8 @@ const QuizSection = ({ category, title }) => {
 
   useEffect(() => {
     const mTitle = titles.filter(t => t.id == title);
-    const sTitles = titles.filter(item => item.group == mTitle[0].group);
+    const sTitles = titles.filter(item => item.group == mTitle[0]?.group);
+    setObjTitle(mTitle[0]);
     // set nextTitle
     setVisited(prev => [...prev, title]);
     let rem = sTitles?.filter(i => !visited.includes(i.id) && i.id !== title);
@@ -109,6 +111,10 @@ const QuizSection = ({ category, title }) => {
     mainDiv.style.position = "relative";
   }, []);
 
+  const checkQuizStart = (e) => {
+    setStartQuiz(e);
+  }
+
   const gac = (pos) => {
     return (
       quizTitle
@@ -122,7 +128,7 @@ const QuizSection = ({ category, title }) => {
     )
   }
 
-  const itemSelect = (items, item, popup) => {
+  const itemSelect = (items, item, type, popup) => {
     return (
       <>
         <Select
@@ -155,7 +161,15 @@ const QuizSection = ({ category, title }) => {
         >
           <MenuItem value={item}>{item}</MenuItem>
           {items.map((i,j) => {
-            if (i !== item) return <MenuItem key={j} value={i}>{i}</MenuItem>
+            const val = type == 'category' ? i?.name : (type=='group' ? i : i)
+            if (val !== item) {
+              return <MenuItem 
+                        key={j} 
+                        value={type=='group' ? i : i?.id}
+                      >
+                        {type=='group' ? i : i?.name}
+                      </MenuItem>
+            }
           })}
         </Select>
     </>
@@ -180,8 +194,8 @@ const QuizSection = ({ category, title }) => {
           </div>
           <div className={styles.pageNav}>
               <div className={styles.categoryName}>
-                {itemSelect(quizCategoryNames, quizCategory.name, popupCategories)}
-                {itemSelect(groups, quizTitle.group, popupTitles)}
+                {itemSelect(categories, quizCategory.name, 'category', popupCategories)}
+                {itemSelect(groups, quizTitle.group, 'group', popupTitles)}
               </div>
               <div className={styles.totalScore}>Total score: {totalScore}</div>
           </div>
@@ -196,25 +210,22 @@ const QuizSection = ({ category, title }) => {
               </div>
               <div className={styles.contentBox}>
                 <div className={styles.contentMessage}>
-                {
-                !startQuiz ?
-                  <div className={styles.contentText}>
-                    <div className={styles.contentDescription}><LongText content={quizTitle.description} limit={50} /></div>
-                    <button className={styles.startButton} onClick={()=>setStartQuiz(true)}>Start the quiz</button>
-                  </div>
-                  :
-                  <Quiz
+                <>
+                  {!startQuiz
+                  ? <div className={styles.contentText}>
+                      <div className={styles.contentDescription}><LongText content={quizTitle.description} limit={50} /></div>
+                    </div>
+                  : ''}
+                  <QuizRender category={category} title={objTitle} quizStarted={checkQuizStart} />
+                </>
+                  <>
+                  {/*<Quiz
                     category={category}
                     title={title}
                     getScore={(score) => setTotalScore(totalScore + score)} 
                     onTryAgain={resetTotalScore}
-                  />            
-                  }
-                  <button
-                    className={styles.startQuiz}
-                    onClick={openPopup}
-                  >
-                  </button>
+                  />*/}
+                  </>
                 </div>
               </div>
               </>
@@ -240,8 +251,8 @@ const QuizSection = ({ category, title }) => {
         >
           {
           popupPage === 'titles'
-          ?  <CategoriesContent category={category} groupTitles={getGroupTitles(titles, selectedItem)} onClose={closePopup} popupTitle={`Choose from '${selectedItem}'`} />
-          :  <Categories onClose={closePopup} popupTitle={'Choose a category'} />
+          ?  <CategoriesContent category={category} groupTitles={getGroupTitles(titles, selectedItem)} onClose={closePopup} popupTitle={`Choose from item`} />
+          :  <CategoriesContent category={selectedItem} onClose={closePopup} popupTitle={`Choose an item`} />
           }
         </PortalPopup>
       )}
