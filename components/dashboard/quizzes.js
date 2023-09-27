@@ -12,7 +12,7 @@ const Quizzes = ({ catid, title, onClose }) => {
 
   useEffect(()=> {
     async function fetchQuizzes(id) {
-      const quizCollection = collection(db, "quizzQuestions", id, "titles");
+      const quizCollection = collection(db, "categories", id, "titles");
       const docSnapshot = await getDocs(quizCollection);
   
       const fetchedQuizzes = docSnapshot.docs.map((doc) => {
