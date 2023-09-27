@@ -7,7 +7,7 @@ import styles from "./styles/quiz.module.css";
 function Quiz({ category, title }) {
     const [level, setLevel] = useState("");
     const [allQuestions, setAllQuestions] = useState([]);
-    const [questions, setQuestions] = useState([])
+    const [questions, setQuestions] = useState(null)
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [score, setScore] = useState(0);
 
