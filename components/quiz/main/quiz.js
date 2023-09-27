@@ -5,6 +5,12 @@ import { getTitles, getQuestions } from "@/data/fetch";
 import { collection, getDocs,getDoc, doc } from 'firebase/firestore';
 import styles from "./styles/quiz.module.css";
 import { db } from '../../../firebase'
+import { setUserScoreWithLevel } from './set';
+import { app } from '../../../firebase';
+import { getAuth } from 'firebase/auth';
+
+const auth = getAuth(app); 
+
 
 function Quiz({ category, title }) {
   const [level, setLevel] = useState("");
@@ -89,10 +95,10 @@ function Quiz({ category, title }) {
     setScore(0);
   };
   
-  const handleOptionClick = (selectedOption) => {
+  const handleOptionClick = async (selectedOption) => {
     if (questions.length > 0 && currentQuestion >= 0 && currentQuestion < questions.length) {
       const isCorrect = selectedOption === questions[currentQuestion].answer;
-      
+  
       if (isCorrect) {
         setScore(score + 1);
       }
@@ -100,14 +106,19 @@ function Quiz({ category, title }) {
       const nextQuestion = currentQuestion + 1;
       if (nextQuestion < questions.length) {
         setCurrentQuestion(nextQuestion);
-        setTimer(levels[currentLevel - 1]?.duration || 10); 
+        setTimer(levels[currentLevel - 1]?.duration || 10);
       } else {
         alert(`Your score is ${score}/${questions.length}`);
         setLevel("");
+        if (auth.currentUser) {
+          await setUserScoreWithLevel(auth.currentUser.email, category, title, level, score);
+        } else {
+          console.error('User is not authenticated.');
+        }
       }
     }
   };
-
+  
   return (
     <>
       {questions && questions.length ?
