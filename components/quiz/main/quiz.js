@@ -47,6 +47,7 @@ function Quiz({ category, title }) {
       const levelData = querySnapshot.docs.map((doc) => doc.data());
       setLevels(levelData);
     }
+
     fetchLevels();
   }, []);
   
@@ -100,7 +101,7 @@ function Quiz({ category, title }) {
       const isCorrect = selectedOption === questions[currentQuestion].answer;
   
       if (isCorrect) {
-        setScore(score + 1);
+        setScore(score + levels[currentLevel - 1]?.points || 1);
       }
   
       const nextQuestion = currentQuestion + 1;
