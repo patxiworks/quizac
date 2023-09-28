@@ -1,0 +1,16 @@
+.quizStartButton {
+    background-color: var(--color-primary-bright);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+@media screen and ( max-width: 480px ) {
+    .quizStartButtonContainer {
+        width: 100%;
+        text-align: center;
+    }
+};

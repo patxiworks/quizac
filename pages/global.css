@@ -68,6 +68,8 @@ a {
   --color-primary-deep: #2b74c0;
   --color-primary-bright: #007bff;
 
+  --color-quiz-hover: #f8f3c3;
+
   /* Gaps */
   --gap-base: 16px;
   --gap-13xl: 32px;

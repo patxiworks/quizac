@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import { CircularProgress } from '@mui/material';
 import styles from "./styles/map.module.css";
 
 const render = (status) => {
-  if (status === Status.LOADING) return <h3>{status} ..</h3>;
-  if (status === Status.FAILURE) return <h3>{status} ...</h3>;
+  if (status === Status.LOADING) return <div style={{textAlign:'center'}}><CircularProgress /></div>;
+  if (status === Status.FAILURE) return <div>{status}!</div>;
   return null;
 };
 
@@ -15,9 +16,10 @@ var markers = [];
 var guess_coordinates = [];
 var check_count = 0;
 
-const MyMapComponent = ({center, zoom, locaton}) => {
-    const [mapInstance, setMapInstance] = useState(false)
-    const [checkGuess, setCheckGuess] = useState(null)
+const MyMapComponent = ({center, zoom, location}) => {
+    const [mapInstance, setMapInstance] = useState(false);
+    const [distanceValue, setDistanceValue] = useState(null);
+    const [score, setScore] = useState(0);
     const ref = useRef();
     const result = useRef();
     // var markers = [];
@@ -138,9 +140,11 @@ const MyMapComponent = ({center, zoom, locaton}) => {
     }
 
     function display_location(){
-        document.getElementById("location").innerHTML = "Correct Location: " + current_name;
-        document.getElementById("distance").innerHTML = "Your Guess was " + distance_from_guess + " kilometres away";
-        document.getElementById("totaldistance").innerHTML = "Round Score: " + accumulated_distance.toFixed(1) + " kilometres";
+        //document.getElementById("location").innerHTML = "Correct Location: " + current_name;
+        //document.getElementById("distance").innerHTML = "Your Guess was " + distance_from_guess + " kilometres away";
+        setDistanceValue(distance_from_guess);
+        setScore(1000 * Math.exp(-0.5 * (distanceValue/450)**2))
+        //document.getElementById("totaldistance").innerHTML = "Round Score: " + accumulated_distance.toFixed(1) + " kilometres";
     }
 
     const checking = () => {
@@ -181,13 +185,18 @@ const MyMapComponent = ({center, zoom, locaton}) => {
 
     return (
         <>
+            <div id='center' className={styles.resultContainer}>
+                <div id="distance" className={styles.distanceBox}>Distance: {distanceValue} {distanceValue ? 'km' : ''}</div>
+                <div className={styles.scoreBox}>Score: {score}</div>
+            </div>
+            <div id = 'info'>
+                <footer id="totaldistance"></footer>
+            </div>
             <div className={styles.container}>
                 <div ref={ref} className={styles.map} />
             </div>
-            <div id = 'buttons' className="container" >
-                <div >
-                    <button type="button" className="btn btn-primary btn-lg btn btn-dark" onClick={checking} id="check">Guess!</button>
-                </div>
+            <div id='buttons' className={styles.guessButtonContainer}>
+                <button type="button" className={styles.guessButton} onClick={checking} id="check">Guess!</button>
             </div>
         </>
     );
@@ -209,16 +218,9 @@ const MapGuess = ({ quizData: data, quizDataError: error, item }) => {
             <Wrapper apiKey="AIzaSyCfDcAwQpZwQFFftgsXsO5Kan9Xixsc7U0" render={render}>
                 <MyMapComponent center={{ lat: data.maplocation[0], lng: data.maplocation[1] }} zoom={zoom} location={location} />
             </Wrapper>
-            <div id = 'center' className="container">
-                <div id="location"></div>
-                <div id="distance"></div>
-            </div>
-            <div id = 'info'>
-                <footer id="totaldistance"></footer>
-            </div>
+            
         </>
     )
-
 }
 
 export default MapGuess;
