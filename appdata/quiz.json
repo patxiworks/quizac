@@ -1,0 +1,45 @@
+{
+  "levels": [
+    {
+      "number": 1,
+      "name": "Apprentice",
+      "duration": 15,
+      "points": 1,
+      "deduction": 0,
+      "pass": 5
+    },
+    {
+      "number": 2,
+      "name": "Scholar",
+      "duration": 10,
+      "points": 2,
+      "deduction": 1,
+      "pass": 11
+    },
+    {
+      "number": 3,
+      "name": "Mastermind",
+      "duration": 7,
+      "points": 3,
+      "deduction": 2,
+      "pass": 15
+    },
+    {
+      "number": 4,
+      "name": "Genius",
+      "duration": 5,
+      "points": 4,
+      "deduction": 3,
+      "pass": 26
+    },
+    {
+      "number": 5,
+      "name": "Prodigy",
+      "duration": 3,
+      "points": 5,
+      "deduction": 4,
+      "pass": 0
+    }
+  ],
+  "maplocation":[6.6092593,3.3682634]
+}

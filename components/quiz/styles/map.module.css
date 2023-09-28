@@ -77,5 +77,6 @@ font-size: 15px;
     .container {
         width: 111%;
         margin-left: -20px;
+        height: 450px;
     }
 }
