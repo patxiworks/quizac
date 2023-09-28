@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import useSWR from 'swr';
 import Quiz from "./quiz";
 import MapGuess from "./map";
-import styles from "./styles/quiz.module.css";
+import styles from "./styles/common.module.css";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 

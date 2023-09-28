@@ -73,6 +73,9 @@
   position: relative;
   font-size: var(--font-size-mini);
 }
+.contentTitle {
+  font-size: var(--font-size-lg);
+}
 .contentDescription {
   margin: var(--padding-3xs) 0 var(--padding-11xl);
 }

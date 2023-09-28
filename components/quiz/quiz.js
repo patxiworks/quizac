@@ -28,7 +28,7 @@ function Quiz({ quizData, quizDataError, category, title }) {
     if (title) {
       getScore(auth.currentUser.email, category, title, setQuizScore);
     }
-    setSumScore(quizScore[1]?.reduce((a, o) => a + o.score, 0));
+    //setSumScore(quizScore[1]?.reduce((a, o) => a + o.score, 0));
   }, [title, level])
 
   useEffect(() => {
@@ -125,6 +125,33 @@ function Quiz({ quizData, quizDataError, category, title }) {
     }
   };
 
+  const keyExists = (key, obj) => {
+    if (obj) {
+      return (key in obj);
+    } else {
+      return false;
+    }
+  }
+
+  const checkScore = (a, b, c, d) => {
+    if (a && b==c) {
+      return true;
+    } else if (keyExists(b, d)) {
+      if (d[b]?.length) {
+        return true
+      }
+    }
+    return false;
+  }
+
+  const writeDescription = (item) => {
+    let desc = ''
+    desc = `${item.name}: In this level you can score a maximum of ${item.points*questions.length} points (${item.points} per question). You have ${item.duration} seconds to answer each question. `;
+    desc += item.deduction ? `Beware, if you fail a question, ${item.deduction > 1 ? item.deduction+' points' : item.deduction+' point'} will be deducted from your score. ` : '';
+    desc += `Good luck!`;
+    return desc;
+  }
+
   const errorMessage = (message) => {
     return (
       <div className={styles.quizContainer}>
@@ -149,19 +176,27 @@ function Quiz({ quizData, quizDataError, category, title }) {
                 {levels.map((item, i) => (
                   <React.Fragment key={i}>
                     {
-                      score && item.number==level 
+                      score && item.number==level
                       ? <div className={styles.scoreBadge}>Score: {score}</div>
-                      : quizScore[item.number]?.length 
-                        ? <div className={styles.scoreBadge}>Score: {quizScore[item.number]?.reduce((a, o) => a + o.score, 0)}</div> 
+                      : keyExists(item.number, quizScore) 
+                        ? quizScore[item.number]?.length 
+                          ? <div className={styles.scoreBadge}>Score: {quizScore[item.number]?.reduce((a, o) => a + o.score, 0)}</div> 
+                          : ''
                         : ''
                     }
-                    <div
-                      className={`${styles.quizLevel} ${styles[item.name]}`}
-                      onClick={() => handleLevelSelection(item.number)}
-                    >
-                      <div className={styles.levelName}><Image src={`/levels/trophy-${item.number}.png`} width="64" height="64" alt={`Level-${item.number}`} /></div>
-                      <div className={styles.levelDescription}>The process of preparing freshly sliced yam reflects the deep connection between Nigerians and this cherished tuber.</div>
-                    </div>
+                    {checkScore(score, item.number, level, quizScore) 
+                    ? <div className={`${styles.quizLevel} ${styles.disabledLevel}`} >
+                        <div className={styles.levelName}><Image src={`/levels/trophy-${item.number}.png`} width="64" height="64" alt={`Level-${item.number}`} /></div>
+                        <div className={styles.levelDescription}>{writeDescription(item)}</div>
+                      </div>
+                    : <div
+                        className={`${styles.quizLevel} ${styles[item.name]}`}
+                        onClick={() => handleLevelSelection(item.number)}
+                      >
+                        <div className={styles.levelName}><Image src={`/levels/trophy-${item.number}.png`} width="64" height="64" alt={`Level-${item.number}`} /></div>
+                        <div className={styles.levelDescription}>{writeDescription(item)}</div>
+                      </div>
+                    }
                   </React.Fragment>
                 ))}
               </div>
@@ -170,9 +205,12 @@ function Quiz({ quizData, quizDataError, category, title }) {
             <>
               <div className={styles.timer}></div>
               <div className={styles.quizQuestionContainer}>
+                <div className={styles.infoPanel}>
                 <p className={styles.quizQuestionCounter} style={timer<6 ? { color: "#ff0000" } : {}}>
                  {timer} seconds
                 </p>
+                <p className={styles.quizScore}>Score: {score}</p>
+                </div>
                 <Progress
                   numCurrentQuestion={currentQuestion + 1}
                   numTotalQuestions={questions.length}
@@ -191,9 +229,6 @@ function Quiz({ quizData, quizDataError, category, title }) {
                     </li>
                   ))}
                 </ul>
-              </div>
-              <div className={styles.quizScoreContainer}>
-                <p className={styles.quizScore}>Score: {score}</p>
               </div>
             </>
           )}
