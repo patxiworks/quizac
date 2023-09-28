@@ -1,4 +1,4 @@
-import { db } from '../firebase';
+import { db } from '../../../firebase';
 import { doc, setDoc, collection, updateDoc, getDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 
 const setUserScoreWithLevel = async (userId, category, title, level, score) => {

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import styles from "./map.module.css";
+import styles from "./styles/map.module.css";
 
 const render = (status) => {
   if (status === Status.LOADING) return <h3>{status} ..</h3>;
@@ -8,9 +8,6 @@ const render = (status) => {
   return null;
 };
 
-var true_location = [6.593589, 3.363337];
-var us_city_set = [4699066, 5809844, 4164138, 4440906,4894465, 2562501];
-var world_city_set =[3143244, 3599699, 1857910, 4853608, 323786];
 var accumulated_distance = 0;
 var current_name = '';
 var distance_from_guess = [];
@@ -18,7 +15,7 @@ var markers = [];
 var guess_coordinates = [];
 var check_count = 0;
 
-const MyMapComponent = ({center, zoom}) => {
+const MyMapComponent = ({center, zoom, locaton}) => {
     const [mapInstance, setMapInstance] = useState(false)
     const [checkGuess, setCheckGuess] = useState(null)
     const ref = useRef();
@@ -44,11 +41,11 @@ const MyMapComponent = ({center, zoom}) => {
 
     function check(result_map){
         distance_from_guess = [];
-        var guess_error = (distance(guess_coordinates[0],guess_coordinates[1],true_location[0], true_location[1],'K'));
+        var guess_error = (distance(guess_coordinates[0],guess_coordinates[1],location[0], location[1],'K'));
         accumulated_distance += parseFloat(guess_error);
         distance_from_guess = guess_error;
 
-        var true_coords = {lat: true_location[0], lng: true_location[1]};
+        var true_coords = {lat: location[0], lng: location[1]};
         var guess_coords = {lat: guess_coordinates[0], lng: guess_coordinates[1]};
 
         var true_marker = new google.maps.Marker({
@@ -81,18 +78,20 @@ const MyMapComponent = ({center, zoom}) => {
             
         ];
         var lineSymbol = {
-            path: 'M 0,-1 0,1',
+            path: "M17.402,0H17.636c-3.117,0-5.643,3.467-5.643,6.584v34.804c0,3.116,2.526,5.644,5.643,5.644h11.759 c3.116,0,5.644-2.527,5.644-5.644V6.584C35.037,3.467,32.511,0,29.395,0z M34.05,14.188v11.665l-2.729,0.351v-4.806L34.05,14.188z M32.618,10.773c-1.016,3.9-2.219,8.51-2.219,8.51H16.631l-2.222-8.51C14.41,10.773,23.293,7.755,32.618,10.773z M15.741,21.713 v4.492l-2.73-0.349V14.502L15.741,21.713z M13.011,37.938V27.579l2.73,0.343v8.196L13.011,37.938z M14.568,40.882l2.218-3.336 h13.771l2.219,3.336H14.568z M31.321,35.805v-7.872l2.729-0.355v10.048L31.321,35.805z",
             strokeOpacity: 1,
-            scale: 2
+            scale: 0.3,
+            strokeWeight: 1,
+            anchor: (1,0)
         };
 
         var flightPath = new google.maps.Polyline({
             path: flightPlanCoordinates,
-            strokeOpacity: 0,
+            strokeOpacity: 1,
             icons: [{
                 icon: lineSymbol,
-                offset: '100%',
-                repeat: '15px'
+                offset: '40%',
+                //repeat: '105px'
             }],
         });
 
@@ -195,21 +194,20 @@ const MyMapComponent = ({center, zoom}) => {
 }
 
 
-const MapGuess = () => {
-    const center = { lat: 6.586854, lng: 3.3259993 };
+const MapGuess = ({ quizData: data, quizDataError: error, item }) => {
+    const location = [item.coordinates.latitude, item.coordinates.longitude]
+    //const center = { lat: data.maplocation[0], lng: data.maplocation[1] };
     const zoom = 10;
 
-    async function getData(url) {
-        return fetch(url)
-            .then(response => response.json())
-            .catch(error => console.log(error));
-    }
+    //Handle the quizDataError state
+    if (error) return <div>Sorry, could not load the quiz</div>;
+    //Handle the quizData loading state
+    if (!data) return <div>Loading...</div>;
 
     return (
         <>
-            <div id = "round"></div>
             <Wrapper apiKey="AIzaSyCfDcAwQpZwQFFftgsXsO5Kan9Xixsc7U0" render={render}>
-                <MyMapComponent center={center} zoom={zoom} />
+                <MyMapComponent center={{ lat: data.maplocation[0], lng: data.maplocation[1] }} zoom={zoom} location={location} />
             </Wrapper>
             <div id = 'center' className="container">
                 <div id="location"></div>

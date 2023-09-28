@@ -1,9 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
-import Quiz from "./main/quiz";
+import useSWR from 'swr';
+import Quiz from "./quiz";
 import MapGuess from "./map";
+import styles from "./styles/quiz.module.css";
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const QuizRender = ({category, title, quizStarted}) => {
     const [startQuiz, setStartQuiz] = useState(false);
+    const { data, error } = useSWR('/api/quizdata', fetcher);
     let quiz = '';
     
     useEffect(() => {
@@ -26,20 +31,20 @@ const QuizRender = ({category, title, quizStarted}) => {
 
     switch (checkType()) {
         case 'mcq':
-            quiz = <Quiz category={category} title={title.id} />;
+            quiz = <Quiz quizData={data} quizDataError={error} category={category} title={title.id} />;
             break;
         case 'map':
-            quiz = <MapGuess category={category} title={title.id} />;
+            quiz = <MapGuess quizData={data} quizDataError={error} category={category} item={title} />;
             break;
         default:
-            quiz = <Quiz category={category} title={title.id} />;
+            quiz = <Quiz quizData={data} quizDataError={error} category={category} title={title.id} />;
     }
 
     return (
         <>
         { startQuiz
         ? quiz
-        : <button onClick={quizStart}>Start the quiz</button>
+        : <div className={styles.quizStartButtonContainer}><button className={styles.quizStartButton} onClick={quizStart}>Start the quiz</button></div>
         }
         </>
     )

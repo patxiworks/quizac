@@ -156,15 +156,6 @@
   justify-content: center;
   align-items: center;
 }
-.startButton {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-}
 .notFoundMessage {
   width: 100%;
   margin: 20px auto;

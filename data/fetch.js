@@ -2,7 +2,7 @@ import { db } from '../firebase';
 import { collection, getDocs, doc, getDoc, query, where } from 'firebase/firestore';
 
 const catCollection = ['categories', 'titles', 'questions'];
-const userCollection = ['users', 'scores'];
+const userCollection = ['results', 'scores'];
 // Categories collection
 
 const getCategories = (setData) => {
@@ -47,8 +47,8 @@ const getScores = (userId, setData) => {
     getDocuments(`${userCollection[0]}/${userId}/${userCollection[1]}`, setData);
 }
 
-const getScore = (userId, scoreId, setData) => {
-    getDocument(`${userCollection[0]}/${userId}/${userCollection[1]}/${scoreId}`, setData);
+const getScore = (userId, category, title, setData) => {
+    getDocument(`${userCollection[0]}/${userId}/${userCollection[1]}/${category}##${title}`, setData);
 }
 
 // fetches all documents in a collection

@@ -1,4 +1,4 @@
-import Quiz from "@/components/quiz/main/quiz";
+import Quiz from "@/components/quiz/quiz";
 
 const QuizPage = () => {
     return (
