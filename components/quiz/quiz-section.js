@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { db, app } from '../../firebase';
 import { doc, collection, getDoc } from 'firebase/firestore';
 import { useRouter } from "next/router";
-import { CircularProgress, bottomNavigationActionClasses } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import Categories from "../dashboard/categories";

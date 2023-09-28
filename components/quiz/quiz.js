@@ -3,7 +3,7 @@ import Image from "next/image";
 import Progress from "./components/progress";
 import { app, db } from '../../firebase';
 import { getAuth } from 'firebase/auth';
-import { collection, getDocs,getDoc, doc } from 'firebase/firestore';
+import { CircularProgress } from '@mui/material';
 import { getTitles, getQuestions, getScore } from "@/data/fetch";
 import { setUserScoreWithLevel } from '@/data/set';
 import styles from "./styles/quiz.module.css";
@@ -199,7 +199,7 @@ function Quiz({ quizData, quizDataError, category, title }) {
           )}
         </div>
         :
-        errorMessage("Sorry, no questions available")
+        errorMessage(<CircularProgress />)
       }
     </>
   );
