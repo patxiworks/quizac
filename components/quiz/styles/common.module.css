@@ -8,6 +8,60 @@
     cursor: pointer;
 }
 
+.quizContainer {
+    color: var(--color-black);
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--padding-5xl) 2rem;
+    border-radius: 10px;
+}
+
+.quizTitle {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 20px;
+    color: var(--color-black);
+}
+  
+.quizLevelContainer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+.quizLevel {
+    border: 2px solid var(--color-primary);
+    border-radius: var(--br-xs);
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    gap: 0px;
+    background-color: #fff;
+    box-shadow: 1px 2px 5px #ccc;
+    transition: all 0.3s ease-in-out;
+}
+.quizLevel:hover {
+    background-color: var(--color-quiz-hover);
+    color: #1b1b1b;
+    box-shadow: none;
+}
+
+.levelName, 
+.levelDescription {
+    padding: 1rem
+}
+.levelName {
+    width: auto;
+    border-right: 3px solid var(--color-primary);
+    border-radius: 5px 3px 3px 5px;
+    background-color: var(--color-primary);
+}
+.levelDescription {
+    font-size: 0.8rem;
+}
+
 @media screen and ( max-width: 480px ) {
     .quizStartButtonContainer {
         width: 100%;

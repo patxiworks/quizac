@@ -1,7 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { CircularProgress } from '@mui/material';
 import styles from "./styles/map.module.css";
+import commonStyles from "./styles/common.module.css";
 
 const render = (status) => {
   if (status === Status.LOADING) return <div style={{textAlign:'center'}}><CircularProgress /></div>;
@@ -143,7 +145,7 @@ const MyMapComponent = ({center, zoom, location}) => {
         //document.getElementById("location").innerHTML = "Correct Location: " + current_name;
         //document.getElementById("distance").innerHTML = "Your Guess was " + distance_from_guess + " kilometres away";
         setDistanceValue(distance_from_guess);
-        setScore(1000 * Math.exp(-0.5 * (distanceValue/450)**2))
+        setScore((1000 * Math.exp(-0.5 * (distanceValue/10)**2)).toFixed(2))
         //document.getElementById("totaldistance").innerHTML = "Round Score: " + accumulated_distance.toFixed(1) + " kilometres";
     }
 
@@ -166,6 +168,8 @@ const MyMapComponent = ({center, zoom, location}) => {
         const map = new window.google.maps.Map(ref.current, {
             center,
             zoom,
+            streetViewControl: false,
+            mapTypeControl: false,
         });
 
         window.google.maps.event.addListener(map, 'click', function(event) {
@@ -180,33 +184,39 @@ const MyMapComponent = ({center, zoom, location}) => {
     }, []);
 
     function disableButton(id){
-        //document.getElementById(id).disabled = true;
+        document.getElementById(id).disabled = true;
     }
 
     return (
-        <>
+        <div className={styles.container}>
             <div id='center' className={styles.resultContainer}>
-                <div id="distance" className={styles.distanceBox}>Distance: {distanceValue} {distanceValue ? 'km' : ''}</div>
-                <div className={styles.scoreBox}>Score: {score}</div>
+                <div id="distance" className={styles.distanceBox}>Distance: <span>{distanceValue} {distanceValue ? 'km' : ''}</span></div>
+                <div className={styles.scoreBox}>Score: <span>{score}</span></div>
             </div>
-            <div id = 'info'>
-                <footer id="totaldistance"></footer>
-            </div>
-            <div className={styles.container}>
+            <div className={styles.mapContainer}>
                 <div ref={ref} className={styles.map} />
             </div>
             <div id='buttons' className={styles.guessButtonContainer}>
-                <button type="button" className={styles.guessButton} onClick={checking} id="check">Guess!</button>
+                <button type="button" className={styles.guessButton} onClick={checking} id="check">Find in map</button>
             </div>
-        </>
+        </div>
     );
 }
 
 
 const MapGuess = ({ quizData: data, quizDataError: error, item }) => {
+    const [start, setStart] = useState(false);
     const location = [item.coordinates.latitude, item.coordinates.longitude]
     //const center = { lat: data.maplocation[0], lng: data.maplocation[1] };
     const zoom = 10;
+
+    const writeDescription = (item) => {
+        let desc = ''
+        desc = `${item.name}: In this level you can score a maximum of ${item.points} points (${item.points} per question). You have ${item.duration} seconds to answer each question. `;
+        desc += item.deduction ? `Beware, if you fail a question, ${item.deduction > 1 ? item.deduction+' points' : item.deduction+' point'} will be deducted from your score. ` : '';
+        desc += `Good luck!`;
+        return desc;
+    }
 
     //Handle the quizDataError state
     if (error) return <div>Sorry, could not load the quiz</div>;
@@ -215,10 +225,29 @@ const MapGuess = ({ quizData: data, quizDataError: error, item }) => {
 
     return (
         <>
+        {!start ? (
+            <div className={commonStyles.quizContainer}>
+              <div className={commonStyles.quizTitle}>Choose a level</div>
+              <div className={commonStyles.quizLevelContainer}>
+                {data.maps.levels.map((item, i) => (
+                  <React.Fragment key={i}>
+                    {/*<div className={commonStyles.scoreBadge}>Score: 0</div>*/}
+                    <div
+                        className={`${commonStyles.quizLevel} ${styles[item.name]}`}
+                        onClick={() => setStart(true)}
+                    >
+                        <div className={commonStyles.levelName}><Image src={`/levels/trophy-${item.number}.png`} width="64" height="64" alt={`Level-${item.number}`} /></div>
+                        <div className={commonStyles.levelDescription}>{writeDescription(item)}</div>
+                      </div>
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+          ) : (
             <Wrapper apiKey="AIzaSyCfDcAwQpZwQFFftgsXsO5Kan9Xixsc7U0" render={render}>
-                <MyMapComponent center={{ lat: data.maplocation[0], lng: data.maplocation[1] }} zoom={zoom} location={location} />
+                <MyMapComponent center={{ lat: data.maps.location[0], lng: data.maps.location[1] }} zoom={zoom} location={location} />
             </Wrapper>
-            
+          )}
         </>
     )
 }
