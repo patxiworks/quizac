@@ -188,7 +188,7 @@ const MyMapComponent = ({center, zoom, location}) => {
     }
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} style={{width:'100%',margin:'10px 0'}}>
             <div id='center' className={styles.resultContainer}>
                 <div id="distance" className={styles.distanceBox}>Distance: <span>{distanceValue} {distanceValue ? 'km' : ''}</span></div>
                 <div className={styles.scoreBox}>Score: <span>{score}</span></div>
