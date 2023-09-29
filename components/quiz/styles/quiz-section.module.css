@@ -1,7 +1,7 @@
 .leftSection {
   display: flex;
   flex-direction: column;
-  flex: 2 0;
+  flex: 1 0;
   align-items: flex-start;
   align-self: stretch;
   height: 500px;
