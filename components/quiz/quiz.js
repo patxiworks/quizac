@@ -108,13 +108,6 @@ function Quiz({ quizData, quizDataError, category, title }) {
         currentScore = score + currentLevelData?.points || 1
         setScore(currentScore);
         console.log(score)
-      }else {
-        if (currentLevelData?.deduction) {
-          currentScore = score - currentLevelData.deduction;
-          currentScore = Math.max(currentScore, 0);
-          setScore(currentScore);
-          console.log(score);
-        }
       }
   
       const nextQuestion = currentQuestion + 1;
@@ -247,4 +240,4 @@ function Quiz({ quizData, quizDataError, category, title }) {
   );
 }
 
-export default Quiz;
+export default Quiz;
