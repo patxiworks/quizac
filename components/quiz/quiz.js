@@ -1,231 +1,250 @@
-import { useState, useEffect } from 'react';
-import { db, app } from '../../firebase';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth'
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import Progress from "./components/progress";
+import { app, db } from '../../firebase';
+import { getAuth } from 'firebase/auth';
+import { CircularProgress } from '@mui/material';
+import { getTitles, getQuestions, getScore } from "@/data/fetch";
+import { setUserScoreWithLevel } from '@/data/set';
 import styles from "./styles/quiz.module.css";
-const auth = getAuth(app);
 
-const Quiz = ({category, title, getScore, onTryAgain}) => {
-  const [questions, setQuestions] = useState([]);
+function Quiz({ quizData, quizDataError, category, title }) {
+  const [level, setLevel] = useState("");
+  const [allQuestions, setAllQuestions] = useState([]);
+  const [questions, setQuestions] = useState([])
+  const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
-  const [timer, setTimer] = useState(10);
-  const [isQuizEnded, setIsQuizEnded] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [quizSubmitted, setQuizSubmitted] = useState(false);
-  const [currentLevel, setCurrentLevel] = useState(1);
-  const [showResetButton, setShowResetButton] = useState(false);
-  const [levels, setLevels] = useState([]); 
-  const [moraleBooster, setMoraleBooster] = useState('');
-  const [moraleBoosters, setMoraleBoosters] = useState({
-    complete: [],
-    half: [],
-    wrong: [],
-  });
+  const [currentLevel, setCurrentLevel] = useState(0);
+  const [currentLevelData, setCurrentLevelData] = useState({});
+  const [timer, setTimer] = useState(0);
+  const [isQuizStarted, setIsQuizStarted] = useState(false);
+  const [levels, setLevels] = useState([]);
+  const [quizScore, setQuizScore] = useState([]);
+  const [sumScore, setSumScore] = useState(0);
+
+  const auth = getAuth(app);
+
+  useEffect(() => {
+    if (title) {
+      getScore(auth.currentUser.email, category, title, setQuizScore);
+    }
+    //setSumScore(quizScore[1]?.reduce((a, o) => a + o.score, 0));
+  }, [title, level])
+
+  useEffect(() => {
+    if (title) {
+      getQuestions(category, title, setAllQuestions);
+    }
+  }, [title]);
+
+  useEffect(() => {
+    if (allQuestions.length) {
+      const getMultipleRandom = (arr, num) => {
+        const shuffled = [...arr].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, num);
+      }
+      setQuestions(getMultipleRandom(allQuestions, 10));
+    }
+  }, [allQuestions])
 
   useEffect(() => {
     async function fetchLevels() {
-      const levelsCollection = collection(db, 'levels');
-      const querySnapshot = await getDocs(levelsCollection);
-      const levelData = querySnapshot.docs.map((doc) => doc.data());
-      setLevels(levelData);
+      setLevels(quizData.levels);
     }
-    async function fetchMoraleBoosters() {
-      const moraleBoosterCollection = collection(db, 'morale_boosters');
-      try {
-        const querySnapshot = await getDocs(moraleBoosterCollection);
-        const fetchedBoosters = querySnapshot.docs[0].data();
-        setMoraleBoosters(fetchedBoosters);
-      } catch (error) {
-      }
-    }
-    fetchLevels();
-    fetchMoraleBoosters();
-  }, []);
-
+    if (quizData) fetchLevels();
+  }, [quizData]);
+  
   useEffect(() => {
     if (currentLevel <= levels.length) {
-      setTimer(levels[currentLevel - 1]?.timeLimit || 10);
+      const currentLevelData = levels[currentLevel - 1];
+      setTimer(currentLevelData?.duration || 10); 
     }
   }, [currentLevel, levels]);
-
-  useEffect(() => {
-    async function fetchDataForLevel(levelNumber) {
-      const questionsCollection = collection(
-        db,
-        `quizzQuestions/${category}/titles/${title}/questions`
-      );
-      const querySnapshot = await getDocs(questionsCollection);
-
-      const fetchedQuestions = querySnapshot.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          question: data.question,
-          options: data.options,
-          answer: data.answer,
-        };
-      });
-      setQuestions(fetchedQuestions);
-    } 
   
-    fetchDataForLevel(currentLevel);
-  }, [category, title, currentLevel]);
+  /*useEffect(() => {
+    if (currentLevel <= level.length) {
+      setTimer(levels[currentLevel - 1]?.duration || 10);
+    }
+  }, [currentLevel, level]);*/
 
   useEffect(() => {
     const countdown = setInterval(() => {
-      if (timer > 0 && !isQuizEnded) {
+      if (timer > 0 && isQuizStarted) {
         setTimer(timer - 1);
       } else {
         clearInterval(countdown);
-        handleNextQuestion();
+        if (isQuizStarted) {
+          handleOptionClick();
+        }
       }
     }, 1000);
 
     return () => clearInterval(countdown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timer, isQuizEnded]);
+  }, [timer, isQuizStarted]);
 
-  const handleOptionChange = (event, questionIndex) => {
-    if (!isQuizEnded) {
-      const newSelectedOptions = [...selectedOptions];
-      newSelectedOptions[questionIndex] = event.target.value;
-      setSelectedOptions(newSelectedOptions);
-    }
-  };
-
-  const displayRandomMoraleBooster = (category) => {
-    const randomIndex = Math.floor(Math.random() * moraleBoosters[category].length);
-    return moraleBoosters[category][randomIndex];
-  };
+  const handleLevelSelection = async (selectedLevel) => {
+    setLevel(selectedLevel);
+    setCurrentLevel(selectedLevel); 
   
-  const handleNextQuestion = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setTimer(levels[currentLevel - 1]?.timeLimit || 10); // Set the timer based on the level's time limit
+    const selectedLevelData = levels.find((l) => l.number === selectedLevel);
+    setCurrentLevelData(selectedLevelData);
+  
+    if (selectedLevelData) {
+      setTimer(selectedLevelData.duration || 10); 
     } else {
-      endQuiz();
+      setTimer(10);
     }
-  };
-  
-  const moveToNextLevel = () => {
-    const nextLevel = currentLevel + 1;
-    if (nextLevel <= levels.length) {
-      if (score >= levels[nextLevel - 1].minScoreToUnlock) {
-        setCurrentLevel(nextLevel);
-        setSelectedOptions([]);
-        setIsQuizEnded(false);
-        setTimer(10); 
-        setScore(0);
-        setCurrentQuestionIndex(0);
-        setQuizSubmitted(false);
-        setShowResetButton(false);
-      } else {
-        alert("You need a higher score to unlock the next level.");
-        setShowResetButton(true);
-      }
-    } else {
-      alert("Congratulations! You've completed all levels.");
-    }
-  };
-  
-  const resetLevel = () => {
-    setSelectedOptions([]);
-    setIsQuizEnded(false);
-    setCurrentQuestionIndex(0);
-    const timeLimitForCurrentLevel = levels[currentLevel - 1]?.timeLimit || 10;
-    setTimer(timeLimitForCurrentLevel);
+    setIsQuizStarted(true);
+    setCurrentQuestion(0); 
     setScore(0);
-    setQuizSubmitted(false);
-    setShowResetButton(false);
-    onTryAgain(); 
   };
-
-  const endQuiz = async () => {
-    setIsQuizEnded(true);
-    if (!quizSubmitted) {
-      let score = 0;
-      for (let i = 0; i < questions.length; i++) {
-        if (selectedOptions[i] === questions[i].answer) {
-          score++;
+  
+  const handleOptionClick = async (selectedOption) => {
+    if (questions.length > 0 && currentQuestion >= 0 && currentQuestion < questions.length) {
+      const isCorrect = selectedOption === questions[currentQuestion].answer;
+      let currentScore;
+      
+      if (isCorrect) {
+        currentScore = score + currentLevelData?.points || 1
+        setScore(currentScore);
+        console.log(score)
+      }else {
+        if (currentLevelData?.deduction) {
+          currentScore = score - currentLevelData.deduction;
+          currentScore = Math.max(currentScore, 0);
+          setScore(currentScore);
+          console.log(score);
         }
       }
-      const levelScoresCollection = collection(
-        db,
-        "quizzresult",auth.currentUser.email,`level${currentLevel}`,      );
-
-      await addDoc(levelScoresCollection, { score: score });
-
-      setScore(score);
-      getScore(score);
-      setQuizSubmitted(true);
-      
-      let moraleBoosterText = '';
-      if (score === questions.length) {
-        moraleBoosterText = displayRandomMoraleBooster('complete');
-      } else if (score >= questions.length / 2) {
-        moraleBoosterText = displayRandomMoraleBooster('half');
+  
+      const nextQuestion = currentQuestion + 1;
+      if (nextQuestion < questions.length) {
+        setCurrentQuestion(nextQuestion);
+        setTimer(currentLevelData?.duration || 10);
       } else {
-        moraleBoosterText = displayRandomMoraleBooster('wrong');
-      }
-      setMoraleBooster(moraleBoosterText);
-      if (score < levels[currentLevel - 1].minScoreToUnlock) {
-        setShowResetButton(true);
+        setIsQuizStarted(false);
+        if (auth.currentUser) {
+          await setUserScoreWithLevel(auth.currentUser.email, category, title, level, currentScore);
+        } else {
+          console.error('User is not authenticated.');
+        }
       }
     }
   };
 
+  const keyExists = (key, obj) => {
+    if (obj) {
+      return (key in obj);
+    } else {
+      return false;
+    }
+  }
+
+  const checkScore = (a, b, c, d) => {
+    if (a && b==c) {
+      return true;
+    } else if (keyExists(b, d)) {
+      if (d[b]?.length) {
+        return true
+      }
+    }
+    return false;
+  }
+
+  const writeDescription = (item) => {
+    let desc = ''
+    desc = `${item.name}: In this level you can score a maximum of ${item.points*questions.length} points (${item.points} per question). You have ${item.duration} seconds to answer each question. `;
+    desc += item.deduction ? `Beware, if you fail a question, ${item.deduction > 1 ? item.deduction+' points' : item.deduction+' point'} will be deducted from your score. ` : '';
+    desc += `Good luck!`;
+    return desc;
+  }
+
+  const errorMessage = (message) => {
+    return (
+      <div className={styles.quizContainer}>
+          <div className={styles.quizTitle}>{message}</div>
+      </div>
+    )
+  }
+
+  //Handle the quizDataError state
+  if (quizDataError) return errorMessage('Sorry, could not load the quiz');
+  //Handle the quizData loading state
+  if (!quizData) return <div>Loading...</div>;
+
   return (
-    <div className={styles.quizContainer}>
-      <div className={styles.scoreBox}>
-        <div className={styles.scorePanel}>
-          <div>Level: {currentLevel}</div>
-          <div>Score: {score}</div>
-        </div>
-      </div>
-      {isQuizEnded ? (
-        <div className={styles.quizResults}>
-          <p>Quiz Ended</p>
-          
-          {moraleBooster !== '' && (
-            <div className={styles.moraleBooster}>
-              <p>{moraleBooster}</p>
-            </div>
+    <>
+      {questions && questions.length ?
+        <div className={styles.quizContainer}>
+          {levels && !isQuizStarted ? (
+            <>
+              <div className={styles.quizTitle}>Choose a level</div>
+              <div className={styles.quizLevelContainer}>
+                {levels.map((item, i) => (
+                  <React.Fragment key={i}>
+                    {
+                      score && item.number==level
+                      ? <div className={styles.scoreBadge}>Score: {score}</div>
+                      : keyExists(item.number, quizScore) 
+                        ? quizScore[item.number]?.length 
+                          ? <div className={styles.scoreBadge}>Score: {quizScore[item.number]?.reduce((a, o) => a + o.score, 0)}</div> 
+                          : ''
+                        : ''
+                    }
+                    {checkScore(score, item.number, level, quizScore) 
+                    ? <div className={`${styles.quizLevel} ${styles.disabledLevel}`} >
+                        <div className={styles.levelName}><Image src={`/levels/trophy-${item.number}.png`} width="64" height="64" alt={`Level-${item.number}`} /></div>
+                        <div className={styles.levelDescription}>{writeDescription(item)}</div>
+                      </div>
+                    : <div
+                        className={`${styles.quizLevel} ${styles[item.name]}`}
+                        onClick={() => handleLevelSelection(item.number)}
+                      >
+                        <div className={styles.levelName}><Image src={`/levels/trophy-${item.number}.png`} width="64" height="64" alt={`Level-${item.number}`} /></div>
+                        <div className={styles.levelDescription}>{writeDescription(item)}</div>
+                      </div>
+                    }
+                  </React.Fragment>
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={styles.timer}></div>
+              <div className={styles.quizQuestionContainer}>
+                <div className={styles.infoPanel}>
+                <p className={styles.quizQuestionCounter} style={timer<6 ? { color: "#ff0000" } : {}}>
+                 {timer} seconds
+                </p>
+                <p className={styles.quizScore}>Score: {score}</p>
+                </div>
+                <Progress
+                  numCurrentQuestion={currentQuestion + 1}
+                  numTotalQuestions={questions.length}
+                />
+                <h2 className={styles.quizQuestion}>
+                  {questions[currentQuestion].question}
+                </h2>
+                <ul className={styles.quizOptions}>
+                  {questions[currentQuestion].options.map((option) => (
+                    <li
+                      key={option}
+                      className={styles.quizOption}
+                      onClick={() => handleOptionClick(option)}
+                    >
+                      {option}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </>
           )}
-          <button className={styles.nextButton} onClick={moveToNextLevel}>Next Level</button>
-          {showResetButton && <button className={styles.nextButton} onClick={resetLevel}>Try again</button>}
         </div>
-      ) : (
-        <div>
-        <div className={styles.timer}><p style={{color: "#ff0000"}}>{timer} seconds</p></div>
-        {questions.length > 0 && currentQuestionIndex < questions.length &&(
-          <div className={styles.questionContainer}>
-            <h2 className={styles.question}>{questions[currentQuestionIndex].question}</h2>
-            <form>
-              {questions[currentQuestionIndex].options.map((option, optionIndex) => (
-                <label key={optionIndex} className={styles.optionLabel}>
-                  <input
-                    type="radio"
-                    value={option}
-                    checked={selectedOptions[currentQuestionIndex] === option}
-                    onChange={(event) => handleOptionChange(event, currentQuestionIndex)}
-                  />
-                  {option}
-                </label>
-              ))}
-            </form>
-            <button
-              className={styles.nextButton}
-              onClick={handleNextQuestion}
-            >
-              {currentQuestionIndex < questions.length - 1 ? "Next Question" : "Submit"}
-            </button>
-          </div>
-        )}
-      </div>
-    )}
-  </div>
-);
-};
+        :
+        errorMessage(<CircularProgress />)
+      }
+    </>
+  );
+}
 
 export default Quiz;
