@@ -1,21 +1,26 @@
 import { db } from '../firebase';
-import { doc, setDoc, collection, updateDoc, getDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { doc, collection, updateDoc, getDoc, setDoc } from 'firebase/firestore';
 
 const setUserScoreWithLevel = async (userId, category, title, level, score) => {
   try {
-    const userDocRef = doc(db, 'results', userId);
+    const categoryDocRef = doc(db, 'categories', category);
+    const usersCollectionRef = collection(categoryDocRef, 'users');
+    const userDocRef = doc(usersCollectionRef, userId);
     const scoresCollectionRef = collection(userDocRef, 'scores');
-    const userScoresDocRef = doc(scoresCollectionRef, `${category}##${title}`);
+    const quizTitleDocRef = doc(scoresCollectionRef, title);
+    const quizTitleDocSnapshot = await getDoc(quizTitleDocRef);
 
-    const userScoresSnapshot = await getDoc(userScoresDocRef);
-
-    if (userScoresSnapshot.exists()) {
-      await updateDoc(userScoresDocRef, {
-        [`${level}`]: arrayUnion({ score, timestamp: Date.now() }),
+    if (quizTitleDocSnapshot.exists()) {
+      await updateDoc(quizTitleDocRef, {
+        [`${level}.score`]: score,
+        [`${level}.timestamp`]: Date.now(),
       });
     } else {
-      await setDoc(userScoresDocRef, {
-          [level]: [{ score, timestamp: Date.now() }],
+      await setDoc(quizTitleDocRef, {
+          [level]: {
+            score,
+            timestamp: Date.now(),
+        },
       });
     }
   } catch (error) {
@@ -24,3 +29,4 @@ const setUserScoreWithLevel = async (userId, category, title, level, score) => {
 };
 
 export { setUserScoreWithLevel };
+
