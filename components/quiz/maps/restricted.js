@@ -221,6 +221,7 @@ const RestrictedMarker = ({settings, title}) => {
             const pos = [marker.getPosition().lat(),marker.getPosition().lng()]
             guess_coordinates.push(pos);
             curr_coordinates.push(...pos);
+            console.log(markers, markers.length)
             if (markers.length > 1) check(map);
             setResetTimer(prev => !prev);
             // set map restriction for the new coordinates
