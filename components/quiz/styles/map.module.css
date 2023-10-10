@@ -130,11 +130,11 @@ font-size: 15px;
     .container {
         width: 111%;
         margin-left: -20px;
-        height: 350px;
-        border-radius: 0;
     }
+    .container,
     .mapContainer {
-        height: 350px;
+        height: 450px;
+        border-radius: 0;
     }
     .map {
         border-radius: 0;
