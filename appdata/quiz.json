@@ -73,6 +73,7 @@
         "duration": 20,
         "maxbound": 2.5,
         "maxdistance": 20,
+        "maxattempts": 40,
         "zoom": 16,
         "scores": [0, 100],
         "distances": [40, 20]

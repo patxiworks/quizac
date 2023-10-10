@@ -8,6 +8,7 @@ import commonStyles from "../styles/common.module.css";
 var accumulated_distance = 0;
 var current_name = '';
 var distance_from_guess = 0;
+var startMarker = [];
 var markers = [];
 var guess_coordinates = [];
 var curr_coordinates = [];
@@ -169,7 +170,7 @@ const RestrictedMarker = ({settings, title}) => {
         }, 80);
         mapInstance.panTo({lat: coordinates[0], lng: coordinates[1]})
         markers.forEach((marker, i)=>{
-            if (i>0) marker.setVisible(false); // maps API hide call
+            marker.setVisible(false); // maps API hide call
         });
     }
 
@@ -184,16 +185,16 @@ const RestrictedMarker = ({settings, title}) => {
 
     function getScore() {
         // get optimal distance from starting point to final destination
-        const optDistance = calculateDistance(markers[0]?.getPosition().lat(), markers[0]?.getPosition().lng(), coordinates[0], coordinates[1], "K");
+        const optDistance = calculateDistance(startMarker?.getPosition().lat(), startMarker?.getPosition().lng(), coordinates[0], coordinates[1], "K");
         // split the distance into equal sections based on the number of steps taken.
-        const sectionDistance = markers.length > 1 ? optDistance/(markers.length-1) : optDistance/markers.length;
+        const sectionDistance = markers.length ? optDistance/(markers.length) : 0;
         // calculate the back bearing i.e. the bearing in the opposite direction
         const backBearing = bearing>180 ? parseFloat(bearing-180) : parseFloat(bearing+180)
-        
+        //console.log(bearing, backBearing)
         const sections = markers.map((marker, i)=> {
             const markerLat = marker?.getPosition().lat();
             const markerLng = marker?.getPosition().lng();
-            const coords = calculateDestinationCoordinates(markers[0]?.getPosition().lat(),markers[0]?.getPosition().lng(),sectionDistance*i,backBearing);
+            const coords = calculateDestinationCoordinates(startMarker?.getPosition().lat(),startMarker?.getPosition().lng(),sectionDistance*(i+1),backBearing);
             //console.log(markerLat, markerLng, coords.lat, coords.lng)
             //addDistanceLine(mapInstance, {lat:markerLat,lng:markerLng}, coords)
             return calculateDistance(markerLat, markerLng, coords.lat, coords.lng, "K");
@@ -201,8 +202,10 @@ const RestrictedMarker = ({settings, title}) => {
         //console.log(sections, backBearing)
         sections.shift(); // remove the first element (which should always be 0)
         // calculate the average deviation and add to the optimal distance
-        const avgDeviation = (sections.reduce((a, b) => a + b, 0)/sections.length)
-        const dist = avgDeviation+optDistance;
+        const avgDeviation = (sections.reduce((a, b) => a + b, 0)/sections.length);
+        const pendingDistance = sections[sections.length-1]
+        const dist = avgDeviation+optDistance+pendingDistance;
+        //console.log(sections, dist, avgDeviation, optDistance, pendingDistance)
         return sections.length ? calculateScore(settings, dist) : 0;
     }
 
@@ -213,13 +216,25 @@ const RestrictedMarker = ({settings, title}) => {
                 position: location, 
                 map: map,
             });
-            if (start) markers.push(marker);
+            if (start) {
+                markers.push(marker);
+            } else {
+                startMarker = marker;
+            }
             const pos = [marker.getPosition().lat(),marker.getPosition().lng()]
             guess_coordinates.push(pos);
             curr_coordinates.push(...pos);
-            console.log(start, markers, markers.length)
-            if (markers.length > 1) check(map);
-            setResetTimer(prev => !prev);
+            //console.log(start, startMarker, markers, markers.length)
+            if (start) check(map);
+            // check if maximum attempts has been reached
+            if (markers.length === settings.maxattempts) {
+                // and trigger the end of the game
+                setStopTimer(prev=>!prev);
+            } else {
+                // If not, reset the timer
+                setResetTimer(prev => !prev);
+            }
+            
             // set map restriction for the new coordinates
             map.setRestriction({ latLngBounds: getBounds(pos, settings.maxbound)});
             map.panTo({lat: pos[0], lng: pos[1]});
@@ -247,7 +262,7 @@ const RestrictedMarker = ({settings, title}) => {
             // place a marker on the starting location
             placeMarker(mapCenter, map, startmap);
             setLastMile(settings.maxdistance)
-            startmap = true;
+            if (markers.length) startmap = true;
         }
 
         // start the timer only after all map tiles and controls have been loaded
