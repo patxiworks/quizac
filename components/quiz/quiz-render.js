@@ -34,7 +34,7 @@ const QuizRender = ({category, title, quizStarted}) => {
             quiz = <Quiz quizData={data} quizDataError={error} category={category} title={title.id} />;
             break;
         case 'map':
-            quiz = <MapGuess quizData={data} quizDataError={error} category={category} item={title} />;
+            quiz = <MapGuess quizData={data} quizDataError={error} category={category} title={title} />;
             break;
         default:
             quiz = <Quiz quizData={data} quizDataError={error} category={category} title={title.id} />;

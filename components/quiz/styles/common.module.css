@@ -62,6 +62,11 @@
     font-size: 0.8rem;
 }
 
+.quizStartButtonContainer {
+    width: 100%;
+    text-align: center;
+}
+
 @media screen and ( max-width: 480px ) {
     .quizStartButtonContainer {
         width: 100%;

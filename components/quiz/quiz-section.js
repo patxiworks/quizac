@@ -41,6 +41,7 @@ const QuizSection = ({ category, title }) => {
   const [groups, setGroups] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [visited, setVisited] = useState([]);
+  const [visited2, setVisited2] = useState([]);
   const [nextTitle, setNextTitle] = useState('');
   const [prevTitle, setPrevTitle] = useState('');
   const mainContainer = "quiz";
@@ -68,12 +69,19 @@ const QuizSection = ({ category, title }) => {
     const sTitles = titles.filter(item => item.group == mTitle[0]?.group);
     setObjTitle(mTitle[0]);
     // set nextTitle
-    setVisited(prev => [...prev, title]);
-    let rem = sTitles?.filter(i => !visited.includes(i.id) && i.id !== title);
-    if (!rem.length) { setVisited([]); rem = sTitles; }
+    //setVisited(prev => [...prev, title]);
+    const gTitles = sTitles.map(i => i.id);
+    const current = gTitles.indexOf(title)
+    const next = current+1 > gTitles.length-1 ? 0 : current+1;
+    const prev = current-1 < 0 ? gTitles.length-1 : current-1;
+    //let rem = sTitles?.filter(i => !visited.includes(i.id) && i.id !== title);
+    //let rem = sTitles?.filter(i => i.id !== title);
+    //if (!rem.length) { setVisited([]); rem = sTitles; }
     // get random item from titles array
-    const randTitle = rem[(Math.floor(Math.random() * rem.length))];
-    setNextTitle(randTitle?.id);
+    //const randTitle = rem[(Math.floor(Math.random() * rem.length))];
+    //setNextTitle(randTitle?.id);
+    setNextTitle(sTitles[next]?.id);
+    setPrevTitle(sTitles[prev]?.id)
 
     // set quizTitle
     const arrQuizTitle = titles?.filter(t => t.id === title);
@@ -181,6 +189,11 @@ const QuizSection = ({ category, title }) => {
     setStartQuiz(true); // Start the quiz again
   };
 
+  const replaceNewLine = (string) => {
+    //return string.replace(/\\n/g, "{\n}");
+    return string
+  }
+
   return (
     <>
       { quizCategory && quizTitle ?
@@ -203,10 +216,11 @@ const QuizSection = ({ category, title }) => {
             { quizCategory !== 'error' && quizTitle !== 'error' ?
               <>
               <div className={styles.contentTitle}>
+                {prevTitle ? <Link href={`/quiz/${category}/${prevTitle}`}><ArrowCircleLeftIcon fontSize="small" color="primary" className={styles.navIcon} /></Link> : ''}
                 <div className={styles.titleColumn}>
                   <div>{quizTitle.title}</div>
                 </div>
-                <Link href={`/quiz/${category}/${nextTitle}`}><ArrowCircleRightIcon fontSize="small" color="primary" className={styles.navIcon} /></Link>
+                {nextTitle ? <Link href={`/quiz/${category}/${nextTitle}`}><ArrowCircleRightIcon fontSize="small" color="primary" className={styles.navIcon} /></Link> : ''}
               </div>
               <div className={styles.contentBox}>
                 <div className={styles.contentMessage}>

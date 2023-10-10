@@ -99,7 +99,7 @@ const HistorySummary = () => {
       </div>
       {isHistoryPopupOpen && (
         <PortalPopup
-          overlayColor="rgba(0, 0, 0, 0.9)"
+          overlayColor="rgba(0, 0, 0, 0.7)"
           placement="Centered"
           onOutsideClick={false}
         >

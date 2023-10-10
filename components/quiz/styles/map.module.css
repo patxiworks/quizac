@@ -5,15 +5,17 @@
 .mapContainer {
     display: flex;
     justify-content: space-between;
-    margin: 10px 0 20px;
+    margin: 0px;
     width: 100%;
     height: 450px;
-    border: 2px solid #333;
-    border-radius: 20px;
+    border: 1px solid #333;
+    border-top: none;
+    border-radius: 0 0 var(--br-5xl) var(--br-5xl);
 }
 .map {
-    border: 2px solid;
-    border-radius: 20px;
+    border: 1px solid;
+    border-top: none;
+    border-radius: 0 0 var(--br-5xl) var(--br-5xl);
     height: 100%;
     width: 100%;
 }
@@ -27,12 +29,22 @@
     border-left-width: 0px;
 }
 
-.resultContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    font-size: 1rem;
+.single .resultContainer {
+    justify-content: flex-end;
+}
+
+.timer {
+    margin-bottom: -25px;
+}
+.timer div {
+    position: relative;
+    z-index: 1;
+    width: 50px;
+    margin: 0 10px 0 4px;
+    padding: 0 5px;
+    font-weight: bold;
+    background: #fff;
+    display: inline;
 }
 
 .distanceBox span,
@@ -40,18 +52,26 @@
     font-weight: bold;
 }
 
+.scoreBox {
+    background-color: #cf2323 !important;
+    font-weight: bold;
+}
+
 .guessButtonContainer {
     width: 100%;
     text-align: center;
+    margin-top: -60px;
 }
 
 .guessButton {
+    position: relative;
     background-color: var(--color-primary-bright);
     color: white;
     border: none;
     padding: 10px 20px;
     font-size: 16px;
     border-radius: 5px;
+    /*box-shadow: 1px 1px 5px 1px #ccc;*/
     cursor: pointer;
 }
 
@@ -107,11 +127,14 @@ font-size: 15px;
 }
 
 @media screen and (max-width: 480px) {
-    .mapContainer {
+    .container {
         width: 111%;
         margin-left: -20px;
         height: 350px;
         border-radius: 0;
+    }
+    .mapContainer {
+        height: 350px;
     }
     .map {
         border-radius: 0;

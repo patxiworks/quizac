@@ -42,31 +42,40 @@
     }
   ],
   "maps": {
-    "location":[6.6092593,3.3682634],
     "levels": [
       {
-        "number": 1,
-        "name": "Apprentice",
-        "duration": 15,
+        "id": 1,
+        "type": "single",
+        "code": "Apprentice",
+        "location":[6.6092593,3.3682634],
+        "duration": 20,
         "points": 1,
-        "deduction": 0,
-        "pass": 5
+        "zoom": 10,
+        "scores": [0, 100],
+        "distances": [20.0, 0.1]
       },
       {
-        "number": 2,
-        "name": "Scholar",
+        "id": 2,
+        "type": "multiple",
+        "code": "Scholar",
+        "location":[6.6092593,3.3682634],
         "duration": 10,
-        "points": 2,
-        "deduction": 1,
-        "pass": 11
+        "points": 1,
+        "zoom": 10,
+        "scores": [0, 100],
+        "distances": [40, 0.1]
       },
       {
-        "number": 3,
-        "name": "Mastermind",
-        "duration": 7,
-        "points": 3,
-        "deduction": 2,
-        "pass": 15
+        "id": 3,
+        "type": "restricted",
+        "code": "Master",
+        "location":[6.6092593,3.3682634],
+        "duration": 20,
+        "maxbound": 2.5,
+        "maxdistance": 20,
+        "zoom": 16,
+        "scores": [0, 100],
+        "distances": [40, 20]
       }
     ]
   }

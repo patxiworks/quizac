@@ -32,7 +32,7 @@ const CategoryItem = ({ id, image, title, description, onClose }) => {
       </div>
       {isQuizzesPopupOpen && (
         <PortalPopup
-          overlayColor="rgba(0, 0, 0, 0)"
+          overlayColor="rgba(0, 0, 0, 0.7)"
           placement="Top left"
           onOutsideClick={false}
         >
