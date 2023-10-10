@@ -12,7 +12,7 @@ var markers = [];
 var guess_coordinates = [];
 var curr_coordinates = [];
 var check_count = 0;
-var start = false;
+var startmap = false;
 var bearing = (Math.random()*(360-0)+0);
 
 const RestrictedMarker = ({settings, title}) => {
@@ -249,9 +249,9 @@ const RestrictedMarker = ({settings, title}) => {
             // set restrictions in the four cardinal points
             map.setRestriction({ latLngBounds: getBounds([mapCenter.lat, mapCenter.lng], settings.maxbound)});
             // place a marker on the starting location
-            placeMarker(mapCenter, map, start);
+            placeMarker(mapCenter, map, startmap);
             setLastMile(settings.maxdistance)
-            start = true;
+            startmap = true;
         }
 
         // start the timer only after all map tiles and controls have been loaded
