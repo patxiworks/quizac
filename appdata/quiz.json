@@ -70,7 +70,7 @@
         "type": "restricted",
         "code": "Master",
         "location":[6.6092593,3.3682634],
-        "duration": 5,
+        "duration": 20,
         "maxbound": 2.5,
         "maxdistance": 20,
         "zoom": 16,
