@@ -184,16 +184,16 @@ const RestrictedMarker = ({settings, title}) => {
 
     function getScore() {
         // get optimal distance from starting point to final destination
-        const optDistance = calculateDistance(markers[0].getPosition().lat(), markers[0].getPosition().lng(), coordinates[0], coordinates[1], "K");
+        const optDistance = calculateDistance(markers[0]?.getPosition().lat(), markers[0]?.getPosition().lng(), coordinates[0], coordinates[1], "K");
         // split the distance into equal sections based on the number of steps taken.
         const sectionDistance = markers.length > 1 ? optDistance/(markers.length-1) : optDistance/markers.length;
         // calculate the back bearing i.e. the bearing in the opposite direction
         const backBearing = bearing>180 ? parseFloat(bearing-180) : parseFloat(bearing+180)
         
         const sections = markers.map((marker, i)=> {
-            const markerLat = marker.getPosition().lat();
-            const markerLng = marker.getPosition().lng();
-            const coords = calculateDestinationCoordinates(markers[0].getPosition().lat(),markers[0].getPosition().lng(),sectionDistance*i,backBearing);
+            const markerLat = marker?.getPosition().lat();
+            const markerLng = marker?.getPosition().lng();
+            const coords = calculateDestinationCoordinates(markers[0]?.getPosition().lat(),markers[0]?.getPosition().lng(),sectionDistance*i,backBearing);
             //console.log(markerLat, markerLng, coords.lat, coords.lng)
             //addDistanceLine(mapInstance, {lat:markerLat,lng:markerLng}, coords)
             return calculateDistance(markerLat, markerLng, coords.lat, coords.lng, "K");
@@ -203,8 +203,7 @@ const RestrictedMarker = ({settings, title}) => {
         // calculate the average deviation and add to the optimal distance
         const avgDeviation = (sections.reduce((a, b) => a + b, 0)/sections.length)
         const dist = avgDeviation+optDistance;
-        //console.log(optDistance, avgDeviation);
-        return calculateScore(settings, dist);
+        return sections.length ? calculateScore(settings, dist) : 0;
     }
 
     const bearingVal = () => {
