@@ -206,10 +206,6 @@ const RestrictedMarker = ({settings, title}) => {
         return sections.length ? calculateScore(settings, dist) : 0;
     }
 
-    const bearingVal = () => {
-        return bearing<0 ? 360+bearing : bearing;
-    }
-
     useEffect(() => {
         function placeMarker(location, map, start=false) {
             curr_coordinates = [];
@@ -221,7 +217,7 @@ const RestrictedMarker = ({settings, title}) => {
             const pos = [marker.getPosition().lat(),marker.getPosition().lng()]
             guess_coordinates.push(pos);
             curr_coordinates.push(...pos);
-            console.log(markers, markers.length)
+            console.log(start, markers, markers.length)
             if (markers.length > 1) check(map);
             setResetTimer(prev => !prev);
             // set map restriction for the new coordinates
