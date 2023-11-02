@@ -1,0 +1,26 @@
+.drawerButton {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    width: 150px;
+    align-items: flex-end;
+    border: 1px solid !important;
+    background: var(--color-primary-bright) !important;
+    color: #fff !important;
+    text-transform: none !important;
+}
+.drawerButton:hover {
+    background: var(--color-primary-deep) !important;
+}
+.closeButton {
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    color: #000;
+    z-index: 10000;
+    cursor: pointer;
+}
+.hidden {
+    display: none;
+}

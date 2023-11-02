@@ -1,25 +1,26 @@
 import { useState, useEffect, useCallback } from "react";
 import QuizItem from "./quiz-item";
 import PopupBox from "./popup-box";
-import { LongText } from "../utils";
+import { LongText, filterText } from "../utils";
 import styles from "./styles/categories-content.module.css";
 
 import { getTitles } from "@/data/fetch";
 
-const CategoriesContent = ({ category, groupTitles, onClose, popupTitle }) => {
-  const [titles, setTitles] = useState([]);
+const CategoriesContent = ({ category, titles, popupTitle }) => {
+  const [filtered, setFiltered] = useState([]);
+
+  const filterList = (item) => {
+    filterText(titles, item, 'title', setFiltered);
+  }
 
   useEffect(() => {
-    if (groupTitles && groupTitles.length) {
-      setTitles(groupTitles);
-    } else {
-      if (category) getTitles(category, setTitles);
-    }
-  }, [category])
+    console.log(titles)
+    setFiltered(titles)
+  },[])
 
   return (
-    <PopupBox onClose={onClose} popupTitle={popupTitle}>
-      {titles && titles.map((quiz, i) => {
+    <PopupBox popupTitle={popupTitle} getFilter={filterList}>
+      {filtered && filtered.map((quiz, i) => {
         return (
           <QuizItem
             key={i}
@@ -27,7 +28,6 @@ const CategoriesContent = ({ category, groupTitles, onClose, popupTitle }) => {
             title={quiz.title}
             description={<LongText content={quiz.description} limit={20} hideReadMore={true} />}
             url={`/quiz/${category}/${quiz.id}`}
-            onClose={onClose}
           />
         )
       })}

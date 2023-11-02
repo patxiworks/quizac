@@ -11,10 +11,13 @@
   object-fit: cover;
 }
 .text {
+  display: flex;
   font-size: var(--font-size-base);
   /*line-height: 26px;*/
   font-family: var(--font-roboto);
   color: var(--color-slategray);
+  flex-direction: row;
+  justify-content: space-between;
 }
 .storyText {
   flex: 1;
@@ -35,7 +38,7 @@
   text-decoration: none;
   align-self: stretch;
   background-color: var(--color-white);
-  border-bottom: 1px solid var(--color-black);
+  border-bottom: 1px solid var(--color-darkgray);
   display: flex;
   flex-direction: row;
   padding: var(--padding-3xs) var(--padding-2xs);
@@ -54,7 +57,6 @@
     height: auto !important;
   }*/
   .storyText {
-    flex: unset;
     align-self: stretch;
   }
   /*.storyCard {

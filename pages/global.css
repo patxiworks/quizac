@@ -147,6 +147,11 @@ a {
 
 
 /* Material UI search input style overrides */
+.MuiAutocomplete-popper {
+  transform: none !important;
+  margin: 70px 0 0 0 !important;
+  width: 400px !important;
+}
 /* input padding */
 .css-1g24dm6-MuiInputBase-input-MuiOutlinedInput-input {
   padding: 10px !important;
