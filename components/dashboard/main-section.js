@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
 import Image from 'next/image';
+import SlideDrawer from "./drawer";
 import Categories from "./categories";
 import PortalPopup from "./portal-popup";
-import TypeDesktop from "./type-desktop1";
 import QuizFrame from "../quiz/quiz-frame";
 import QuizResultContainer from "./quiz-result-container";
 import HistorySummary from "./history-summary";
@@ -21,14 +21,14 @@ const MainSection = ({ categories }) => {
 
   const openCategoriesPopup = useCallback(() => {
     setCategoriesPopupOpen(true);
-    const mainDiv = document.getElementById(mainContainer);
-    mainDiv.style.position = "fixed";
+    //const mainDiv = document.getElementById(mainContainer);
+    //mainDiv.style.position = "fixed";
   }, []);
 
   const closeCategoriesPopup = useCallback(() => {
     setCategoriesPopupOpen(false);
-    const mainDiv = document.getElementById(mainContainer);
-    mainDiv.style.position = "relative";
+    //const mainDiv = document.getElementById(mainContainer);
+    //mainDiv.style.position = "relative";
   }, []);
 
   useEffect(() => {
@@ -67,22 +67,9 @@ const MainSection = ({ categories }) => {
                   nunc convallis a phasellus. Quis metus sed donec cursus id
                   adipiscing mauris.
                 </div>
-                <button
-                  className={styles.startQuiz}
-                  onClick={openCategoriesPopup}
-                >
-                  <TypeDesktop
-                    signInText="Start a quiz"
-                    typeDesktopPosition="unset"
-                    typeDesktopWidth="unset"
-                    typeDesktopBoxSizing="border-box"
-                    typeDesktopCursor="pointer"
-                    typeDesktopBorder="none"
-                    typeDesktopAlignSelf="stretch"
-                    signInDisplay="inline-block"
-                    signInFlex="1"
-                  />
-                </button>
+                <SlideDrawer label="Choose a quiz" anchor="left" style='drawerButton'>
+                  <Categories categories={categories} />
+                </SlideDrawer>
               </div>
               <Image className={styles.sepIcon} width={100} height={100} alt="" src="/sep2.svg" />
               <div className={styles.summaryInfo}>
@@ -111,15 +98,6 @@ const MainSection = ({ categories }) => {
           </div>
         </div>
       </div>
-      {categories && isCategoriesPopupOpen && (
-        <PortalPopup
-          overlayColor="rgba(0, 0, 0, 0.9)"
-          placement="Top left"
-          onOutsideClick={false}
-        >
-          <Categories categories={categories} onClose={closeCategoriesPopup} />
-        </PortalPopup>
-      )}
     </>
   );
 };

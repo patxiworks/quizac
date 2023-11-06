@@ -19,7 +19,8 @@
   height: 40px;
   object-fit: cover;
 }
-.logoText {
+.logoText, 
+.logoText a {
   font-weight: 600;
   font-size: var(--font-size-6xl);
   color: var(--color-lightcyan);

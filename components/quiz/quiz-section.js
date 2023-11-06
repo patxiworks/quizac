@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from 'next/link';
 import { db, app } from '../../firebase';
 import { doc, collection, getDoc } from 'firebase/firestore';
@@ -15,9 +15,7 @@ import { LongText } from "../utils";
 import { getCategories, getCategory, getTitles } from "@/data/fetch";
 import styles from "./styles/quiz-section.module.css";
 
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import InputLabel from '@mui/material/InputLabel';
+import SlideDrawer from "@/components/dashboard/drawer";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
@@ -40,12 +38,13 @@ const QuizSection = ({ category, title }) => {
   const [groupTitles, setGroupTitles] = useState([]);
   const [groups, setGroups] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [visited, setVisited] = useState([]);
-  const [visited2, setVisited2] = useState([]);
+  const [listTitles, setListTitles] = useState([]);
   const [nextTitle, setNextTitle] = useState('');
   const [prevTitle, setPrevTitle] = useState('');
   const mainContainer = "quiz";
 
+  const buttonRef = useRef();
+  
   useEffect(() => {
     if (category) {
       getCategories(setCategories); // get all categories
@@ -53,6 +52,10 @@ const QuizSection = ({ category, title }) => {
       getCategory(category, setQuizCategory); // set quizCategory
     }
   }, [category])
+
+  useEffect(() => {
+    getTitles(selectedItem, setListTitles); // listTitles are for display in drawer menu
+  }, [selectedItem])
 
   useEffect(() => {
     if (titles.length) {
@@ -123,6 +126,13 @@ const QuizSection = ({ category, title }) => {
     setStartQuiz(e);
   }
 
+  const openDrawer = (e) => {
+    const value = e.target.value.split('_')
+    setSelectedItem(value[0]);
+    buttonRef.current.click();
+    setPopupPage(value[1]);
+  }
+
   const gac = (pos) => {
     return (
       quizTitle
@@ -158,9 +168,12 @@ const QuizSection = ({ category, title }) => {
                 fontWeight: 'bold',
               }
           }}
-          autoFocus
+          //autoFocus
           value={item}
-          onChange={popup}
+          //open={open}
+          //onOpen={()=>setOpen(true)}
+          //onClose={()=>setOpen(false)}
+          onChange={openDrawer}
           label=""
           inputProps={{
             name: 'dropdown',
@@ -168,15 +181,18 @@ const QuizSection = ({ category, title }) => {
           }}
         >
           <MenuItem value={item}>{item}</MenuItem>
+          
           {items.map((i,j) => {
             const val = type == 'category' ? i?.name : (type=='group' ? i : i)
             if (val !== item) {
-              return <MenuItem 
-                        key={j} 
-                        value={type=='group' ? i : i?.id}
-                      >
-                        {type=='group' ? i : i?.name}
-                      </MenuItem>
+              return (
+                <MenuItem 
+                  key={j} 
+                  value={type=='group' ? `${i}_titles` : `${i?.id}_categories`}
+                >
+                  {type=='group' ? i : i?.name}
+                </MenuItem>
+              )
             }
           })}
         </Select>
@@ -242,6 +258,13 @@ const QuizSection = ({ category, title }) => {
                   </>
                 </div>
               </div>
+              <SlideDrawer anchor="left" label="" style="hidden" ref={buttonRef}>
+                {
+                  popupPage === 'titles'
+                  ?  <CategoriesContent category={category} titles={getGroupTitles(titles, selectedItem)} popupTitle={`${selectedItem}: Choose an item`} />
+                  :  <CategoriesContent category={selectedItem} titles={listTitles} popupTitle={`${selectedItem}: Choose an item`} />
+                }
+              </SlideDrawer>
               </>
             : 
             <>
@@ -257,7 +280,7 @@ const QuizSection = ({ category, title }) => {
       :
       <div className={styles.emptySection}><CircularProgress /></div>
       }
-      {isPopupOpen && (
+      {/*isPopupOpen && (
         <PortalPopup
           overlayColor="rgba(0, 0, 0, 0.9)"
           placement="Top left"
@@ -265,11 +288,11 @@ const QuizSection = ({ category, title }) => {
         >
           {
           popupPage === 'titles'
-          ?  <CategoriesContent category={category} groupTitles={getGroupTitles(titles, selectedItem)} onClose={closePopup} popupTitle={`Choose from item`} />
+          ?  <CategoriesContent category={category} groupTitles={[getGroupTitles(titles, selectedItem)]} onClose={closePopup} popupTitle={`Choose from item`} />
           :  <CategoriesContent category={selectedItem} onClose={closePopup} popupTitle={`Choose an item`} />
           }
         </PortalPopup>
-      )}
+        )*/}
     </>
   );
 };

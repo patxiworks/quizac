@@ -4,18 +4,22 @@ import PopupBox from "./popup-box";
 import styles from "./styles/categories.module.css";
 import commonStyles from "./styles/common.module.css";
 
-import { getCategories } from "@/data/fetch";
+import { filterText } from "../utils";
 
-const Categories = ({ onClose }) => {
-  const [categories, setCategories] = useState(null);
+const Categories = ({ categories }) => {
+  const [filtered, setFiltered] = useState([]);
+
+  const filterList = (item) => {
+    filterText(categories, item, 'name', setFiltered);
+  }
 
   useEffect(() => {
-    getCategories(setCategories);
+    setFiltered(categories)
   },[])
 
   return (
-    <PopupBox onClose={onClose}>
-      {categories && categories.map((cat, i) => {
+    <PopupBox popupTitle="Choose a category" items={categories} getFilter={filterList}>
+      {filtered && filtered.map((cat, i) => {
         return (
           <CategoryItem
             key={i}
@@ -23,7 +27,6 @@ const Categories = ({ onClose }) => {
             image={cat.image ? cat.image : "/unsplashc-zhkgezy3u1@2x.png"}
             title={cat.name}
             description={cat.description}
-            onClose={onClose}
           />
         )
       })}

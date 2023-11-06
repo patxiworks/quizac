@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { collection, getDocs } from 'firebase/firestore';
 import { app, db } from "@/firebase";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getCategories } from "@/data/fetch";
 
 import TopBar from "../../components/dashboard/top-bar";
 import MainSection from "../../components/dashboard/main-section";
@@ -27,22 +28,7 @@ const Dashboard = () => {
   }, [])
 
   useEffect(() => {
-    async function fetchCategories() {
-      const catsCollection = collection(db, "quizzQuestions");
-      const querySnapshot = await getDocs(catsCollection);
-
-      const fetchedCategories = querySnapshot.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          name: data.name,
-          image: data.image,
-          description: data.description,
-        };
-      });
-      setCategories(fetchedCategories);
-    } 
-    fetchCategories();
+    getCategories(setCategories);
   }, []);
 
   return (

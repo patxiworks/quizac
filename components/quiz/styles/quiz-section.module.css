@@ -1,10 +1,11 @@
 .leftSection {
   display: flex;
   flex-direction: column;
-  flex: 1 0;
+  flex: 1;
   align-items: flex-start;
   align-self: stretch;
   height: 500px;
+  max-width: 40%;
 }
 .topSection {
   display: none;
@@ -136,7 +137,8 @@
   display: flex;
 }
 .mainContent {
-  width: 791px;
+  min-width: 60%;
+  flex: 1;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;

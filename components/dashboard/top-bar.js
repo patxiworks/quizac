@@ -90,9 +90,9 @@ const TopBar = () => {
 
   return (
     <div className={styles.topBar}>
-      <div className={styles.logoText}>Quizac</div>
+      <div className={styles.logoText}><Link href="/">Quizac</Link></div>
       <div className={styles.leftSection}>
-        <div className={styles.searchBox}>
+        {/*<div className={styles.searchBox}>
           <StyledAutocomplete
             id="country-select-demo"
             //sx={{ width: 500 }}
@@ -100,14 +100,15 @@ const TopBar = () => {
             options={cuisine}
             getOptionLabel={(option) => option.title}
             open={open}
+            onOpen={() => setOpen(true)}
             onInputChange={(_, value) => {
               if (value.length < 2) {
-                if (open) setOpen(false);
+                if (open) setOpen(true);
               } else {
                 if (!open) setOpen(true);
               }
             }}
-            onClose={() => setOpen(false)}
+            onClose={() => setOpen(true)}
             ListboxProps={{ style: {maxHeight: '450px', borderRadius: '0 0 20px 20px'}}}
             renderOption={(props, option) => (
               <Box style={{paddingTop: '15px', paddingBottom: '15px'}} component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
@@ -143,7 +144,7 @@ const TopBar = () => {
               />
             )}
           />
-        </div>
+              </div>*/}
         <div className={styles.userInfo}>
           <div>
             <Button
@@ -186,6 +187,7 @@ const TopBar = () => {
   );
 };
 
+
 const cuisine = [
   {id:'EQGMC2mfgnf5EA',description:'This is a medicinal flavour of palmwine used for curing fever',title:'"Awonpa", a flavour of palm wine served in a glass with sticks',thumbnail:'https://lh3.googleusercontent.com/ci/AA1T9HJNWVKrR4dwX5NNFOPqRmzCrnK8gn2hiBDK6ED41ZwAdeMj9qhtWemvwRwu0bP4YHvpfQ0oBrk=s70-ci',image:'https://lh3.googleusercontent.com/Yum31T5w0YHUlRy9srmXKgx0CV8db1FxAFcegsr2YtGCLxvNqgbhZzxFscBzoH29Hw=s384'},
   {id:'QQG0xQIoNmTixQ',description:'Iru - also called locust beans - is added alongside other condiments to spice up the soup being cooked in the pot.',title:'"Inu Eran" (Cow Offal) added to cooking pot',thumbnail:'https://lh3.googleusercontent.com/ci/AA1T9HIUlB8sGvMdVnfSNUuU_VUOdV17ltoMqh9NwUZ1Lm-B1jRV0wJ6029LC5wRzI8s53QGiNFxtw=s70-ci',image:'https://lh3.googleusercontent.com/ZXtptf-sBai9Uxwg10033tjXyQJCdF7pSNtgiRhXWgB7hw7LJtB3otKDFOGc2DBv=s384'},
@@ -209,26 +211,5 @@ const cuisine = [
   {id:'aAH1i9voI76QjQ',description:'',title:'Adding Stock Fish To The Pot',thumbnail:'https://lh3.googleusercontent.com/ci/AA1T9HKNB_Dy0iHwmCcI4XigIYa0Ah7iMad2JZEBlrelEotSU4tF1TSxKCcCeCNeweNa61tC6MsVQODW=s70-ci',image:'https://lh3.googleusercontent.com/YApT6gmMAwXLHAESaqozcwHwUey2N8uy37GPCwdvp6cDqhHcVUhqsHbsx-wiU7X3M-g=s384'}
   ]
 
-const countries = [
-  { code: 'AD', label: 'Andorra', phone: '376' },
-  {
-    code: 'AE',
-    label: 'United Arab Emirates',
-    phone: '971',
-  },
-  { code: 'AF', label: 'Afghanistan', phone: '93' },
-  {
-    code: 'AG',
-    label: 'Antigua and Barbuda',
-    phone: '1-268',
-  },
-  { code: 'AI', label: 'Anguilla', phone: '1-264' },
-  { code: 'AL', label: 'Albania', phone: '355' },
-  { code: 'AM', label: 'Armenia', phone: '374' },
-  { code: 'AO', label: 'Angola', phone: '244' },
-  { code: 'AQ', label: 'Antarctica', phone: '672' },
-  { code: 'AR', label: 'Argentina', phone: '54' },
-  { code: 'AS', label: 'American Samoa', phone: '1-684' },
-  { code: 'AT', label: 'Austria', phone: '43' }]
 
 export default TopBar;

@@ -33,6 +33,18 @@ const LongText = ({ content, limit, hideReadMore}) => {
     )
 }
 
+const filterText = (mainlist, keyword, field, setFiltered) => {
+  const filter = mainlist.filter((i) => {
+    return i[field].toLowerCase().indexOf(keyword.toLowerCase()) > -1
+  })
+  if (keyword.length > 0) {
+    setFiltered(filter)
+  } else {
+    setFiltered(mainlist)
+  }
+}
+
 export {
-    LongText
+    LongText,
+    filterText
 }
