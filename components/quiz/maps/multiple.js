@@ -13,8 +13,9 @@ var guess_coordinates = [];
 var curr_coordinates = [];
 var check_count = 0;
 var guess_distances = []; // list of distances
+var userStats = {'last_dist_cov': [], 'dist_to_dest': []};
 
-const MultipleMarker = ({settings, title}) => {
+const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTime}) => {
     const [mapInstance, setMapInstance] = useState(null);
     const [distanceValue, setDistanceValue] = useState(null);
     const [totalDistance, setTotalDistance] = useState(null);
@@ -149,15 +150,20 @@ const MultipleMarker = ({settings, title}) => {
     }
 
     function getDistances(){
-        setDistanceValue(distance_from_guess.toFixed(1));
-        setTotalDistance(accumulated_distance.toFixed(1));
+        const dfg = parseFloat(distance_from_guess.toFixed(2));
+        setDistanceValue(distance_from_guess ? dfg : 0);
+        setTotalDistance(accumulated_distance.toFixed(2));
+        userStats['last_dist_cov'].push(dfg);
+        userStats['dist_to_dest'] = guess_distances;
     }
 
     const finishing = () => {
         finish(mapInstance);
         setCompleted(true);
-        //console.log(guess_distances)
-        setScore(calculateTotalScore(guess_distances).toFixed(2));
+        showAlert();
+        const final_score = parseFloat(calculateTotalScore(guess_distances).toFixed(2));
+        setScore(final_score);
+        getScore(final_score, userStats); // lifted to parent component
     }
 
     const calculateTotalScore = (scores) => {
@@ -196,7 +202,7 @@ const MultipleMarker = ({settings, title}) => {
         });
 
         google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
-            setStartTimer(true);
+            //setStartTimer(true);
         });
 
         window.google.maps.event.addListener(map, 'click', function(event) {
@@ -208,13 +214,17 @@ const MultipleMarker = ({settings, title}) => {
 
         setMapInstance(map)
         
-    }, []);
+    }, [timerStart]);
+
+    useEffect(()=> {
+        setStartTimer(timerStart);
+    }, [timerStart])
 
     return (
         <div className={styles.container}>
             <MapMeter distance={distanceValue} lastMile={lastMile} totalDistance={totalDistance} attempts={attempts} type='multiple' />
             <div className={styles.timer}>
-                <CountdownTimer initialSeconds={duration} start={startTimer} onComplete={finishing} reset={resetTimer} stop={stopTimer} />
+                <CountdownTimer initialSeconds={duration} start={startTimer} onComplete={finishing} reset={resetTimer} stop={stopTimer} getTime={getTime} />
             </div>
             <div className={styles.mapContainer}>
                 <div ref={ref} className={styles.map} />

@@ -106,7 +106,7 @@
 .contentMessage {
   flex: 1;
   align-items: flex-start;
-  gap: var(--gap-11xl);
+  /*gap: var(--gap-11xl);*/
   width: 100%;
 }
 .contentBox {

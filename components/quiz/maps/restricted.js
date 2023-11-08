@@ -15,8 +15,9 @@ var curr_coordinates = [];
 var check_count = 0;
 var startmap = false;
 var bearing = (Math.random()*(360-0)+0);
+var userStats = {'last_dist_cov': [], 'dist_to_dest': []};
 
-const RestrictedMarker = ({settings, title}) => {
+const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, getTime}) => {
     const [mapInstance, setMapInstance] = useState(null);
     const [distanceValue, setDistanceValue] = useState(null);
     const [totalDistance, setTotalDistance] = useState(null);
@@ -138,6 +139,7 @@ const RestrictedMarker = ({settings, title}) => {
         var last_guess_error = (calculateDistance(coordsB.lat,coordsB.lng,coordinates[0],coordinates[1],'K'));
         //console.log(coordsB.lat)
         setLastMile(last_guess_error.toFixed(1));
+        userStats['dist_to_dest'].push(last_guess_error)
     }
 
     function animate(line) {
@@ -151,14 +153,20 @@ const RestrictedMarker = ({settings, title}) => {
     }
 
     function getDistances(){
-        setDistanceValue(distance_from_guess ? distance_from_guess.toFixed(1) : 0);
-        setTotalDistance(accumulated_distance.toFixed(1));
+        const dfg = parseFloat(distance_from_guess.toFixed(2));
+        setDistanceValue(distance_from_guess ? dfg : 0);
+        setTotalDistance(accumulated_distance.toFixed(2));
+        userStats['last_dist_cov'].push(dfg);
     }
 
     const finishing = () => {
         finish(mapInstance);
         setCompleted(true);
-        setScore(getScore());
+        showAlert();
+        const finalscore = getFinalScore()
+        setScore(finalscore);
+        getScore(finalscore, userStats);
+
         mapInstance.setRestriction({ latLngBounds: getBounds(coordinates, 200)});
         const zoomOut = setInterval(() => {
             const zoomTo = mapInstance.zoom - 1;
@@ -183,7 +191,7 @@ const RestrictedMarker = ({settings, title}) => {
         }
     }
 
-    function getScore() {
+    function getFinalScore() {
         // get optimal distance from starting point to final destination
         const optDistance = calculateDistance(startMarker?.getPosition().lat(), startMarker?.getPosition().lng(), coordinates[0], coordinates[1], "K");
         // split the distance into equal sections based on the number of steps taken.
@@ -267,7 +275,7 @@ const RestrictedMarker = ({settings, title}) => {
 
         // start the timer only after all map tiles and controls have been loaded
         window.google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
-            setStartTimer(true);
+            //setStartTimer(true);
         });
 
         window.google.maps.event.addListener(map, 'click', function(event) {
@@ -280,13 +288,17 @@ const RestrictedMarker = ({settings, title}) => {
         setMapCoordinates(map);
         setMapInstance(map)
         
-    }, []);
+    }, [timerStart]);
+
+    useEffect(()=> {
+        setStartTimer(timerStart);
+    }, [timerStart])
 
     return (
         <div className={styles.container}>
             <MapMeter distance={distanceValue} lastMile={lastMile} totalDistance={totalDistance} attempts={attempts} type='restricted' />
             <div className={styles.timer}>
-                <CountdownTimer initialSeconds={duration} start={startTimer} onComplete={finishing} reset={resetTimer} stop={stopTimer} />
+                <CountdownTimer initialSeconds={duration} start={startTimer} onComplete={finishing} reset={resetTimer} stop={stopTimer} getTime={getTime} />
             </div>
             <div className={styles.mapContainer}>
                 <div ref={ref} className={styles.map} />

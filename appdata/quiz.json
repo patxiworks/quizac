@@ -46,7 +46,7 @@
       {
         "id": 1,
         "type": "single",
-        "code": "Apprentice",
+        "name": "Apprentice",
         "location":[6.6092593,3.3682634],
         "duration": 20,
         "points": 1,
@@ -57,7 +57,7 @@
       {
         "id": 2,
         "type": "multiple",
-        "code": "Scholar",
+        "name": "Scholar",
         "location":[6.6092593,3.3682634],
         "duration": 10,
         "points": 1,
@@ -68,7 +68,7 @@
       {
         "id": 3,
         "type": "restricted",
-        "code": "Master",
+        "name": "Master",
         "location":[6.6092593,3.3682634],
         "duration": 20,
         "maxbound": 2.5,

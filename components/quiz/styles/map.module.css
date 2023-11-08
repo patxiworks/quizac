@@ -75,55 +75,10 @@
     cursor: pointer;
 }
 
-#result{
-    height: 25%;
-    width: 90%;
-    border-radius: 30px;
-    border-style: solid;
-    border-width: 1px;
-}
-
-#location, #distance, #totaldistance{
-    font-size: 20px;
-    text-align: center;
-    font-family: Chalkduster, fantasy;
-}
-
-#location, #distance {
-    display: inline-block;
-    margin-left: 20px;
-}
-
-
-#check, #next{
-    font-size: 15px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    border-radius: 20px;
-    width: 200px;
-}
-
-#buttons, #info{
-    text-align: center;
-}
-
-#next{
-margin-left: 100px;
-}
-
-
-#center{
-text-align: center;
-}
-
-#totaldistance{
-bottom: 0;
-width: 100%;
-}
-
-#round {
-font-family: Chalkduster, fantasy;
-font-size: 15px;
+.alertBox {
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 5px;
 }
 
 @media screen and (max-width: 480px) {
