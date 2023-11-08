@@ -14,7 +14,6 @@ const CategoriesContent = ({ category, titles, popupTitle }) => {
   }
 
   useEffect(() => {
-    console.log(titles)
     setFiltered(titles)
   },[])
 

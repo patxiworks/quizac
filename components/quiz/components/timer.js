@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from "react";
 
-export default function CountdownTimer({ initialSeconds, onComplete, start, reset, stop  }) {
+export default function CountdownTimer({ 
+    initialSeconds, // duration in seconds
+    onComplete, // callback after completion of timer
+    getTime = ()=>void 0, // callback to get the current time
+    start, // if true, starts the timer
+    reset, // if true resets the timer
+    stop  // if true stops the timer
+}) {
+    //console.log(initialSeconds, start, reset, stop)
     const [seconds, setSeconds] = useState(initialSeconds);
+    const [arrSeconds, setArrSeconds] = useState([]);
 
     useEffect(() => {
+        getTime(arrSeconds.length ? arrSeconds : parseInt(initialSeconds-seconds));
         setSeconds(0);
     }, [stop])
 
     useEffect(() => {
+        // capture each time spent before a reset
+        if (reset !== undefined) setArrSeconds([...arrSeconds, parseInt(initialSeconds-seconds)])
         setSeconds(initialSeconds);
     }, [reset])
     
     useEffect(() => {
         // Exit early if countdown is finished
-        if (seconds <= 0) {
+        if (start && seconds <= 0) {
             onComplete();
             return;
         }

@@ -2,7 +2,7 @@ import { db } from '../firebase';
 import { collection, getDocs, doc, getDoc, query, where } from 'firebase/firestore';
 
 const catCollection = ['categories', 'titles', 'questions'];
-const userCollection = ['results', 'scores'];
+const userCollection = ['categories', 'users', 'scores'];
 // Categories collection
 
 const getCategories = (setData) => {
@@ -44,11 +44,11 @@ const getUser = (userId, setData) => {
 }
 
 const getScores = (userId, setData) => {
-    getDocuments(`${userCollection[0]}/${userId}/${userCollection[1]}`, setData);
+    getDocuments(`${userCollection[0]}/${category}/${userCollection[1]}/${userId}/${userCollection[2]}`, setData);
 }
 
 const getScore = (userId, category, title, setData) => {
-    getDocument(`${userCollection[0]}/${userId}/${userCollection[1]}/${category}##${title}`, setData);
+    getDocument(`${userCollection[0]}/${category}/${userCollection[1]}/${userId}/${userCollection[2]}/${title}`, setData);
 }
 
 // fetches all documents in a collection
@@ -73,7 +73,7 @@ async function getDocument(path, setData) {
     try {
       const docRef = doc(db, path);
       const docSnap = await getDoc(docRef);
-  
+      
       if (docSnap.exists()) {
         setData(docSnap.data());
       } else {

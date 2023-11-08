@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Progress from "./components/progress";
-import { app, db } from '../../firebase';
+import Progress from "../components/progress";
+import { app, db } from '../../../firebase';
 import { getAuth } from 'firebase/auth';
 import { CircularProgress } from '@mui/material';
 import { getTitles, getQuestions, getScore } from "@/data/fetch";
 import { setUserScoreWithLevel } from '@/data/set';
-import styles from "./styles/quiz.module.css";
+import QuizDisplay from "./display";
+import { ConfirmationDialog } from "../quiz-dialog";
+import { keyExists, checkScore, avgScore } from "../utils";
+import styles from "../styles/quiz.module.css";
+import commonStyles from "../styles/common.module.css";
 
 function Quiz({ quizData, quizDataError, category, title }) {
   const [level, setLevel] = useState("");
@@ -16,11 +20,16 @@ function Quiz({ quizData, quizDataError, category, title }) {
   const [score, setScore] = useState(0);
   const [currentLevel, setCurrentLevel] = useState(0);
   const [currentLevelData, setCurrentLevelData] = useState({});
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(null);
   const [isQuizStarted, setIsQuizStarted] = useState(false);
   const [levels, setLevels] = useState([]);
   const [quizScore, setQuizScore] = useState([]);
   const [sumScore, setSumScore] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [postOpen, setPostOpen] = useState(false);
+  const [startTimer, setStartTimer] = useState(false);
+  const [stopTimer, setStopTimer] = useState(false);
+  const [resetTimer, setResetTimer] = useState(false);
 
   const auth = getAuth(app);
 
@@ -55,10 +64,10 @@ function Quiz({ quizData, quizDataError, category, title }) {
   }, [quizData]);
   
   useEffect(() => {
-    if (currentLevel <= levels.length) {
+    /*if (currentLevel <= levels.length) {
       const currentLevelData = levels[currentLevel - 1];
       setTimer(currentLevelData?.duration || 10); 
-    }
+    }*/
   }, [currentLevel, levels]);
   
   /*useEffect(() => {
@@ -67,8 +76,8 @@ function Quiz({ quizData, quizDataError, category, title }) {
     }
   }, [currentLevel, level]);*/
 
-  useEffect(() => {
-    const countdown = setInterval(() => {
+  /*useEffect(() => {
+    /*const countdown = setInterval(() => {
       if (timer > 0 && isQuizStarted) {
         setTimer(timer - 1);
       } else {
@@ -80,7 +89,7 @@ function Quiz({ quizData, quizDataError, category, title }) {
     }, 1000);
 
     return () => clearInterval(countdown);
-  }, [timer, isQuizStarted]);
+  }, [timer, isQuizStarted]);*/
 
   const handleLevelSelection = async (selectedLevel) => {
     setLevel(selectedLevel);
@@ -90,14 +99,28 @@ function Quiz({ quizData, quizDataError, category, title }) {
     setCurrentLevelData(selectedLevelData);
   
     if (selectedLevelData) {
-      setTimer(selectedLevelData.duration || 10); 
-    } else {
-      setTimer(10);
+      setTimer(selectedLevelData?.duration || 10); 
     }
-    setIsQuizStarted(true);
-    setCurrentQuestion(0); 
-    setScore(0);
   };
+
+  const openPreDialog = (selectedLevel) => {
+    setOpen(true); // open dialog box
+    handleLevelSelection(selectedLevel); // set level data
+    setIsQuizStarted(true); // display quiz interface on page
+    setStartTimer(false); // [do not] begin timer countdown
+    setCurrentQuestion(0); // start from first question
+    setScore(0); // set initial score
+  };
+
+  const closePreDialog = () => {
+    setOpen(false); // close dialog
+    setStartTimer(true); // begin timer countdown
+  }
+
+  const closePostDialog = () => {
+    setIsQuizStarted(false);
+    setPostOpen(false);
+  }
   
   const handleOptionClick = async (selectedOption) => {
     if (questions.length > 0 && currentQuestion >= 0 && currentQuestion < questions.length) {
@@ -107,15 +130,18 @@ function Quiz({ quizData, quizDataError, category, title }) {
       if (isCorrect) {
         currentScore = score + currentLevelData?.points || 1
         setScore(currentScore);
-        console.log(score)
+      } else {
+        currentScore = score;
       }
   
       const nextQuestion = currentQuestion + 1;
-      if (nextQuestion < questions.length) {
+      if (nextQuestion < questions.length) { // if the final question has not been completed
         setCurrentQuestion(nextQuestion);
-        setTimer(currentLevelData?.duration || 10);
+        //setTimer(currentLevelData?.duration || 10);
+        setResetTimer(prev => !prev);
       } else {
-        setIsQuizStarted(false);
+        //setIsQuizStarted(false);
+        setPostOpen(true);
         if (auth.currentUser) {
           await setUserScoreWithLevel(auth.currentUser.email, category, title, level, currentScore);
         } else {
@@ -124,25 +150,6 @@ function Quiz({ quizData, quizDataError, category, title }) {
       }
     }
   };
-
-  const keyExists = (key, obj) => {
-    if (obj) {
-      return (key in obj);
-    } else {
-      return false;
-    }
-  }
-
-  const checkScore = (a, b, c, d) => {
-    if (a && b==c) {
-      return true;
-    } else if (keyExists(b, d)) {
-      if (d[b]?.length) {
-        return true
-      }
-    }
-    return false;
-  }
 
   const writeDescription = (item) => {
     let desc = ''
@@ -176,11 +183,11 @@ function Quiz({ quizData, quizDataError, category, title }) {
                 {levels.map((item, i) => (
                   <React.Fragment key={i}>
                     {
-                      score && item.number==level
+                      (score || score === 0) && item.number==level
                       ? <div className={styles.scoreBadge}>Score: {score}</div>
                       : keyExists(item.number, quizScore) 
                         ? quizScore[item.number]?.length 
-                          ? <div className={styles.scoreBadge}>Score: {quizScore[item.number]?.reduce((a, o) => a + o.score, 0)}</div> 
+                          ? <div className={styles.scoreBadge}>Score: {avgScore(quizScore[item.number])}</div> 
                           : ''
                         : ''
                     }
@@ -191,7 +198,7 @@ function Quiz({ quizData, quizDataError, category, title }) {
                       </div>
                     : <div
                         className={`${styles.quizLevel} ${styles[item.name]}`}
-                        onClick={() => handleLevelSelection(item.number)}
+                        onClick={() => openPreDialog(item.number)}
                       >
                         <div className={styles.levelName}><Image src={`/levels/trophy-${item.number}.png`} width="64" height="64" alt={`Level-${item.number}`} /></div>
                         <div className={styles.levelDescription}>{writeDescription(item)}</div>
@@ -203,33 +210,38 @@ function Quiz({ quizData, quizDataError, category, title }) {
             </>
           ) : (
             <>
-              <div className={styles.timer}></div>
-              <div className={styles.quizQuestionContainer}>
-                <div className={styles.infoPanel}>
-                <p className={styles.quizQuestionCounter} style={timer<6 ? { color: "#ff0000" } : {}}>
-                 {timer} seconds
-                </p>
-                <p className={styles.quizScore}>Score: {score}</p>
-                </div>
-                <Progress
-                  numCurrentQuestion={currentQuestion + 1}
-                  numTotalQuestions={questions.length}
-                />
-                <h2 className={styles.quizQuestion}>
-                  {questions[currentQuestion].question}
-                </h2>
-                <ul className={styles.quizOptions}>
-                  {questions[currentQuestion].options.map((option) => (
-                    <li
-                      key={option}
-                      className={styles.quizOption}
-                      onClick={() => handleOptionClick(option)}
-                    >
-                      {option}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <ConfirmationDialog
+                id="pre-quiz"
+                keepMounted
+                open={open}
+                onClose={closePreDialog}
+                title="Are you ready?"
+                content=""
+                prompt="Go!"
+                //value={value}
+              />
+              <QuizDisplay 
+                timer={{
+                  initial: timer, 
+                  start: startTimer, 
+                  reset: resetTimer, 
+                  stop: stopTimer
+                }}
+                score={score} 
+                currentQuestion={currentQuestion} 
+                questions={questions} 
+                handleOptionClick={handleOptionClick}
+              />
+              <ConfirmationDialog
+                id="post-quiz"
+                keepMounted
+                open={postOpen}
+                onClose={closePostDialog}
+                content={`You scored ${score} out of ${currentLevelData?.points*questions.length}`}
+                title="Your result!"
+                prompt="Continue"
+                //value={value}
+              />
             </>
           )}
         </div>

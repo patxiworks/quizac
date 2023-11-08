@@ -15,8 +15,9 @@ var all_markers = [];
 var new_marker = true;
 var start_timer = false;
 
-const SingleMarker = ({settings, title}) => {
+const SingleMarker = ({settings, title, timerStart, showAlert, getScore, getTime}) => {
     const [mapInstance, setMapInstance] = useState(null);
+    //const [new_marker, set_new_marker] = useState(true)
     const [distanceValue, setDistanceValue] = useState(0);
     const [score, setScore] = useState(0);
     const [startTimer, setStartTimer] = useState(false);
@@ -116,14 +117,17 @@ const SingleMarker = ({settings, title}) => {
     }
 
     function display_location(){
-        setDistanceValue(distance_from_guess ? distance_from_guess.toFixed(1) : 0);
-        //setScore((1000 * Math.exp(-0.5 * (distanceValue/10)**2)).toFixed(2));
-        setScore(calculateScore(settings, distance_from_guess));
+        const dfg = parseFloat(distance_from_guess.toFixed(2));
+        setDistanceValue(distance_from_guess ? dfg : 0);
+        const calcScore = parseFloat(calculateScore(settings, distance_from_guess));
+        setScore(calcScore);
+        getScore(calcScore, {distance: dfg}); // pass score and distance to the parent comp
     }
 
     const checking = () => {
         check(mapInstance);
         setCompleted(true);
+        showAlert();
         new_marker = false;
     }
 
@@ -148,7 +152,7 @@ const SingleMarker = ({settings, title}) => {
         });
 
         google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
-            setStartTimer(true);
+            //setStartTimer(timerStart);
         });
 
         window.google.maps.event.addListener(map, 'click', function(event) {
@@ -158,8 +162,14 @@ const SingleMarker = ({settings, title}) => {
             }
         });
         setMapInstance(map);
+        guess_coordinates = [];
         
-    }, []);
+    }, [timerStart]);
+
+    useEffect(()=> {
+        setStartTimer(timerStart);
+        new_marker = true
+    }, [timerStart])
 
     function disableButton(id){
         document.getElementById(id).disabled = true;
@@ -168,7 +178,9 @@ const SingleMarker = ({settings, title}) => {
     return (
         <div className={`${styles.container} ${styles.single}`}>
             <MapMeter distance={distanceValue} type={'single'} />
-            <div className={styles.timer}><CountdownTimer initialSeconds={duration} start={startTimer} onComplete={checking} stop={stopTimer} /></div>
+            <div className={styles.timer}>
+                <CountdownTimer initialSeconds={duration} start={startTimer} onComplete={checking} stop={stopTimer} getTime={getTime} />
+            </div>
             <div className={styles.mapContainer}>
                 <div ref={ref} className={styles.map} />
             </div>

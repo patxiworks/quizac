@@ -73,10 +73,30 @@
 .disabledLevel:hover {
     background-color: #fff;
 }
+
+.scoreBadge {
+    width: auto;
+    padding: 0 10px;
+    margin-bottom: -30px;
+    z-index: 1;
+    border: 2px solid var(--color-primary);
+    border-radius: 5px 10px 0 5px;
+    align-self: flex-end;
+    background-color: var(--color-primary);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+/* end common */
   
 .quizQuestionCounter {
     text-align: center;
     font-weight: bold;
+}
+
+.quizQuestionCounter div {
+    padding: 0 5px;
 }
   
 .quizQuestion {
@@ -146,8 +166,8 @@
     display: flex;
     justify-content: space-between;
 }
-.infoPanel p {
-    margin-bottom: 5px;
+.infoPanel * {
+    /*margin-bottom: 5px;*/
     font-size: 1rem;
 }
 .scorePanel {
@@ -165,19 +185,7 @@
     font-size: var(--font-size-mini);
     font-weight: bold;
 }
-.scoreBadge {
-    width: auto;
-    padding: 0 10px;
-    margin-bottom: -30px;
-    z-index: 1;
-    border: 2px solid var(--color-primary);
-    border-radius: 5px 10px 0 5px;
-    align-self: flex-end;
-    background-color: var(--color-primary);
-    color: #fff;
-    font-size: 0.7rem;
-    font-weight: bold;
-}
+
 .optionButton {
     display: block;
     background-color: #f2f2f2;
@@ -190,7 +198,7 @@
     transition: background-color 0.2s, color 0.2s;
 }
   
-  .optionButton:hover {
+.optionButton:hover {
     background-color: #e0e0e0;
 }
   
