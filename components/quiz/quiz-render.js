@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import useSWR from 'swr';
 import Quiz from "./mcq/quiz";
 import MapGuess from "./maps/map";
+import SlidePuzzle from "./puzzles/slide";
 import styles from "./styles/common.module.css";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -29,12 +30,15 @@ const QuizRender = ({category, title, quizStarted}) => {
         quizStarted(true);
     }
 
-    switch (checkType()) {
+    switch (title?.quiz) {
         case 'mcq':
             quiz = <Quiz quizData={data} quizDataError={error} category={category} title={title.id} />;
             break;
         case 'map':
             quiz = <MapGuess quizData={data} quizDataError={error} category={category} title={title} />;
+            break;
+        case 'puzzle':
+            quiz = <SlidePuzzle quizData={data} quizDataError={error} category={category} title={title} />;
             break;
         default:
             quiz = <Quiz quizData={data} quizDataError={error} category={category} title={title.id} />;
