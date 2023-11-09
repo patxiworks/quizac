@@ -4,7 +4,7 @@ import { useState } from "react";
 const LongText = ({ content, limit, hideReadMore}) => {
     const [showAll, setShowAll] = useState(false);
 
-    const words = content.split(' ').filter(Boolean);
+    const words = content ? content.split(' ').filter(Boolean) : '';
   
     const showMore = () => setShowAll(true);
     const showLess = () => setShowAll(false);
