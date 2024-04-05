@@ -15,7 +15,7 @@ const QuizRender = ({category, title, quizStarted}) => {
     useEffect(() => {
         setStartQuiz(false);
         quizStarted(false);
-    }, [title.id]);
+    }, [title?.id]);
 
     const checkType = () => {
         if (title?.coordinates) {
@@ -41,7 +41,7 @@ const QuizRender = ({category, title, quizStarted}) => {
             quiz = <SlidePuzzle quizData={data} quizDataError={error} category={category} title={title} />;
             break;
         default:
-            quiz = <Quiz quizData={data} quizDataError={error} category={category} title={title.id} />;
+            quiz = <Quiz quizData={data} quizDataError={error} category={category} title={title?.id} />;
     }
 
     return (

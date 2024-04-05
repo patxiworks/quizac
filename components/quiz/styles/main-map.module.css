@@ -1,26 +1,21 @@
 .container {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-self: stretch;
     width: 100%;
-    /*margin: 20px 0*/
+    margin: 20px 0
 }
 .mapContainer {
     display: flex;
-    flex: 1;
     justify-content: space-between;
     margin: 0px;
     width: 100%;
-    /*height: 450px;
-    border: 1px solid #333;*/
+    height: 450px;
+    border: 1px solid #333;
     border-top: none;
-    /*border-radius: 0 0 var(--br-5xl) var(--br-5xl);*/
+    border-radius: 0 0 var(--br-5xl) var(--br-5xl);
 }
 .map {
     border: 1px solid;
     border-top: none;
-    /*border-radius: 0 0 var(--br-5xl) var(--br-5xl);*/
+    border-radius: 0 0 var(--br-5xl) var(--br-5xl);
     height: 100%;
     width: 100%;
 }
@@ -84,17 +79,16 @@
     margin-top: 20px;
     width: 100%;
     border-radius: 5px;
-    display: none;
 }
 
 @media screen and (max-width: 480px) {
     .container {
-        /*width: 111%;
-        margin-left: -20px;*/
+        width: 111%;
+        margin-left: -20px;
     }
     .container,
     .mapContainer {
-        /*height: 450px;*/
+        height: 450px;
         border-radius: 0;
     }
     .map {

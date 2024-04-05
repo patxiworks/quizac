@@ -6,6 +6,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import TopBar from "@/components/dashboard/top-bar";
 import QuizSection from "@/components/quiz/quiz-section";
+import MapSection from "@/components/quiz/quiz-section-maps";
 import styles from "../../index.module.css";
 
 const QuizDashboard = () => {
@@ -30,7 +31,8 @@ const QuizDashboard = () => {
     <div id="quiz" className={styles.quiz}>
       <div className={styles.mainContainer}>
         <TopBar />
-        <QuizSection category={category} title={title} />
+        {/*<QuizSection category={category} title={title} />*/}
+        <MapSection category={category} title={title} />
         <div className={styles.gameInfo}>
         </div>
       </div>

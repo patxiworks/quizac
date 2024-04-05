@@ -26,9 +26,13 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
     const [resetTimer, setResetTimer] = useState(false);
     const [stopTimer, setStopTimer] = useState(false);
     const [attempts, setAttempts] = useState(0);
-    const coordinates = [
+    /*const coordinates = [
         title.coordinates._lat,
         title.coordinates._long
+    ]*/
+    const coordinates = [
+        title.coordinates.latitude,
+        title.coordinates.longitude
     ]
     const location = settings.location;
     const duration = settings.duration;
