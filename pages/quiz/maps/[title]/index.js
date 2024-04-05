@@ -121,8 +121,10 @@ const QuizDashboard = () => {
         <div className={styles.login}>
           <div className={styles.mainContainer}>
             <div className={styles.leftContent}>
-              <div className={styles.logo}>Quizac</div>
-              <iframe className={styles.gacFrame} src={`https://embed.culturalspot.org/embedv2/asset/hQFiKbLgmwYEpQ`}></iframe>
+              <div className={styles.logo}>
+                <div className={styles.logoBox}>#GidiMaps</div>
+              </div>
+              <iframe className={styles.gacFrame} src={`https://embed.culturalspot.org/embedv2/asset/${title}`}></iframe>
               <div className={styles.imageFooter}></div>
             </div>
             <div className={styles.mainContent}>

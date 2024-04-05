@@ -38,7 +38,7 @@
 .quiz {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
   position: relative;
   background-color: var(--color-white);
   width: 100%;
@@ -118,7 +118,7 @@
   display: flex;
   justify-content: center;
   /*align-self: stretch;*/
-  height: 1000px;
+  height: 100vh;
   flex-direction: row;
   /*padding: var(--padding-13xl);*/
   box-sizing: border-box;
@@ -240,11 +240,23 @@
   position: absolute;
 }
 .logo {
-  margin-left: 200px;
-  padding: 30px;
-  background: rgba(0, 0, 0, 0.8);
+  margin: 25px 20px;
+  width: 100%;
+  font-size: 20px;
+  font-weight: bolder;
+  color: #fff;
+  display: flex;
+  /**/
+}
+.logoBox {
+  display: flex;
+  flex-basis: auto;
+  justify-content: center;
+  padding: 0 10px;
+  background: #000;
+  /*background: rgba(0, 0, 0, 0.8);
   border-radius: 0 0 var(--br-5xl) var(--br-5xl);
-  box-shadow: 1px 1px 2px #000;
+  box-shadow: 1px 1px 2px #000;*/
 }
 .imageFooter {
   bottom: 0;
@@ -260,9 +272,6 @@
 }
 
 @media screen and (max-width: 820px) {
-  .leftContent {
-      display: block;
-  }
   .gacFrame {
       width: 100%;
       height: 250px;
@@ -275,7 +284,7 @@
       width: 100%;
       display: flex; 
       align-items: center; 
-      justify-content: center;
+      justify-content: flex-start;
   }
   .homeContent {
       margin-top: -50px;
@@ -297,6 +306,9 @@
   .pageForm, .frame {
     width: 100%;
     border: none;
+  }
+  .mainContent {
+    flex: 2 1 0px;
   }
 }
   

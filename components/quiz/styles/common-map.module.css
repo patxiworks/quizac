@@ -10,7 +10,7 @@
 
 .quizContainer {
     color: var(--color-black);
-    width: 100%;
+    /*width: 100%;*/
     max-width: 800px;
     margin: 40px auto;
     padding: var(--padding-3xs) 0;
@@ -34,7 +34,6 @@
 .quizLevel {
     border: 2px solid var(--color-primary);
     border-radius: var(--br-xs);
-    font-size: 1.5rem;
     cursor: pointer;
     display: flex;
     gap: 0px;
@@ -59,7 +58,10 @@
     background-color: var(--color-primary);
 }
 .levelDescription {
-    font-size: 0.8rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
 }
 
 .quizScore {
