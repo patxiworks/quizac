@@ -15,7 +15,7 @@ import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import { keyExists, checkScore, avgScore } from "../utils";
 import styles from "../styles/map.module.css";
-import commonStyles from "../styles/common.module.css";
+import commonStyles from "../styles/common-map.module.css";
 
 const render = (status) => {
   if (status === Status.LOADING) return <div style={{textAlign:'center'}}><CircularProgress /></div>;
@@ -108,14 +108,14 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
                     {checkScore(score, item.id, gameSettings?.id, quizScore) 
                     ? <div className={`${commonStyles.quizLevel} ${commonStyles.disabledLevel}`} >
                         <div className={commonStyles.levelName}><Image src={`/levels/trophy-${item.id}.png`} width="64" height="64" alt={`Level-${item.id}`} /></div>
-                        <div className={commonStyles.levelDescription}>{writeDescription(item)}</div>
+                        <div className={commonStyles.levelDescription}>Level {i}</div>
                       </div>
                     : <div
                         className={`${commonStyles.quizLevel} ${styles[item.name]}`}
                         onClick={() => mapMaster(item)}
                     >
                         <div className={commonStyles.levelName}><Image src={`/levels/trophy-${item.id}.png`} width="64" height="64" alt={`Level-${item.id}`} /></div>
-                        <div className={commonStyles.levelDescription}>{writeDescription(item)}</div>
+                        <div className={commonStyles.levelDescription}>Level {i}</div>
                       </div>
                     }
                   </React.Fragment>

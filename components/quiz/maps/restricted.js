@@ -28,10 +28,14 @@ const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, get
     const [resetTimer, setResetTimer] = useState(false);
     const [stopTimer, setStopTimer] = useState(false);
     const [attempts, setAttempts] = useState(0);
-    const coordinates = [
+    /*const coordinates = [
         title.coordinates._lat,
         title.coordinates._long
-    ] // coordinates from title
+    ]*/
+    const coordinates = [
+        title.coordinates.latitude,
+        title.coordinates.longitude
+    ]
     const location = settings.location;
     const duration = settings.duration;
     const ref = useRef();
