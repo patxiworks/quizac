@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, forwardRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { app } from '../../../firebase';
 import { getAuth } from 'firebase/auth';
@@ -23,7 +23,7 @@ const render = (status) => {
   return null;
 };
 
-const MapGuess = ({ quizData: data, quizDataError: error, category, title }) =>  {
+const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => {
     const [open, setOpen] = useState(false);
     const [postOpen, setPostOpen] = useState(false);
     const [start, setStart] = useState(false);
@@ -38,6 +38,7 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
 
     const getQuizTime = (time) => {
       setQuizTime(time);
+      console.log(time)
     }
 
     const getQuizScore = async (currentScore, otherParams) => {
@@ -48,10 +49,10 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
     }
 
     useEffect(() => {
-      if (title?.id) {
-        getScore(auth.currentUser?.email, category, title?.id, setQuizScore);
+      if (title.id) {
+        getScore(auth.currentUser.email, category, title.id, setQuizScore);
       }
-    }, [title?.id, gameSettings?.id])
+    }, [title.id, gameSettings?.id])
 
     const writeDescription = (item) => {
         let desc = ''

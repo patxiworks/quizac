@@ -1,6 +1,6 @@
 import styles from './styles/mapmeter.module.css'
 
-export default function MapMeter({distance, lastMile, totalDistance, attempts, type}) {
+export default function MapMeter({distance, lastMile, totalDistance, attempts, type, dataRef}) {
     
     return (
         <div id='center' className={styles.container} style={type=='single'?{justifyContent: 'flex-end'}:{}}>

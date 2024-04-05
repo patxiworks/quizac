@@ -3,8 +3,8 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import Tooltip from '@mui/material/Tooltip';
 import styles from "./styles/slide.module.css";
 
-const NUM_ROWS = 5;
-const NUM_COLS = 5;
+const NUM_ROWS = 3;
+const NUM_COLS = 3;
 const NUM_TILES = NUM_ROWS * NUM_COLS;
 const EMPTY_INDEX = NUM_TILES - 1;
 const SHUFFLE_MOVES_RANGE = [60, 80];
@@ -47,7 +47,7 @@ class GameState {
     this.moves = 0;
     this.board = GameState.getNewBoard();
     this.stack = [];
-    //this.shuffle();
+    this.shuffle();
   }
 
   shuffle () {
@@ -64,7 +64,6 @@ class GameState {
     
     const tilePos = this.board[index];
     const emptyPos = this.board[EMPTY_INDEX];
-    console.log(index, tilePos)
 
     if (tilePos[0] === emptyPos[0])
       return Math.abs(tilePos[1] - emptyPos[1]) === 1;
@@ -165,9 +164,9 @@ function useGameState () {
 function Tile ({index, pos, onClick, image}) {
   const top = pos[0]*100 + 5;
   const left = pos[1]*100 + 5;
-  const bgLeft = (index%4)*100 + 5;
-  const bgTop = Math.floor(index/4)*100 + 5;
-  console.log(index, pos, top, left, bgLeft, bgTop)
+  const bgLeft = (index%NUM_COLS)*100 + 5;
+  const bgTop = Math.floor(index/NUM_ROWS)*100 + 5;
+  //console.log(index, pos, top, left, bgLeft, bgTop)
   
   return <div 
     className={styles.tile}
@@ -178,7 +177,7 @@ function Tile ({index, pos, onClick, image}) {
 
 function SlidePuzzle ({ title }) {
   const [board, moves, solved, newGame, undo, move] = useGameState();
-  console.log(board)
+  //console.log(board)
   
   return (
     <div className={styles.gameWrapper}>
@@ -194,7 +193,7 @@ function SlidePuzzle ({ title }) {
         </button>
       </div>
       <div className={styles.boardWrapper}>
-      <div className={styles.board}>
+      <div className={styles.board} style={{width: '308px', height: '308px'}}>
       {
         board.slice(0,-1).map((pos, index) => ( 
           <Tile key={index} index={index} pos={pos} onClick={move(index)} image={title.image} />

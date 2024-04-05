@@ -55,7 +55,7 @@ const StyledAutocomplete = styled(Autocomplete)({
   }
 });
 
-const TopBar = () => {
+const TopBar = ({content}) => {
   const auth = getAuth();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -91,6 +91,7 @@ const TopBar = () => {
   return (
     <div className={styles.topBar}>
       <div className={styles.logoText}><Link href="/">Quizac</Link></div>
+      <div className={styles.topContent}>{content}</div>
       <div className={styles.leftSection}>
         {/*<div className={styles.searchBox}>
           <StyledAutocomplete
