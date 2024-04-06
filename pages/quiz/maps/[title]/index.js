@@ -46,6 +46,28 @@ const QuizDashboard = () => {
   const router = useRouter();
   const ref = useRef(null);
   const { category, title } = router.query;
+  const [frameArrowActive, setFrameArrowActive] = useState(false);
+  const [mapArrowActive, setMapArrowActive] = useState(false);
+  
+  const toggleFrame = () => {
+    setFrameArrowActive(!frameArrowActive);
+  };
+  const toggleMap = () => {
+    setMapArrowActive(!mapArrowActive);
+  };
+  if (frameArrowActive) {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    //document.body.classList.add('gac-fullscreen');
+  } else {
+    //document.body.classList.remove('gac-fullscreen');
+  }
+  const leftFullscreenLeft = frameArrowActive ? styles.leftFullscreenLeft : '';
+  const leftFullscreenRight = frameArrowActive ? styles.leftFullscreenRight : '';
+  const rightFullscreenLeft = mapArrowActive ? styles.leftFullscreenLeft : '';
+  const rightFullscreenRight = mapArrowActive ? styles.leftFullscreenRight : '';
+  const arrowStyle = frameArrowActive ? `${styles.left}` : styles.right;
+  const frameStyle = frameArrowActive ? styles.transformFrame : '';
+  const boxStyle = frameArrowActive ? styles.transformBox : '';
 
   useEffect(() => {
     onAuthStateChanged(auth, (userInfo) => {
@@ -120,16 +142,22 @@ const QuizDashboard = () => {
         {/*<TopBar content="fsds" />*/}
         <div className={styles.login}>
           <div className={styles.mainContainer}>
-            <div className={styles.leftContent}>
+            <div className={`${styles.leftContent} ${leftFullscreenLeft} ${rightFullscreenRight}`}>
               <div className={styles.logo}>
                 <div className={styles.logoBox}>#GidiMaps</div>
               </div>
               <iframe className={styles.gacFrame} src={`https://embed.culturalspot.org/embedv2/asset/${title}`}></iframe>
               <div className={styles.imageFooter}></div>
+              <div className={`${styles.gacFrameHandle} ${boxStyle}`}>
+                <div className={styles.arrowBox} onClick={toggleFrame}><i className={`${styles.arrow} ${arrowStyle}`}></i></div>
+              </div>
             </div>
-            <div className={styles.mainContent}>
+            <div className={`${styles.mainContent} ${leftFullscreenRight} ${rightFullscreenLeft}`}>
               {/*<QuizRender category={category} title={objTitle} quizStarted={checkQuizStart} />*/}
               <MapGuess quizData={data} quizDataError={error} category={category} title={objTitle} />;
+              <div className={`${styles.mapHandle} ${boxStyle}`}>
+                <div className={styles.arrowBox} onClick={toggleMap}><i className={`${styles.arrow} ${arrowStyle}`}></i></div>
+              </div>
             </div>
           </div>
         </div>
