@@ -153,6 +153,7 @@ const SingleMarker = ({settings, title, timerStart, showAlert, getScore, getTime
             zoom: settings.zoom,
             streetViewControl: false,
             mapTypeControl: false,
+            fullscreenControl: false
         });
 
         google.maps.event.addListenerOnce(map, 'tilesloaded', function(){

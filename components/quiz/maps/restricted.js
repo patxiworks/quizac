@@ -257,6 +257,7 @@ const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, get
             streetViewControl: false,
             mapTypeControl: false,
             zoomControl: false,
+            fullscreenControl: false,
             gestureHandling: "auto",
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             restriction: {

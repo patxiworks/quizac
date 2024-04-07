@@ -203,6 +203,7 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
             zoom: settings.zoom,
             streetViewControl: false,
             mapTypeControl: false,
+            fullscreenControl: false
         });
 
         google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
