@@ -61,6 +61,8 @@ const QuizDashboard = () => {
   } else {
     //document.body.classList.remove('gac-fullscreen');
   }
+  const hideMap = frameArrowActive ? styles.hideMap : '';
+  const hideFrame = mapArrowActive ? styles.hideFrame : '';
   const leftFullscreenLeft = frameArrowActive ? styles.leftFullscreenLeft : '';
   const leftFullscreenRight = frameArrowActive ? styles.leftFullscreenRight : '';
   const rightFullscreenLeft = mapArrowActive ? styles.leftFullscreenLeft : '';
@@ -142,7 +144,7 @@ const QuizDashboard = () => {
         {/*<TopBar content="fsds" />*/}
         <div className={styles.login}>
           <div className={styles.mainContainer}>
-            <div className={`${styles.leftContent} ${leftFullscreenLeft} ${rightFullscreenRight}`}>
+            <div className={`${styles.leftContent} ${hideFrame}`}>
               <div className={styles.logo}>
                 <div className={styles.logoBox}>#GidiMaps</div>
               </div>
@@ -152,9 +154,9 @@ const QuizDashboard = () => {
                 <div className={styles.arrowBox} onClick={toggleFrame}><i className={`${styles.arrow} ${arrowStyle}`}></i></div>
               </div>
             </div>
-            <div className={`${styles.mainContent} ${leftFullscreenRight} ${rightFullscreenLeft}`}>
+            <div className={`${styles.mainContent} ${hideMap}`}>
               {/*<QuizRender category={category} title={objTitle} quizStarted={checkQuizStart} />*/}
-              <MapGuess quizData={data} quizDataError={error} category={category} title={objTitle} />;
+              <MapGuess quizData={data} quizDataError={error} category={category} title={objTitle} />
               <div className={`${styles.mapHandle} ${boxStyle}`}>
                 <div className={styles.arrowBox} onClick={toggleMap}><i className={`${styles.arrow} ${arrowStyle}`}></i></div>
               </div>

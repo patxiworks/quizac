@@ -156,6 +156,7 @@
 }
 .mainContent {
   flex: 1.5 1 0px;
+  transition: display 0.5s
 }
 .homeContent,
 .mainContent {
@@ -229,6 +230,7 @@
   overflow: hidden;
   max-height: 100%;
   object-fit: cover;
+  transition: display 0.5s
 }
 .gacFrame {
   width: 100%;
@@ -338,6 +340,10 @@
 }
 .leftFullscreenRight {
     display: none;
+}
+.hideMap,
+.hideFrame {
+  display: none;
 }
 
 @media screen and (max-width: 900px) {
