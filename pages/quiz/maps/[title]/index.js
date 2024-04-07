@@ -63,6 +63,7 @@ const QuizDashboard = () => {
   }
   const hideMap = frameArrowActive ? styles.hideMap : '';
   const hideFrame = mapArrowActive ? styles.hideFrame : '';
+  const showMeter = mapArrowActive ? styles.showMeter : '';
   const leftFullscreenLeft = frameArrowActive ? styles.leftFullscreenLeft : '';
   const leftFullscreenRight = frameArrowActive ? styles.leftFullscreenRight : '';
   const rightFullscreenLeft = mapArrowActive ? styles.leftFullscreenLeft : '';
@@ -154,7 +155,7 @@ const QuizDashboard = () => {
                 <div className={styles.arrowBox} onClick={toggleFrame}><i className={`${styles.arrow} ${arrowStyle}`}></i></div>
               </div>
             </div>
-            <div className={`${styles.mainContent} ${hideMap}`}>
+            <div className={`${styles.mainContent} ${hideMap} ${showMeter}`}>
               {/*<QuizRender category={category} title={objTitle} quizStarted={checkQuizStart} />*/}
               <MapGuess quizData={data} quizDataError={error} category={category} title={objTitle} />
               <div className={`${styles.mapHandle} ${boxStyle}`}>
