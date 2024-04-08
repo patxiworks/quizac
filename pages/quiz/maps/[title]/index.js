@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from 'next/router';
 import Image from 'next/image'
 import Link from "next/link";
-import app from "@/firebase";
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+//import app from "@/firebase";
+//import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import useSWR from 'swr';
 
 import MapGuess from "./maps/map";
@@ -42,7 +42,7 @@ const QuizDashboard = () => {
   const { data, error } = useSWR('/api/quizdata', fetcher);
   const [objTitle, setObjTitle] = useState([]);
   const [user, setUser] = useState(null);
-  const auth = getAuth(app);
+  //const auth = getAuth(app);
   const router = useRouter();
   const ref = useRef(null);
   const { category, title } = router.query;
