@@ -9,7 +9,7 @@ import HistorySummary from "./history-summary";
 import styles from "./styles/main-section.module.css";
 import { useRouter } from 'next/router';
 import { getAuth, signInAnonymously } from 'firebase/auth';
-import app from '../../firebase';
+import { app } from '../../firebase';
 
 const MainSection = ({ categories }) => {
   const router = useRouter();

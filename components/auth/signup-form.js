@@ -12,7 +12,7 @@ import Image from 'next/image';
 import Button from "./button";
 import styles from "./styles/signup-form.module.css";
 import { getAuth, createUserWithEmailAndPassword , updateProfile} from "firebase/auth";
-import app from "../../firebase";
+import { app } from "../../firebase";
 
 const SignupForm = () => {
   const [firstName, setFirstName] = useState("");

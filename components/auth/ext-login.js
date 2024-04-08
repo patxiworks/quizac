@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInAnonymously } from 'firebase/auth';
-import app from "@/firebase";
+import { app } from "@/firebase";
 import Image from 'next/image';
 import styles from "./styles/ext-login.module.css";
 
