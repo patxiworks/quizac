@@ -1,0 +1,111 @@
+.container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-self: stretch;
+    width: 100%;
+    /*margin: 20px 0*/
+}
+.mapContainer {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    margin: 0px;
+    width: 100%;
+    /*height: 450px;
+    border: 1px solid #333;*/
+    border-top: none;
+    /*border-radius: 0 0 var(--br-5xl) var(--br-5xl);*/
+}
+.map {
+    border: 1px solid;
+    border-top: none;
+    /*border-radius: 0 0 var(--br-5xl) var(--br-5xl);*/
+    height: 100%;
+    width: 100%;
+}
+
+.pano {
+    float: left;
+    height: 100%;
+    width: 50%;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left-width: 0px;
+}
+
+.single .resultContainer {
+    justify-content: flex-end;
+}
+
+.timer {
+    margin-bottom: -25px;
+    text-align: right;
+}
+.timer div {
+    position: relative;
+    z-index: 1;
+    width: 50px;
+    margin: 0 10px 0 4px;
+    padding: 0 5px;
+    font-weight: bold;
+    background: #fff;
+    display: inline;
+}
+
+.distanceBox span,
+.scoreBox span {
+    font-weight: bold;
+}
+
+.scoreBox {
+    background-color: #cf2323 !important;
+    font-weight: bold;
+}
+
+.guessButtonContainer {
+    display: flex;
+    flex-basis: 0;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    width: auto;
+    text-align: center;
+    margin: 60px auto 0;
+    position: absolute;
+    bottom: 40px;
+}
+
+.guessButton {
+    position: relative;
+    background-color: var(--color-primary-bright);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    /*box-shadow: 1px 1px 5px 1px #ccc;*/
+    cursor: pointer;
+}
+
+.alertBox {
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 5px;
+    display: none;
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        /*width: 111%;
+        margin-left: -20px;*/
+    }
+    .container,
+    .mapContainer {
+        /*height: 450px;*/
+        border-radius: 0;
+    }
+    .map {
+        border-radius: 0;
+    }
+}
