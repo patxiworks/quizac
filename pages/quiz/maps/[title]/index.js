@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from 'next/router';
+import Image from 'next/image'
 import Link from "next/link";
 import app from "@/firebase";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import useSWR from 'swr';
 
-import TopBar from "@/components/dashboard/top-bar";
-import MapGuess from "@/components/quiz/maps/map";
-import QuizSection from "@/components/quiz/quiz-section";
-import MapSection from "@/components/quiz/quiz-section-maps";
+import MapGuess from "./maps/map";
 import { getCategories, getCategory, getTitles } from "@/data/fetch";
-import styles from "@/components/quiz/styles/quiz-section-maps.module.css";
+import styles from "./styles/layout.module.css";
+import mapbg from './images/map-bg.png'
+
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 const rawTitles = [{
@@ -67,7 +67,7 @@ const QuizDashboard = () => {
   const frameStyle = frameArrowActive ? styles.transformFrame : '';
   const boxStyle = frameArrowActive ? styles.transformBox : '';
 
-  useEffect(() => {
+  /*useEffect(() => {
     onAuthStateChanged(auth, (userInfo) => {
       if (userInfo) {
         setUser(userInfo)
@@ -76,7 +76,7 @@ const QuizDashboard = () => {
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []);*/
 
   useEffect(() => {
     setStartQuiz(false);
@@ -151,7 +151,6 @@ const QuizDashboard = () => {
               </div>
             </div>
             <div className={`${styles.mainContent} ${hideMap} ${showMeter}`}>
-              {/*<QuizRender category={category} title={objTitle} quizStarted={checkQuizStart} />*/}
               <MapGuess quizData={data} quizDataError={error} category={category} title={objTitle} />
               <div className={`${styles.mapHandle} ${boxStyle}`}>
                 <div className={styles.arrowBox} onClick={toggleMap}><i className={`${styles.arrow} ${mapArrow}`}></i></div>
