@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/router';
 import Link from "next/link";
-import app from "@/firebase";
+import { app } from "@/firebase";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import TopBar from "@/components/dashboard/top-bar";
