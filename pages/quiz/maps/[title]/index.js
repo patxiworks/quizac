@@ -57,18 +57,13 @@ const QuizDashboard = () => {
   };
   if (frameArrowActive) {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    //document.body.classList.add('gac-fullscreen');
-  } else {
-    //document.body.classList.remove('gac-fullscreen');
-  }
+  } 
+
   const hideMap = frameArrowActive ? styles.hideMap : '';
   const hideFrame = mapArrowActive ? styles.hideFrame : '';
   const showMeter = mapArrowActive ? styles.showMeter : '';
-  const leftFullscreenLeft = frameArrowActive ? styles.leftFullscreenLeft : '';
-  const leftFullscreenRight = frameArrowActive ? styles.leftFullscreenRight : '';
-  const rightFullscreenLeft = mapArrowActive ? styles.leftFullscreenLeft : '';
-  const rightFullscreenRight = mapArrowActive ? styles.leftFullscreenRight : '';
-  const arrowStyle = frameArrowActive ? `${styles.left}` : styles.right;
+  const frameArrow = frameArrowActive ? styles.frameFilled : styles.frameNormal;
+  const mapArrow = mapArrowActive ? styles.mapFilled : styles.mapNormal;
   const frameStyle = frameArrowActive ? styles.transformFrame : '';
   const boxStyle = frameArrowActive ? styles.transformBox : '';
 
@@ -152,14 +147,14 @@ const QuizDashboard = () => {
               <iframe className={styles.gacFrame} src={`https://embed.culturalspot.org/embedv2/asset/${title}`}></iframe>
               <div className={styles.imageFooter}></div>
               <div className={`${styles.gacFrameHandle} ${boxStyle}`}>
-                <div className={styles.arrowBox} onClick={toggleFrame}><i className={`${styles.arrow} ${arrowStyle}`}></i></div>
+                <div className={styles.arrowBox} onClick={toggleFrame}><i className={`${styles.arrow} ${frameArrow}`}></i></div>
               </div>
             </div>
             <div className={`${styles.mainContent} ${hideMap} ${showMeter}`}>
               {/*<QuizRender category={category} title={objTitle} quizStarted={checkQuizStart} />*/}
               <MapGuess quizData={data} quizDataError={error} category={category} title={objTitle} />
               <div className={`${styles.mapHandle} ${boxStyle}`}>
-                <div className={styles.arrowBox} onClick={toggleMap}><i className={`${styles.arrow} ${arrowStyle}`}></i></div>
+                <div className={styles.arrowBox} onClick={toggleMap}><i className={`${styles.arrow} ${mapArrow}`}></i></div>
               </div>
             </div>
           </div>

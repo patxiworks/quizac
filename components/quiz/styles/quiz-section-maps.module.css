@@ -268,64 +268,53 @@
 }
 
 
-/*.gacFrame {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    position: relative;
-    z-index: 8;
-    transition: position 3s;
-}*/
 .gacFrameHandle {
-    margin: -100px auto;
-    /*margin-top: -500px;
-    margin-left: 92%;
-    margin-right: -10px;*/
-    text-align: right;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    position: relative;
-    z-index: 9;
-    right: 0;
-    transition: margin-right 0.5s, position 1s;
+  /*margin: -100px auto;*/
+  margin-top: -200px;
+  /*margin-left: 92%;
+  margin-right: -10px;*/
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  position: relative;
+  z-index: 9;
+  right: 0;
+  transition: margin-right 0.5s, position 1s;
 }
 .mapHandle {
-  /*margin-top: -100%;
-  margin-right: 94%;
-  text-align: right;*/
+  top: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  align-self: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-self: flex-start;
   position: absolute;
   z-index: 9;
-  /*right: 0;*/
   margin: 50px auto 0;
   transition: margin-right 0.5s, position 1s;
 }
 .arrowBox {
-    background: var(--color-black);
-    opacity: 0.4;
-    color: #fff;
-    width: 50px;
-    height: 50px;
-    border-radius: 5px 0 0 5px;
-    padding: 9px;
-    cursor: pointer;
+  background: var(--color-black);
+  opacity: 0.4;
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  border-radius: 2px;
+  padding: 9px;
+  cursor: pointer;
 }
 .arrow {
-    border: solid #fff;
-    border-width: 0 3px 3px 0;
-    display: inline-block;
-    padding: 5px;
-    margin: 11px 15px 11px 0;
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 5px;
+  margin: 11px 15px 11px 0;
 }
-.right {
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
+.mapFilled, .frameNormal {
+    transform: rotate(315deg);
+    -webkit-transform: rotate(315deg);
 }
-.left {
+.mapNormal, .frameFilled {
     transform: rotate(135deg);
     -webkit-transform: rotate(135deg);
 }
@@ -333,17 +322,11 @@
     position: absolute;
     height: 100vh;
 }
-.transformBox {
+/*.transformBox {
     margin-top: 300px;
     margin-right: -5px;
     position: absolute;
-}
-.leftFullscreenLeft {
-    width: 100%;
-}
-.leftFullscreenRight {
-    display: none;
-}
+}*/
 .hideMap,
 .hideFrame {
   display: none !important;
@@ -374,7 +357,7 @@
       height: 320px;
     }
     .gacFrameHandle {
-      margin-top: -100px top;
+      margin-top: -100px;
       /*margin-right: -10px;*/
       text-align: center;
       display: flex;
@@ -385,19 +368,33 @@
       right: 0;
       transition: margin-right 0.5s, position 1s;
     }
+    .mapHandle {
+      top: revert-layer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      align-self: center;
+      position: absolute;
+      z-index: 9;
+      margin: 50px auto 0;
+      transition: margin-right 0.5s, position 1s;
+    }
     .arrowBox {
       border-radius: 0 0 5px 5px;
     }
     .arrow {
+      margin: 10px 0 15px 0;
+    }
+    .arrowMap {
       margin: 0 0 15px 0;
     }
-    .right {
+    .mapFilled, .frameNormal {
       transform: rotate(45deg);
       -webkit-transform: rotate(45deg);
     }
-    .left {
-      transform: rotate(-135deg);
-      -webkit-transform: rotate(-135deg);
+    .mapNormal, .frameFilled {
+        transform: rotate(225deg);
+        -webkit-transform: rotate(225deg);
     }
     .transformFrame {
       min-height: 100vh;
