@@ -15,6 +15,7 @@ export default function CountdownTimer({
     useEffect(() => {
         getTime(arrSeconds.length ? arrSeconds : parseInt(initialSeconds-seconds));
         setSeconds(0);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [stop])
 
     useEffect(() => {
