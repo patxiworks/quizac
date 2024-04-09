@@ -6,10 +6,9 @@ import Link from "next/link";
 //import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import useSWR from 'swr';
 
-import MapGuess from "./maps/map";
+import MapGuess from "@/mapapp/maps/map";
 import { getCategories, getCategory, getTitles } from "@/data/fetch";
-import styles from "./styles/layout.module.css";
-import mapbg from './images/map-bg.png'
+import styles from "@/mapapp/styles/layout.module.css";
 
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
