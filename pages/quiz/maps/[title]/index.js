@@ -146,6 +146,19 @@ const QuizDashboard = () => {
               </div>
               <iframe className={styles.gacFrame} src={`https://embed.culturalspot.org/embedv2/asset/${title}`}></iframe>
               <div className={styles.imageFooter}></div>
+              <div className={styles.navigation}>
+                <Link href="/quiz/maps/cwG5fuvzBHXmFg">
+                  <div className={`${styles.navLeft} ${styles.nav}`}>
+                    <i className={`${styles.navArrow} ${styles.arrowLeft}`}></i>
+                  </div>
+                </Link>
+                <Link href="/quiz/maps/fQEwgd-RLFm96A">
+                  <div className={`${styles.navRight} ${styles.nav}`}>
+                    <i className={`${styles.navArrow} ${styles.arrowRight}`}></i>
+                  </div>
+                </Link>
+              </div>
+              
               <div className={`${styles.gacFrameHandle} ${boxStyle}`}>
                 <div className={styles.arrowBox} onClick={toggleFrame}><i className={`${styles.arrow} ${frameArrow}`}></i></div>
               </div>

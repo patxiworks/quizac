@@ -186,10 +186,6 @@
   justify-content: flex-start;
   width: 100%;
 }
-.pageForm {
-  /*width: 817px;
-  height: 639px;*/
-}
 .frame,
 .pageForm {
   align-items: center;
@@ -267,7 +263,62 @@
   background: #000;
 }
 
-
+.navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  position: absolute;
+  margin-top: 100px;
+  height: 0px;
+}
+.nav {
+  height: 50px;
+  padding: 3px;
+  border: 2px solid #000;
+  background-color: #fff;
+}
+.nav:hover {
+  background-color: #42a976;
+}
+.navArrow {
+  border: solid #000;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 5px;
+}
+.arrowLeft {
+  margin: 4px 0px 0px 4px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+.navLeft {
+  text-align: right;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  z-index: 9;
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+  box-shadow: 0px 2px #000;
+}
+.arrowRight {
+  margin: 15px 5px 11px 0;
+  transform: rotate(315deg);
+  -webkit-transform: rotate(315deg);
+}
+.navRight {
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  z-index: 9;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  box-shadow: 1px 2px;
+}
 .gacFrameHandle {
   /*margin: -100px auto;*/
   margin-top: -200px;
