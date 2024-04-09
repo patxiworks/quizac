@@ -106,6 +106,7 @@ const QuizDashboard = () => {
 
   useEffect(() => {
     setGroupTitles(getGroupTitles(titles, quizTitle?.group))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quizTitle])
 
   useEffect(() => {
