@@ -15,12 +15,14 @@ export default function CountdownTimer({
     useEffect(() => {
         getTime(arrSeconds.length ? arrSeconds : parseInt(initialSeconds-seconds));
         setSeconds(0);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [stop])
 
     useEffect(() => {
         // capture each time spent before a reset
         if (reset !== undefined) setArrSeconds([...arrSeconds, parseInt(initialSeconds-seconds)])
         setSeconds(initialSeconds);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reset])
     
     useEffect(() => {
@@ -39,6 +41,7 @@ export default function CountdownTimer({
             // Clean up the timer
             return () => clearInterval(timer)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [seconds, start]);
     
     // Format the remaining time (e.g., “00:05:10” for 5 minutes and 10 seconds)

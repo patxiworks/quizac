@@ -218,7 +218,7 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
         });
 
         setMapInstance(map)
-        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [timerStart]);
 
     useEffect(()=> {

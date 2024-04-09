@@ -38,12 +38,14 @@ function Quiz({ quizData, quizDataError, category, title }) {
       getScore(auth.currentUser.email, category, title, setQuizScore);
     }
     //setSumScore(quizScore[1]?.reduce((a, o) => a + o.score, 0));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title, level])
 
   useEffect(() => {
     if (title) {
       getQuestions(category, title, setAllQuestions);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title]);
 
   useEffect(() => {
