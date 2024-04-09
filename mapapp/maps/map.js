@@ -108,7 +108,7 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
                 }}
               />
               <div className={commonStyles.introContent}>
-                <div className={commonStyles.quizTitle}>Choose a level</div>
+                <div className={commonStyles.quizTitle}></div>
                 <div className={commonStyles.quizLevelContainer}>
                   {data.maps.levels.map((item, i) => (
                     <React.Fragment key={i}>
@@ -123,14 +123,14 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
                       }
                       {checkScore(score, item.id, gameSettings?.id, quizScore) 
                       ? <div className={`${commonStyles.quizLevel} ${commonStyles.disabledLevel}`} >
-                          <div className={commonStyles.levelName}><Image src={`/levels/trophy-${item.id}.png`} width="64" height="64" alt={`Level-${item.id}`} /></div>
+                          <div className={commonStyles.levelName}><Image src={`/levels/trophy-${item.id}.png`} width="48" height="48" alt={`Level-${item.id}`} /></div>
                           <div className={commonStyles.levelDescription}>Level {i}</div>
                         </div>
                       : <div
                           className={`${commonStyles.quizLevel} ${styles[item.name]}`}
                           onClick={() => mapMaster(item)}
                       >
-                          <div className={commonStyles.levelName}><Image src={`/levels/trophy-${item.id}.png`} width="64" height="64" alt={`Level-${item.id}`} /></div>
+                          <div className={commonStyles.levelName}><Image src={`/levels/trophy-${item.id}.png`} width="48" height="48" alt={`Level-${item.id}`} /></div>
                           <div className={commonStyles.levelDescription}>Level {i}</div>
                         </div>
                       }
@@ -152,18 +152,6 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
                   //value={value}
               />
               <div className={styles.alertBox}>
-                {/*<Collapse in={!open && !startTimer && !end}>
-                  <Alert 
-                    severity="info"
-                    action={
-                      <Button color="inherit" size="small" onClick={()=>openPreDialog()}>
-                        See demo
-                      </Button>
-                    }
-                  >
-                    Are you ready?
-                  </Alert>
-                </Collapse>*/}
                 <Collapse in={!open && startTimer && end}>
                   <Alert 
                     severity="success"
