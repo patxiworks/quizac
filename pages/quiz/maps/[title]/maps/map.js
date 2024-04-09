@@ -9,7 +9,7 @@ import { CircularProgress } from '@mui/material';
 import { SingleMarker } from './single';
 import { MultipleMarker } from './multiple';
 import { RestrictedMarker } from './restricted';
-import { ConfirmationDialog } from "../components/dialog";
+import { ConfirmationDialogMaps } from "../components/dialog";
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
@@ -141,7 +141,7 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
             </div>
           ) : (
             <>
-              <ConfirmationDialog
+              <ConfirmationDialogMaps
                   id="pre-quiz"
                   keepMounted
                   open={open}
