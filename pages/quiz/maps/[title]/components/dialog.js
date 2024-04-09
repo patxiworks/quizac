@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 
-function ConfirmationDialog(props) {
+function ConfirmationDialogMaps(props) {
   const { onClose, value: valueProp, open, ...other } = props;
   const [value, setValue] = React.useState(valueProp);
 
@@ -45,12 +45,12 @@ function ConfirmationDialog(props) {
   );
 }
 
-ConfirmationDialog.propTypes = {
+ConfirmationDialogMaps.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   //value: PropTypes.string.isRequired,
 };
 
 export {
-    ConfirmationDialog
+    ConfirmationDialogMaps
 }
