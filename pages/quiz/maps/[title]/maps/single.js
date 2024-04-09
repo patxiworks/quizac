@@ -167,7 +167,7 @@ const SingleMarker = ({settings, title, timerStart, showAlert, getScore, getTime
         });
         setMapInstance(map);
         guess_coordinates = [];
-        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [timerStart]);
 
     useEffect(()=> {

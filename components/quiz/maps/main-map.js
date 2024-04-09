@@ -52,6 +52,7 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
       if (title.id) {
         getScore(auth.currentUser.email, category, title.id, setQuizScore);
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [title.id, gameSettings?.id])
 
     const writeDescription = (item) => {

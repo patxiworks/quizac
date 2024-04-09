@@ -15,6 +15,7 @@ const CategoriesContent = ({ category, titles, popupTitle }) => {
 
   useEffect(() => {
     setFiltered(titles)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   return (

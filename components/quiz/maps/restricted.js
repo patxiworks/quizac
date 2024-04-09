@@ -292,7 +292,7 @@ const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, get
 
         setMapCoordinates(map);
         setMapInstance(map)
-        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [timerStart]);
 
     useEffect(()=> {

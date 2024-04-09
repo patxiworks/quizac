@@ -15,6 +15,7 @@ const Categories = ({ categories }) => {
 
   useEffect(() => {
     setFiltered(categories)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   return (

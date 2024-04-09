@@ -15,6 +15,7 @@ const QuizRender = ({category, title, quizStarted}) => {
     useEffect(() => {
         setStartQuiz(false);
         quizStarted(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [title?.id]);
 
     const checkType = () => {
