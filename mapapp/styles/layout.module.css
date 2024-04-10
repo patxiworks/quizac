@@ -345,13 +345,14 @@
   transition: margin-right 0.5s, position 1s;
 }
 .arrowBox {
-  background: var(--color-black);
-  opacity: 0.4;
-  color: #fff;
-  width: 50px;
-  height: 50px;
-  border-radius: 2px;
-  padding: 9px;
+  background: #fff;
+  /*opacity: 0.4;*/
+  color: #000; /*#fff;*/
+  width: 20px;
+  /*border-radius: 2px;
+  padding: 9px;*/
+  border: 1px solid #000;
+  background-color: #000;
   cursor: pointer;
 }
 .arrow {
@@ -407,35 +408,53 @@
     .gacFrame {
       height: 320px;
     }
+    .arrowBox {
+      width: 50px;
+      height: 20px;
+      border: 1px solid #000;
+      box-shadow: 0 1px #000;
+    }
     .gacFrameHandle {
       margin-top: -100px;
       /*margin-right: -10px;*/
       text-align: center;
       display: flex;
       justify-content: center;
-      align-items: center;
+      /*align-items: center;*/
       align-self: center;
       position: relative;
       z-index: 9;
-      right: 0;
+      height: 50px;
       transition: margin-right 0.5s, position 1s;
     }
     .mapHandle {
       top: revert-layer;
       display: flex;
       justify-content: center;
-      align-items: center;
+      /*align-items: center;*/
       align-self: center;
       position: absolute;
       z-index: 9;
       margin: 50px auto 0;
+      height: 50px;
       transition: margin-right 0.5s, position 1s;
     }
-    .arrowBox {
+    .mapHandle .arrowBox {
       border-radius: 0 0 5px 5px;
+      border-top: none;
     }
-    .arrow {
-      margin: 10px 0 15px 0;
+    .gacFrameHandle .arrowBox {
+      border-radius: 5px 5px 0 0;
+      border-bottom: none;
+    }
+    .mapHandle .arrow {
+      margin: 5px 0 15px 0;
+    }
+    .mapHandle .mapFilled {
+      margin: 0 0 15px 0;
+    }
+    .gacFrameHandle .arrow {
+      margin: 1px 0 15px 0;
     }
     .arrowMap {
       margin: 0 0 15px 0;
