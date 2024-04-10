@@ -137,7 +137,6 @@ const QuizDashboard = () => {
     <>
     <div id="quiz" className={styles.quiz}>
       <div className={styles.topContainer}>
-        {/*<TopBar content="fsds" />*/}
         <div className={styles.login}>
           <div className={styles.mainContainer}>
             <div className={`${styles.leftContent} ${hideFrame}`}>
