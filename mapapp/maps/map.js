@@ -109,7 +109,7 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
               />
               <div className={commonStyles.introContent}>
                 <div className={commonStyles.quizTitle}>
-                Brick houses dot the landscape's hue, Roofs of red and white, a vibrant view. Narrow streets like veins, teeming with life, Cars threading through, amidst the urban strife. From above, a tapestry of homes and grace, Surulere's charm, a captivating space.
+                
                 </div>
                 <div className={commonStyles.quizLevelContainer}>
                   {data.maps.levels.map((item, i) => (
