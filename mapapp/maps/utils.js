@@ -7,14 +7,19 @@ const keyExists = (key, obj) => {
 }
 
 const checkScore = (a, b, c, d) => {
-    if ((a || a===0) && b==c) {
-      return true;
-    } else if (keyExists(b, d)) {
-      if (d[b]?.length) {
-        return true
+    console.log(a, b, c, d)
+    //if (d[b]?.length < 3) {
+      //if ((a || a===0) && b==c) {
+        //return true;
+      if (keyExists(b, d)) {
+        if (d[b]?.length >= 3) {
+          return true
+        }
       }
-    }
-    return false;
+      return false;
+    //} else {
+      //return false;
+    //}
 }
 
 const avgScore = (arr, float=false) => {
@@ -22,7 +27,7 @@ const avgScore = (arr, float=false) => {
       return 0;
     }
     if (float) {
-      const avg = (arr.reduce((acc, curr) => acc + parseFloat(curr.score), 0))/arr.length;
+      const avg = (arr.reduce((acc, curr) => acc + parseFloat(curr.score ? curr.score : 0), 0))/arr.length;
       return avg.toFixed(2)
     } else {
       return (arr.reduce((acc, curr) => acc + curr.score, 0))/arr.length;

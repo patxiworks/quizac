@@ -21,6 +21,18 @@ const rawTitles = [{
   "thumbnail":"https://lh3.googleusercontent.com/ci/AA1T9HJn4SBuX5jNibLjnyDMGGZuLCDWWaVDOZNs_8Zy8PHUr6Rprk8aeO8OXNY1Ra0ksi37z3ncFQw=s70-ci",
   "image":"https://lh3.googleusercontent.com/KmfEy3lkQYBGTDVt8N2xbGI2CwjOqOVXYGoQhH6CjlptcJtuE8TwC0uJo4MVoPN8lA=s384",
   "title":"LSDPC Housing Estate"
+},{
+  "id":"cwG5fuvzBHXmFg",
+  "group":"Aerial shots",
+  "coordinates":{"latitude":6.473583,"longitude":3.370667},
+  "description":"The Lagos State Development and Property Corporation (LSDPC) Housing Estate is one of the low-cost apartment buildings set up by the government for its workers in the 1990s to sustain and ease accommodation issues for them. It is located on Lagos Mainland, close to the Third Mainland Bridge, one of several roads that connect the Mainland to the Island. The orderly grid that characterises the Estate in contrast to the neighbouring buildings suggests that it was well-planned.",
+  "title":"Surulere community"
+},{
+  "id":"fQEwgd-RLFm96A",
+  "group":"Aerial shots",
+  "coordinates":{"latitude":6.473583,"longitude":3.370667},
+  "description":"The Lagos State Development and Property Corporation (LSDPC) Housing Estate is one of the low-cost apartment buildings set up by the government for its workers in the 1990s to sustain and ease accommodation issues for them. It is located on Lagos Mainland, close to the Third Mainland Bridge, one of several roads that connect the Mainland to the Island. The orderly grid that characterises the Estate in contrast to the neighbouring buildings suggests that it was well-planned.",
+  "title":"A community field"
 }]
 
 const QuizDashboard = () => {
@@ -112,7 +124,6 @@ const QuizDashboard = () => {
     const mTitle = titles.filter(t => t.id == title);
     const sTitles = titles.filter(item => item.group == mTitle[0]?.group);
     setObjTitle(mTitle[0]);
-    console.log(mTitle[0])
     // set nextTitle
     const gTitles = sTitles.map(i => i.id);
     const current = gTitles.indexOf(title)
@@ -120,7 +131,7 @@ const QuizDashboard = () => {
     const prev = current-1 < 0 ? gTitles.length-1 : current-1;
     setNextTitle(sTitles[next]?.id);
     setPrevTitle(sTitles[prev]?.id)
-
+    //console.log(prevTitle, nextTitle)
     // set quizTitle
     const arrQuizTitle = titles?.filter(t => t.id === title);
     setQuizTitle(arrQuizTitle && arrQuizTitle.length ? arrQuizTitle[0] : null);
@@ -146,12 +157,12 @@ const QuizDashboard = () => {
               <iframe className={styles.gacFrame} src={`https://embed.culturalspot.org/embedv2/asset/${title}`}></iframe>
               <div className={styles.imageFooter}></div>
               <div className={styles.navigation}>
-                <Link href="/quiz/maps/cwG5fuvzBHXmFg">
+                <Link href={`/quiz/maps/${prevTitle}`}>
                   <div className={`${styles.navLeft} ${styles.nav}`}>
                     <i className={`${styles.navArrow} ${styles.arrowLeft}`}></i>
                   </div>
                 </Link>
-                <Link href="/quiz/maps/fQEwgd-RLFm96A">
+                <Link href={`/quiz/maps/${nextTitle}`}>
                   <div className={`${styles.navRight} ${styles.nav}`}>
                     <i className={`${styles.navArrow} ${styles.arrowRight}`}></i>
                   </div>

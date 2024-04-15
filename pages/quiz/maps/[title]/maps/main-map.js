@@ -1,23 +1,21 @@
-import React, { useState, useEffect, useRef, forwardRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { app } from "@/firebase";
+import { app } from '../../../firebase';
 import { getAuth } from 'firebase/auth';
 import { getTitles, getQuestions, getScore } from "@/data/fetch";
 import { setUserScoreWithLevel } from '@/data/set';
-import { saveToLocalStorage } from './data';
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { CircularProgress } from '@mui/material';
 import { SingleMarker } from './single';
 import { MultipleMarker } from './multiple';
 import { RestrictedMarker } from './restricted';
-import { ConfirmationDialogMaps } from "../components/dialog";
+import { ConfirmationDialog } from "../quiz-dialog";
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
-import { keyExists, checkScore, avgScore } from "./utils";
+import { keyExists, checkScore, avgScore } from "../utils";
 import styles from "../styles/map.module.css";
 import commonStyles from "../styles/common.module.css";
-import mapbg from '../images/map-bg.png'
 
 const render = (status) => {
   if (status === Status.LOADING) return <div style={{textAlign:'center'}}><CircularProgress /></div>;
@@ -25,7 +23,7 @@ const render = (status) => {
   return null;
 };
 
-const MapGuess = ({ quizData: data, quizDataError: error, category, title }) =>  {
+const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => {
     const [open, setOpen] = useState(false);
     const [postOpen, setPostOpen] = useState(false);
     const [start, setStart] = useState(false);
@@ -40,30 +38,21 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
 
     const getQuizTime = (time) => {
       setQuizTime(time);
+      console.log(time)
     }
 
     const getQuizScore = async (currentScore, otherParams) => {
-      //setScore(currentScore);
+      setScore(currentScore);
       const params = {'time': quizTime, ...otherParams};
       //console.log(params)
-      //await setUserScoreWithLevel(auth.currentUser.email, category, title.id, gameSettings?.id, currentScore, params);
-      saveToLocalStorage(title.id, gameSettings?.id, currentScore, params)
+      await setUserScoreWithLevel(auth.currentUser.email, category, title.id, gameSettings?.id, currentScore, params);
     }
 
     useEffect(() => {
-      setStart(false);
-    }, [title?.id])
-
-    useEffect(() => {
-      if (title?.id) {
-        //getScore(auth.currentUser?.email, category, title?.id, setQuizScore);
-        const localdata = JSON.parse(localStorage.getItem("quizac")) || {}
-        setQuizScore(localdata[title?.id])
-        // Get the value from local storage if it exists
-        console.log(JSON.parse(localStorage.getItem("quizac")) || "")
+      if (title.id) {
+        getScore(auth.currentUser.email, category, title.id, setQuizScore);
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [title?.id, gameSettings?.id])
+    }, [title.id, gameSettings?.id])
 
     const writeDescription = (item) => {
         let desc = ''
@@ -104,54 +93,39 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
         <>
         {!start ? (
             <div className={commonStyles.quizContainer}>
-              <div className={commonStyles.introHeader}>Explore the sights of Lagos!</div>
-              <Image
-                alt="Map"
-                src={mapbg}
-                placeholder="blur"
-                quality={100}
-                fill
-                sizes="100vw"
-                style={{
-                  objectFit: 'cover',
-                  opacity: 0.2
-                }}
-              />
-              <div className={commonStyles.introContent}>
-                <div className={commonStyles.quizTitle}>
-                
-                </div>
-                <div className={commonStyles.quizLevelContainer}>
-                  {data.maps.levels.map((item, i) => (
-                    <React.Fragment key={i}>
-                      {
-                        keyExists(item.id, quizScore) 
+              <div className={commonStyles.quizTitle}>Choose a level</div>
+              <div className={commonStyles.quizLevelContainer}>
+                {data.maps.levels.map((item, i) => (
+                  <React.Fragment key={i}>
+                    {
+                      (score || score === 0) && item.id==gameSettings?.id
+                      ? <div className={commonStyles.scoreBadge}>Score: {score}</div>
+                      : keyExists(item.id, quizScore) 
                         ? quizScore[item.id]?.length 
                           ? <div className={commonStyles.scoreBadge}>Score: {avgScore(quizScore[item.id], true)}</div> 
                           : ''
                         : ''
-                      }
-                      {checkScore(score, item.id, gameSettings?.id, quizScore) 
-                      ? <div className={`${commonStyles.quizLevel} ${commonStyles.disabledLevel}`} >
-                          <div className={commonStyles.levelName}><Image src={`/levels/trophy-${item.id}.png`} width="48" height="48" alt={`Level-${item.id}`} /></div>
-                          <div className={commonStyles.levelDescription}>Level {i}</div>
-                        </div>
-                      : <div
-                          className={`${commonStyles.quizLevel} ${styles[item.name]}`}
-                          onClick={() => mapMaster(item)}
-                        >
-                          <div className={commonStyles.levelName}><Image src={`/levels/trophy-${item.id}.png`} width="48" height="48" alt={`Level-${item.id}`} /></div>
-                          <div className={commonStyles.levelDescription}>Level {i}</div>
-                        </div>
-                      }
-                    </React.Fragment>
-                  ))}
-                </div>
+                    }
+                    {checkScore(score, item.id, gameSettings?.id, quizScore) 
+                    ? <div className={`${commonStyles.quizLevel} ${commonStyles.disabledLevel}`} >
+                        <div className={commonStyles.levelName}><Image src={`/levels/trophy-${item.id}.png`} width="64" height="64" alt={`Level-${item.id}`} /></div>
+                        <div className={commonStyles.levelDescription}>{writeDescription(item)}</div>
+                      </div>
+                    : <div
+                        className={`${commonStyles.quizLevel} ${styles[item.name]}`}
+                        onClick={() => mapMaster(item)}
+                    >
+                        <div className={commonStyles.levelName}><Image src={`/levels/trophy-${item.id}.png`} width="64" height="64" alt={`Level-${item.id}`} /></div>
+                        <div className={commonStyles.levelDescription}>{writeDescription(item)}</div>
+                      </div>
+                    }
+                  </React.Fragment>
+                ))}
               </div>
             </div>
           ) : (
             <>
-              <ConfirmationDialogMaps
+              <ConfirmationDialog
                   id="pre-quiz"
                   keepMounted
                   open={open}
@@ -162,6 +136,18 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
                   //value={value}
               />
               <div className={styles.alertBox}>
+                {/*<Collapse in={!open && !startTimer && !end}>
+                  <Alert 
+                    severity="info"
+                    action={
+                      <Button color="inherit" size="small" onClick={()=>openPreDialog()}>
+                        See demo
+                      </Button>
+                    }
+                  >
+                    Are you ready?
+                  </Alert>
+                </Collapse>*/}
                 <Collapse in={!open && startTimer && end}>
                   <Alert 
                     severity="success"

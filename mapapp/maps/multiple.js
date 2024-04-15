@@ -4,20 +4,21 @@ import { calculateDistance, calculateScore } from "./utils";
 import CountdownTimer from "../components/timer";
 import styles from "../styles/map.module.css";
 
-var accumulated_distance = 0;
+//var accumulated_distance = 0;
 var current_name = '';
-var distance_from_guess = 0;
-var markers = [];
+//var distance_from_guess = 0;
+//var markers = [];
 var guess_coordinates = [];
 var curr_coordinates = [];
 var check_count = 0;
-var guess_distances = []; // list of distances
+//var guess_distances = []; // list of distances
 var userStats = {'last_dist_cov': [], 'dist_to_dest': []};
 
 const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTime}) => {
     const [mapInstance, setMapInstance] = useState(null);
     const [distanceValue, setDistanceValue] = useState(null);
     const [totalDistance, setTotalDistance] = useState(null);
+    const [guessDistances, setGuessDistances] = useState([]);
     const [lastMile, setLastMile] = useState(null);
     const [score, setScore] = useState(0);
     const [completed, setCompleted] = useState(false);
@@ -25,6 +26,7 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
     const [resetTimer, setResetTimer] = useState(false);
     const [stopTimer, setStopTimer] = useState(false);
     const [attempts, setAttempts] = useState(0);
+    const [count, setCount] = useState(-1);
     /*const coordinates = [
         title.coordinates._lat,
         title.coordinates._long
@@ -36,6 +38,12 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
     const location = settings.location;
     const duration = settings.duration;
     const ref = useRef();
+
+    var markers = [];
+    var guess_distances = []; // list of distances
+    var accumulated_distance = 0;
+    var distance_from_guess = 0;
+    //var check_count = 0;
 
     function deleteMarkers() {
         clearMarkers();
@@ -164,7 +172,8 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
         finish(mapInstance);
         setCompleted(true);
         showAlert();
-        const final_score = parseFloat(calculateTotalScore(guess_distances).toFixed(2));
+        const final_score = parseFloat(calculateTotalScore(guessDistances).toFixed(2));
+        //console.log(guessDistances)
         setScore(final_score);
         getScore(final_score, userStats); // lifted to parent component
     }
@@ -178,7 +187,12 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
     }
 
     useEffect(() => {
+        check_count = 0;
+    }, [])
+
+    useEffect(() => {
         function placeMarker(location, map) {
+            console.log(check_count)
             curr_coordinates = [];
             const marker = new google.maps.Marker({
                 position: location, 
@@ -194,6 +208,7 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
                 setLastMile(guess_distances[guess_distances.length-1].toFixed(1));
             }
             setAttempts(guess_distances.length);
+            setGuessDistances(guess_distances);
             setResetTimer(prev => !prev);
         }
         
@@ -208,10 +223,11 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
         google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
             //setStartTimer(true);
         });
-
+        
         window.google.maps.event.addListener(map, 'click', function(event) {
             if (check_count >= 0) placeMarker(event.latLng, map);
             if (check_count == 0) {
+                //setCount((prevCount) => prevCount+1);
                 check_count += 1;
             }
         });

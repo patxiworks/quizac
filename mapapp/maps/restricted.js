@@ -4,11 +4,11 @@ import { calculateDistance, calculateDestinationCoordinates, calculateScore } fr
 import CountdownTimer from "../components/timer";
 import styles from "../styles/map.module.css";
 
-var accumulated_distance = 0;
+//var accumulated_distance = 0;
 var current_name = '';
 var distance_from_guess = 0;
 var startMarker = [];
-var markers = [];
+//var markers = [];
 var guess_coordinates = [];
 var curr_coordinates = [];
 var check_count = 0;
@@ -27,6 +27,7 @@ const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, get
     const [resetTimer, setResetTimer] = useState(false);
     const [stopTimer, setStopTimer] = useState(false);
     const [attempts, setAttempts] = useState(0);
+    const [count, setCount] = useState(0);
     /*const coordinates = [
         title.coordinates._lat,
         title.coordinates._long
@@ -38,6 +39,9 @@ const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, get
     const location = settings.location;
     const duration = settings.duration;
     const ref = useRef();
+
+    var markers = [];
+    var accumulated_distance = 0;
 
     function deleteMarkers() {
         clearMarkers();
@@ -221,6 +225,10 @@ const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, get
     }
 
     useEffect(() => {
+        check_count = 0;
+    }, [])
+
+    useEffect(() => {
         function placeMarker(location, map, start=false) {
             curr_coordinates = [];
             const marker = new google.maps.Marker({
@@ -285,6 +293,7 @@ const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, get
         window.google.maps.event.addListener(map, 'click', function(event) {
             if (check_count >= 0) placeMarker(event.latLng, map, true);
             if (check_count == 0) {
+                //setCount((prevCount) => prevCount+1);
                 check_count += 1;
             }
         });

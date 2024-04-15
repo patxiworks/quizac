@@ -7,7 +7,7 @@ import styles from "../styles/map.module.css";
 var accumulated_distance = 0;
 var current_name = '';
 var distance_from_guess = [];
-var markers = [];
+//var markers = [];
 var guess_coordinates = [];
 var check_count = 0;
 var all_markers = [];
@@ -22,6 +22,7 @@ const SingleMarker = ({settings, title, timerStart, showAlert, getScore, getTime
     const [startTimer, setStartTimer] = useState(false);
     const [stopTimer, setStopTimer] = useState(false);
     const [completed, setCompleted] = useState(false);
+    const [count, setCount] = useState(0);
     /*const coordinates = [
         title.coordinates._lat,
         title.coordinates._long
@@ -34,6 +35,8 @@ const SingleMarker = ({settings, title, timerStart, showAlert, getScore, getTime
     const duration = settings.duration;
     const ref = useRef();
     const result = useRef();
+
+    var markers = [];
 
     function deleteMarkers() {
         clearMarkers();
@@ -161,8 +164,9 @@ const SingleMarker = ({settings, title, timerStart, showAlert, getScore, getTime
 
         window.google.maps.event.addListener(map, 'click', function(event) {
             if (new_marker) placeMarker(event.latLng, map);
-            if (check_count == 0){
-                check_count += 1;
+            if (count == 0){
+                setCount((prevCount) => prevCount+1);
+                //check_count += 1;
             }
         });
         setMapInstance(map);
