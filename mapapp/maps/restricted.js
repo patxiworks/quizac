@@ -8,7 +8,7 @@ import styles from "../styles/map.module.css";
 var current_name = '';
 var distance_from_guess = 0;
 var startMarker = [];
-//var markers = [];
+var markers = [];
 var guess_coordinates = [];
 var curr_coordinates = [];
 var check_count = 0;
@@ -16,7 +16,7 @@ var startmap = false;
 var bearing = (Math.random()*(360-0)+0);
 var userStats = {'last_dist_cov': [], 'dist_to_dest': []};
 
-const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, getTime}) => {
+const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, getTime, endQuiz}) => {
     const [mapInstance, setMapInstance] = useState(null);
     const [distanceValue, setDistanceValue] = useState(null);
     const [totalDistance, setTotalDistance] = useState(null);
@@ -27,6 +27,7 @@ const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, get
     const [resetTimer, setResetTimer] = useState(false);
     const [stopTimer, setStopTimer] = useState(false);
     const [attempts, setAttempts] = useState(0);
+    const [endCount, setEndCount] = useState(0);
     const [count, setCount] = useState(0);
     /*const coordinates = [
         title.coordinates._lat,
@@ -40,7 +41,7 @@ const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, get
     const duration = settings.duration;
     const ref = useRef();
 
-    var markers = [];
+    //var markers = [];
     var accumulated_distance = 0;
 
     function deleteMarkers() {
@@ -166,10 +167,19 @@ const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, get
         userStats['last_dist_cov'].push(dfg);
     }
 
+    const closeTimer = () => {
+        const interval = setInterval(() => {
+            setEndCount((prevCounter) => prevCounter + 1);
+        }, 1000);
+      
+        return () => clearInterval(interval);
+    }
+
     const finishing = () => {
         finish(mapInstance);
         setCompleted(true);
-        showAlert();
+        //showAlert();
+        closeTimer();
         const finalscore = getFinalScore()
         setScore(finalscore);
         getScore(finalscore, userStats);
@@ -203,6 +213,7 @@ const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, get
         const optDistance = calculateDistance(startMarker?.getPosition().lat(), startMarker?.getPosition().lng(), coordinates[0], coordinates[1], "K");
         // split the distance into equal sections based on the number of steps taken.
         const sectionDistance = markers.length ? optDistance/(markers.length) : 0;
+        //console.log(markers, sectionDistance)
         // calculate the back bearing i.e. the bearing in the opposite direction
         const backBearing = bearing>180 ? parseFloat(bearing-180) : parseFloat(bearing+180)
         //console.log(bearing, backBearing)
@@ -229,6 +240,10 @@ const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, get
     }, [])
 
     useEffect(() => {
+        if (endCount > 10) endQuiz()
+    }, [endCount]);
+
+    useEffect(() => {
         function placeMarker(location, map, start=false) {
             curr_coordinates = [];
             const marker = new google.maps.Marker({
@@ -240,6 +255,7 @@ const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, get
             } else {
                 startMarker = marker;
             }
+            //console.log(markers)
             const pos = [marker.getPosition().lat(),marker.getPosition().lng()]
             guess_coordinates.push(pos);
             curr_coordinates.push(...pos);
@@ -326,6 +342,7 @@ const RestrictedMarker = ({settings, title, timerStart, showAlert, getScore, get
                 >
                     {completed ? `Your score: ${score}` : "Find in map"}
                 </button>
+                {completed ? <div className={styles.mapCloseButton} onClick={endQuiz}>{endCount}</div> : ''}
             </div>
         </div>
     );

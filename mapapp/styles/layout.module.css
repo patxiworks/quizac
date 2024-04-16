@@ -317,7 +317,7 @@
   z-index: 9;
   border-right: none;
   border-radius: 5px 0 0 5px;
-  box-shadow: 1px 2px;
+  box-shadow: 1px 2px #000;
 }
 .gacFrameHandle {
   /*margin: -100px auto;*/

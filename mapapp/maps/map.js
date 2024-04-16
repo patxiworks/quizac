@@ -56,14 +56,13 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
 
     useEffect(() => {
       if (title?.id) {
-        //getScore(auth.currentUser?.email, category, title?.id, setQuizScore);
+        // Get the value from local storage if it exists
         const localdata = JSON.parse(localStorage.getItem("quizac")) || {}
         setQuizScore(localdata[title?.id])
-        // Get the value from local storage if it exists
-        console.log(JSON.parse(localStorage.getItem("quizac")) || "")
+        //console.log(JSON.parse(localStorage.getItem("quizac")) || "")
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [title?.id, gameSettings?.id])
+    }, [title?.id, start, gameSettings?.id])
 
     const writeDescription = (item) => {
         let desc = ''
@@ -142,6 +141,15 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
                         >
                           <div className={commonStyles.levelName}><Image src={`/levels/trophy-${item.id}.png`} width="48" height="48" alt={`Level-${item.id}`} /></div>
                           <div className={commonStyles.levelDescription}>Level {i}</div>
+                          <div className={commonStyles.levelScore}>
+                          {
+                            keyExists(item.id, quizScore) 
+                            ? quizScore[item.id]?.length 
+                              ? avgScore(quizScore[item.id], true)
+                              : ''
+                            : ''
+                          }
+                          </div>
                         </div>
                       }
                     </React.Fragment>
@@ -178,10 +186,10 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
               <Wrapper apiKey="AIzaSyCfDcAwQpZwQFFftgsXsO5Kan9Xixsc7U0" render={render}>
                   {
                   gameSettings.type === 'single'
-                  ? <SingleMarker settings={gameSettings} title={title} timerStart={startTimer} showAlert={showAlert} getScore={getQuizScore} getTime={getQuizTime} />
+                  ? <SingleMarker settings={gameSettings} title={title} timerStart={startTimer} showAlert={showAlert} getScore={getQuizScore} getTime={getQuizTime} endQuiz={()=>setStart(false)} />
                   : gameSettings.type === 'multiple'
-                      ? <MultipleMarker settings={gameSettings} title={title} timerStart={startTimer} showAlert={showAlert} getScore={getQuizScore} getTime={getQuizTime} />
-                      : <RestrictedMarker settings={gameSettings} title={title} timerStart={startTimer} showAlert={showAlert} getScore={getQuizScore} getTime={getQuizTime} />
+                      ? <MultipleMarker settings={gameSettings} title={title} timerStart={startTimer} showAlert={showAlert} getScore={getQuizScore} getTime={getQuizTime} endQuiz={()=>setStart(false)} />
+                      : <RestrictedMarker settings={gameSettings} title={title} timerStart={startTimer} showAlert={showAlert} getScore={getQuizScore} getTime={getQuizTime} endQuiz={()=>setStart(false)} />
                   }
               </Wrapper>
             </>
