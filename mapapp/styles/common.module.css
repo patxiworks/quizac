@@ -74,20 +74,23 @@
 }
 .levelDescription {
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: normal;
     display: flex;
     flex: 1;
     align-items: center;
+    text-align: left;
+    font-family: 'Poppins';
 }
 .levelScore {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: bold;
     display: flex;
     align-items: center;
     padding: 0 15px;
-    color: #197f4e;
+    color: #144813;
     border-left: 0px solid #666;
     border-radius: 10px 0 0 10px;
+    font-family: 'Poppins';
 }
 
 .quizScore {
@@ -126,9 +129,39 @@
     display: none;
 }
 
+.aggScoreBox {
+    margin: 40px 0 0;
+    font-size: 1rem;
+    font-weight: normal;
+    font-family: 'Poppins'
+}
+
+.aggScore {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 5px 7px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    font-family: 'Poppins';
+    background-color: #22583e;
+    color: #fff;
+    width: 80px;
+}
+
+.share {
+    display: inline;
+    margin: 0 10px;
+}
+
 .quizStartButtonContainer {
     width: 100%;
     text-align: center;
+}
+
+@media screen and ( max-width: 600px ) {
+    .levelDescription {
+        font-size: 0.7rem;
+    }
 }
 
 @media screen and ( max-width: 480px ) {
@@ -137,3 +170,4 @@
         text-align: center;
     }
 }
+
