@@ -11,9 +11,11 @@ import { SingleMarker } from './single';
 import { MultipleMarker } from './multiple';
 import { RestrictedMarker } from './restricted';
 import { ConfirmationDialogMaps } from "../components/dialog";
+import CountUp from "react-countup";
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
+import ShareIcon from '@mui/icons-material/Share';
 import { keyExists, checkScore, avgScore } from "./utils";
 import styles from "../styles/map.module.css";
 import commonStyles from "../styles/common.module.css";
@@ -35,6 +37,7 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
     const [score, setScore] = useState(0); // holds score directly from quiz
     const [quizScore, setQuizScore] = useState([]); // holds score from database
     const [quizTime, setQuizTime] = useState(0); // holds score from database
+    const [showShare, setShowShare] = useState(false);
 
     const auth = getAuth(app);
 
@@ -66,9 +69,20 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
 
     const writeDescription = (item) => {
         let desc = ''
-        desc = `${item.name}: In this level you can score a maximum of ${item.points} points (${item.points} per question). You have ${item.duration} seconds to answer each question. `;
-        desc += item.deduction ? `Beware, if you fail a question, ${item.deduction > 1 ? item.deduction+' points' : item.deduction+' point'} will be deducted from your score. ` : '';
-        desc += `Good luck!`;
+        //desc = `${item.name}: In this level you can score a maximum of ${item.points} points (${item.points} per question). You have ${item.duration} seconds to answer each question. `;
+        //desc += item.deduction ? `Beware, if you fail a question, ${item.deduction > 1 ? item.deduction+' points' : item.deduction+' point'} will be deducted from your score. ` : '';
+        //desc += `Good luck!`;
+        switch (item.id) {
+          case 1:
+            desc = "Intro level. Guess the location in the map."
+            break;
+          case 2:
+            desc = "Mid level. Choose a starting point and find the location."
+            break;
+          case 3:
+            desc = "Boss level. Trace your way from a random point."
+            break;
+        }
         return desc;
     }
 
@@ -94,6 +108,27 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
       setStart(false);
     }
 
+    const displayScore = (id, qs) => {
+      if (keyExists(id, qs)) {
+        if (qs[id]?.length) {
+         return parseFloat(avgScore(qs[id], true))
+        }
+      }
+      return '';
+    }
+
+    const aggregateScore = (qs) => {
+      const scores = []
+      let sum = 0
+      for (let i=1; i<=3; i++) {
+        scores.push(displayScore(i, qs))
+        sum = sum + i
+      }
+      const agg = scores.map((score, i) => score*((i+1)/sum))
+      //console.log(scores, agg)
+      return agg.reduce((a, curr) => { return parseFloat(a + curr) },0);
+    }
+
     //Handle the quizDataError state
     if (error) return <div>Sorry, could not load the quiz</div>;
     //Handle the quizData loading state
@@ -103,7 +138,7 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
         <>
         {!start ? (
             <div className={commonStyles.quizContainer}>
-              <div className={commonStyles.introHeader}>Explore the sights of Lagos!</div>
+              <div className={commonStyles.introHeader}>Explore places in Lagos!</div>
               <Image
                 alt="Map"
                 src={mapbg}
@@ -132,28 +167,46 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
                       }
                       {checkScore(score, item.id, gameSettings?.id, quizScore) 
                       ? <div className={`${commonStyles.quizLevel} ${commonStyles.disabledLevel}`} >
-                          <div className={commonStyles.levelName}><Image src={`/levels/trophy-${item.id}.png`} width="48" height="48" alt={`Level-${item.id}`} /></div>
-                          <div className={commonStyles.levelDescription}>Level {i}</div>
+                          <div className={commonStyles.levelName}><Image src={`/levels/map-${item.id}.png`} width="48" height="48" alt={`Level-${item.id}`} /></div>
+                          <div className={commonStyles.levelDescription}>{writeDescription(item)}</div>
+                          <div className={commonStyles.levelScore}>
+                            <CountUp
+                              start={gameSettings?.id === item?.id ? 0 : displayScore(item.id, quizScore)}
+                              end={ displayScore(item.id, quizScore) }
+                              decimals={2}
+                            />
+                          </div>
                         </div>
                       : <div
                           className={`${commonStyles.quizLevel} ${styles[item.name]}`}
                           onClick={() => mapMaster(item)}
                         >
-                          <div className={commonStyles.levelName}><Image src={`/levels/trophy-${item.id}.png`} width="48" height="48" alt={`Level-${item.id}`} /></div>
-                          <div className={commonStyles.levelDescription}>Level {i}</div>
+                          <div className={commonStyles.levelName}><Image src={`/levels/map-${item.id}.png`} width="48" height="48" alt={`Level-${item.id}`} /></div>
+                          <div className={commonStyles.levelDescription}>{writeDescription(item)}</div>
                           <div className={commonStyles.levelScore}>
-                          {
-                            keyExists(item.id, quizScore) 
-                            ? quizScore[item.id]?.length 
-                              ? avgScore(quizScore[item.id], true)
-                              : ''
-                            : ''
-                          }
+                            <CountUp
+                              start={gameSettings?.id === item?.id ? 0 : displayScore(item.id, quizScore)}
+                              end={ displayScore(item.id, quizScore) }
+                              decimals={2}
+                            />
                           </div>
                         </div>
                       }
                     </React.Fragment>
                   ))}
+                </div>
+                <div className={commonStyles.aggScoreBox}>
+                  Your aggregate score:
+                  <div className={commonStyles.aggScore}>
+                    <CountUp
+                      start={0}
+                      end={aggregateScore(quizScore)}
+                      decimals={2}
+                      onEnd={() => setShowShare(true)}
+                      onStart={() => setShowShare(false)}
+                    />
+                  </div>
+                  <div className={commonStyles.share}>{showShare ? <ShareIcon color='success' fontSize='medium' /> : ''}</div>
                 </div>
               </div>
             </div>
