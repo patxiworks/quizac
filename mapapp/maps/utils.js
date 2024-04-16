@@ -7,19 +7,13 @@ const keyExists = (key, obj) => {
 }
 
 const checkScore = (a, b, c, d) => {
-    console.log(a, b, c, d)
-    //if (d[b]?.length < 3) {
-      //if ((a || a===0) && b==c) {
-        //return true;
-      if (keyExists(b, d)) {
-        if (d[b]?.length >= 3) {
-          return true
-        }
+    //console.log(a, b, c, d)
+    if (keyExists(b, d)) {
+      if (d[b]?.length >= 3) {
+        return true
       }
-      return false;
-    //} else {
-      //return false;
-    //}
+    }
+    return false;
 }
 
 const avgScore = (arr, float=false) => {

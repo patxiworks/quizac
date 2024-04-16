@@ -14,7 +14,7 @@ var check_count = 0;
 //var guess_distances = []; // list of distances
 var userStats = {'last_dist_cov': [], 'dist_to_dest': []};
 
-const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTime}) => {
+const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTime, endQuiz}) => {
     const [mapInstance, setMapInstance] = useState(null);
     const [distanceValue, setDistanceValue] = useState(null);
     const [totalDistance, setTotalDistance] = useState(null);
@@ -26,6 +26,7 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
     const [resetTimer, setResetTimer] = useState(false);
     const [stopTimer, setStopTimer] = useState(false);
     const [attempts, setAttempts] = useState(0);
+    const [endCount, setEndCount] = useState(0);
     const [count, setCount] = useState(-1);
     /*const coordinates = [
         title.coordinates._lat,
@@ -168,10 +169,19 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
         userStats['dist_to_dest'] = guess_distances;
     }
 
+    const closeTimer = () => {
+        const interval = setInterval(() => {
+            setEndCount((prevCounter) => prevCounter + 1);
+        }, 1000);
+      
+        return () => clearInterval(interval);
+    }
+
     const finishing = () => {
         finish(mapInstance);
         setCompleted(true);
-        showAlert();
+        //showAlert();
+        closeTimer();
         const final_score = parseFloat(calculateTotalScore(guessDistances).toFixed(2));
         //console.log(guessDistances)
         setScore(final_score);
@@ -189,6 +199,10 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
     useEffect(() => {
         check_count = 0;
     }, [])
+
+    useEffect(() => {
+        if (endCount > 10) endQuiz()
+    }, [endCount]);
 
     useEffect(() => {
         function placeMarker(location, map) {
@@ -259,6 +273,7 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
                 >
                     {completed ? `Your score: ${score}` : "Find in map"}
                 </button>
+                {completed ? <div className={styles.mapCloseButton} onClick={endQuiz}>{endCount}</div> : ''}
             </div>
         </div>
     );

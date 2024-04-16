@@ -95,6 +95,16 @@
     display: none;
 }
 
+.mapCloseButton {
+    margin: 5px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: #cf2324;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 480px) {
     .container {
         /*width: 111%;

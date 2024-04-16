@@ -14,7 +14,7 @@ var all_markers = [];
 var new_marker = true;
 var start_timer = false;
 
-const SingleMarker = ({settings, title, timerStart, showAlert, getScore, getTime}) => {
+const SingleMarker = ({settings, title, timerStart, showAlert, getScore, getTime, endQuiz}) => {
     const [mapInstance, setMapInstance] = useState(null);
     //const [new_marker, set_new_marker] = useState(true)
     const [distanceValue, setDistanceValue] = useState(0);
@@ -22,6 +22,7 @@ const SingleMarker = ({settings, title, timerStart, showAlert, getScore, getTime
     const [startTimer, setStartTimer] = useState(false);
     const [stopTimer, setStopTimer] = useState(false);
     const [completed, setCompleted] = useState(false);
+    const [endCount, setEndCount] = useState(0);
     const [count, setCount] = useState(0);
     /*const coordinates = [
         title.coordinates._lat,
@@ -130,12 +131,25 @@ const SingleMarker = ({settings, title, timerStart, showAlert, getScore, getTime
         getScore(calcScore, {distance: dfg}); // pass score and distance to the parent comp
     }
 
+    const closeTimer = () => {
+        const interval = setInterval(() => {
+            setEndCount((prevCounter) => prevCounter + 1);
+        }, 1000);
+      
+        return () => clearInterval(interval);
+    }
+
     const checking = () => {
         check(mapInstance);
         setCompleted(true);
-        showAlert();
+        //showAlert();
+        closeTimer();
         new_marker = false;
     }
+
+    useEffect(() => {
+        if (endCount > 10) endQuiz()
+    }, [endCount]);
 
     useEffect(() => {
         function placeMarker(location, map) {
@@ -202,6 +216,7 @@ const SingleMarker = ({settings, title, timerStart, showAlert, getScore, getTime
                 >
                     {completed ? `Your score: ${score}` : "Find in map"}
                 </button>
+                {completed ? <div className={styles.mapCloseButton} onClick={endQuiz}>{endCount}</div> : ''}
             </div>
         </div>
     );
