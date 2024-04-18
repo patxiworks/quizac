@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, forwardRef } from "react";
 import Image from "next/image";
+import { usePathname } from 'next/navigation'
 import { app } from "@/firebase";
 import { getAuth } from 'firebase/auth';
 import { getTitles, getQuestions, getScore } from "@/data/fetch";
@@ -11,6 +12,8 @@ import { SingleMarker } from './single';
 import { MultipleMarker } from './multiple';
 import { RestrictedMarker } from './restricted';
 import { ConfirmationDialogMaps } from "../components/dialog";
+import { WhatsappIcon, FacebookIcon, TwitterIcon } from "react-share";
+import { WhatsappShareButton, FacebookShareButton, TwitterShareButton} from "react-share";
 import CountUp from "react-countup";
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
@@ -38,8 +41,10 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
     const [quizScore, setQuizScore] = useState([]); // holds score from database
     const [quizTime, setQuizTime] = useState(0); // holds score from database
     const [showShare, setShowShare] = useState(false);
+    const [openShare, setOpenShare] = useState(false);
 
     const auth = getAuth(app);
+    const pathname = usePathname()
 
     const getQuizTime = (time) => {
       setQuizTime(time);
@@ -97,6 +102,10 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
       setStartTimer(true);
     }
 
+    const closeShareDialog = () => {
+      setOpenShare(false);
+    }
+
     const showAlert = () => {
       setPostOpen(true)
       setEnd(true);
@@ -129,6 +138,10 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
       return agg.reduce((a, curr) => { return parseFloat(a + curr) },0);
     }
 
+    const shareText = (score) => {
+      return "I played the Lagos Mapping Game and scored " + score.toFixed(2) + ". Try it yourself: "+window.location.origin + pathname
+    }
+
     //Handle the quizDataError state
     if (error) return <div>Sorry, could not load the quiz</div>;
     //Handle the quizData loading state
@@ -136,9 +149,37 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
 
     return (
         <>
+        <ConfirmationDialogMaps
+          id="share-buttons"
+          //keepMounted
+          open={openShare}
+          onClose={closeShareDialog}
+          title="Share your score!"
+          content={
+            <div className={commonStyles.shareButtons}>
+              <div>
+                <WhatsappShareButton url={shareText(aggregateScore(quizScore))}>
+                  <WhatsappIcon size={32} round={true} />
+                </WhatsappShareButton>
+              </div>
+              <div>
+                <FacebookShareButton url={shareText(aggregateScore(quizScore))}>
+                  <FacebookIcon size={32} round={true} />
+                </FacebookShareButton>
+              </div>
+              <div>
+                <TwitterShareButton url={shareText(aggregateScore(quizScore))}>
+                  <TwitterIcon size={32} round={true} />
+                </TwitterShareButton>
+              </div>
+            </div>
+          }
+          prompt="Close"
+          //value={value}
+        />
         {!start ? (
             <div className={commonStyles.quizContainer}>
-              <div className={commonStyles.introHeader}>Explore places in Lagos!</div>
+              <div className={commonStyles.introHeader}>Find this location in the map!</div>
               <Image
                 alt="Map"
                 src={mapbg}
@@ -206,7 +247,7 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
                       onStart={() => setShowShare(false)}
                     />
                   </div>
-                  <div className={commonStyles.share}>{showShare ? <ShareIcon color='success' fontSize='medium' /> : ''}</div>
+                  <div className={commonStyles.shareIcon} onClick={()=>setOpenShare(true)}>{showShare ? <ShareIcon color='success' fontSize='medium' /> : ''}</div>
                 </div>
               </div>
             </div>
@@ -234,7 +275,7 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
                   >
                     Congratulations! — you scored great!
                   </Alert>
-                  </Collapse>
+                </Collapse>
               </div>
               <Wrapper apiKey="AIzaSyCfDcAwQpZwQFFftgsXsO5Kan9Xixsc7U0" render={render}>
                   {

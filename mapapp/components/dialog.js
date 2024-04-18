@@ -32,7 +32,7 @@ function ConfirmationDialogMaps(props) {
       open={open}
       {...other}
     >
-      <DialogTitle>{props.title}</DialogTitle>
+      <DialogTitle sx={{ textAlign: 'center' }}>{props.title}</DialogTitle>
       <DialogContent dividers>
         {props.content}
       </DialogContent>
