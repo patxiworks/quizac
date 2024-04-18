@@ -388,6 +388,17 @@
 }
 
 @media screen and (max-width: 900px) {
+    .quiz {
+      max-height: inherit;
+    }
+    .login {
+      flex-direction: column;
+    }
+    .mainContainer {
+      flex-direction: column;
+      width: 100%;
+      max-height: inherit;
+    }
     .sideGacBox {
       border: none;
       display: none;
@@ -526,11 +537,5 @@
 }
   
   @media screen and (max-width: 900px) {
-    .login {
-      flex-direction: column;
-    }
-    .mainContainer {
-      flex-direction: column;
-      width: 100%;
-    }
+    
   }

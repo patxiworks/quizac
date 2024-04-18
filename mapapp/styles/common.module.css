@@ -148,9 +148,20 @@
     width: 80px;
 }
 
-.share {
+.shareIcon {
     display: inline;
     margin: 0 10px;
+    cursor: pointer;
+}
+
+.shareButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.shareButtons div {
+    padding: 0 10px;
 }
 
 .quizStartButtonContainer {
