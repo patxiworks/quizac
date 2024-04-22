@@ -182,3 +182,8 @@
     }
 }
 
+@media screen and (max-height: 600px) and (min-width: 900px)  {
+    .introContent {
+      margin: 30px auto;
+    }
+  }

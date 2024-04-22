@@ -185,3 +185,12 @@ a {
 .MuiMenuItem-root a:hover {
   color: var(--color-blueviolet);
 }
+
+.MuiDialogContent-root {
+  padding: 0 !important;
+}
+
+.MuiDialog-paper {
+  width: auto !important;
+  max-height: none !important;
+}

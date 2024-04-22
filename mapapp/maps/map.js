@@ -22,7 +22,8 @@ import ShareIcon from '@mui/icons-material/Share';
 import { keyExists, checkScore, avgScore } from "./utils";
 import styles from "../styles/map.module.css";
 import commonStyles from "../styles/common.module.css";
-import mapbg from '../images/map-bg.png'
+import mapbg from '../images/map-bg.png';
+import singleDemo from '../images/single.gif';
 
 const render = (status) => {
   if (status === Status.LOADING) return <div style={{textAlign:'center'}}><CircularProgress /></div>;
@@ -258,9 +259,19 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
                   keepMounted
                   open={open}
                   onClose={closePreDialog}
-                  title="Are you ready?"
-                  content=""
-                  prompt="Go!"
+                  title="Ready to play?"
+                  content={
+                    <Image 
+                      src={singleDemo}
+                      width={250}
+                      height='auto'
+                      className={{'maxHeight': 'none'}}
+                      sx={{
+                        width: 'auto'
+                      }}
+                    />
+                  }
+                  prompt="Click to start"
                   //value={value}
               />
               <div className={styles.alertBox}>
