@@ -143,7 +143,7 @@ const SingleMarker = ({settings, title, timerStart, showAlert, getScore, getTime
         check(mapInstance);
         setCompleted(true);
         //showAlert();
-        closeTimer();
+        //closeTimer();
         new_marker = false;
     }
 

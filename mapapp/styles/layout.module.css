@@ -223,7 +223,7 @@
   /*border-radius: var(--br-5xl); 
   width: 500px;*/
   max-width: 100%;
-  min-height: 350px;
+  min-height: 320px;
   overflow: hidden;
   max-height: 100%;
   object-fit: cover;
@@ -426,7 +426,7 @@
       /*margin-bottom: var(--br-5xl);*/
     }
     .gacFrame {
-      height: 350px;
+      height: 320px;
     }
     .arrowBox {
       width: 50px;
@@ -535,5 +535,14 @@
   }
   .quiz {
     height: auto;
+  }
+}
+
+@media screen and (min-height: 880px) and (max-width: 900px) {
+  .mainContainer {
+    height: 100vh;
+  }
+  .quiz {
+    height: 100vh;
   }
 }

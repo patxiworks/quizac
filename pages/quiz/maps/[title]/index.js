@@ -9,6 +9,7 @@ import useSWR from 'swr';
 import MapGuess from "@/mapapp/maps/map";
 import { getCategories, getCategory, getTitles } from "@/data/fetch";
 import styles from "@/mapapp/styles/layout.module.css";
+import mapStyles from "@/mapapp/styles/map.module.css";
 
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -77,6 +78,7 @@ const QuizDashboard = () => {
   const mapArrow = mapArrowActive ? styles.mapFilled : styles.mapNormal;
   const frameStyle = frameArrowActive ? styles.transformFrame : '';
   const boxStyle = frameArrowActive ? styles.transformBox : '';
+  const mapLayout = mapArrowActive ? mapStyles.mapLayout : '';
 
   /*useEffect(() => {
     onAuthStateChanged(auth, (userInfo) => {
@@ -173,7 +175,7 @@ const QuizDashboard = () => {
                 <div className={styles.arrowBox} onClick={toggleFrame}><i className={`${styles.arrow} ${frameArrow}`}></i></div>
               </div>
             </div>
-            <div className={`${styles.mainContent} ${hideMap} ${showMeter}`}>
+            <div className={`${styles.mainContent} ${hideMap} ${showMeter} ${mapLayout}`}>
               <MapGuess quizData={data} quizDataError={error} category={category} title={objTitle} />
               <div className={`${styles.mapHandle} ${boxStyle}`}>
                 <div className={styles.arrowBox} onClick={toggleMap}><i className={`${styles.arrow} ${mapArrow}`}></i></div>
