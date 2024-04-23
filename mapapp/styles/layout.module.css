@@ -533,6 +533,9 @@
   .mainContainer {
     height: auto;
   }
+  .mainContainer.frameFullHeight {
+    height: 100vh;
+  }
   .quiz {
     height: auto;
   }
