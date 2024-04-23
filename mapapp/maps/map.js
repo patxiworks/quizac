@@ -24,6 +24,8 @@ import styles from "../styles/map.module.css";
 import commonStyles from "../styles/common.module.css";
 import mapbg from '../images/map-bg.png';
 import singleDemo from '../images/single.gif';
+import multipleDemo from '../images/multiple.gif';
+import restrictedDemo from '../images/restricted.gif';
 
 const render = (status) => {
   if (status === Status.LOADING) return <div style={{textAlign:'center'}}><CircularProgress /></div>;
@@ -75,9 +77,6 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
 
     const writeDescription = (item) => {
         let desc = ''
-        //desc = `${item.name}: In this level you can score a maximum of ${item.points} points (${item.points} per question). You have ${item.duration} seconds to answer each question. `;
-        //desc += item.deduction ? `Beware, if you fail a question, ${item.deduction > 1 ? item.deduction+' points' : item.deduction+' point'} will be deducted from your score. ` : '';
-        //desc += `Good luck!`;
         switch (item.id) {
           case 1:
             desc = "Intro level. Guess the location in the map."
@@ -90,6 +89,26 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
             break;
         }
         return desc;
+    }
+
+    const helpInfo = (settings) => {
+      let text = '';
+      let image = '';
+      switch (settings.id) {
+        case 1:
+          image = singleDemo
+          text = "Guess the location by clicking on the correct point in the map. You have " + settings.duration + " seconds."
+          break;
+        case 2:
+          image = multipleDemo
+          text = "Move from any point to the correct location in the map. You have " + settings.duration + " seconds for each point you choose."
+          break;
+        case 3:
+          image = restrictedDemo
+          text = "The marker is placed at a random point 20km from the location. Trace your way to the correct location within a restricted window. You have " + settings.duration + " seconds and a max of " + settings.maxattempts + " steps"
+          break;
+      }
+      return [image, text];
     }
 
     const mapMaster = (settings) => {
@@ -259,17 +278,22 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
                   keepMounted
                   open={open}
                   onClose={closePreDialog}
-                  title="Ready to play?"
+                  title="How to play"
                   content={
-                    <Image 
-                      src={singleDemo}
-                      width={250}
-                      height='auto'
-                      className={{'maxHeight': 'none'}}
-                      sx={{
-                        width: 'auto'
-                      }}
-                    />
+                    <>
+                      <div className={commonStyles.helpText}>
+                        {helpInfo(gameSettings)[1]}
+                      </div>
+                      <Image 
+                        src={helpInfo(gameSettings)[0]}
+                        width={350}
+                        height='auto'
+                        className={{'maxHeight': 'none'}}
+                        sx={{
+                          width: 'auto'
+                        }}
+                      />
+                    </>
                   }
                   prompt="Click to start"
                   //value={value}

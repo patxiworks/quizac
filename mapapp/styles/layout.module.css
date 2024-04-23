@@ -367,10 +367,12 @@
 .mapFilled, .frameNormal {
     transform: rotate(315deg);
     -webkit-transform: rotate(315deg);
+    margin: 15px 15px 11px 0;
 }
 .mapNormal, .frameFilled {
     transform: rotate(135deg);
     -webkit-transform: rotate(135deg);
+    margin: 15px 0px 11px 0;
 }
 .transformFrame {
     position: absolute;
@@ -486,6 +488,7 @@
     .mapNormal, .frameFilled {
         transform: rotate(225deg);
         -webkit-transform: rotate(225deg);
+        margin: 4px 0 15px !important;
     }
     .transformFrame {
       min-height: 100vh;
@@ -511,10 +514,8 @@
   }
   .topImage {
       display: block;
-      /*background-image: url('/art@2x.png');*/
       background: rgb(0,0,0,0.5);
       margin-bottom: 50px;
-      /*height: 200px;*/
       width: 100%;
   }
 }
