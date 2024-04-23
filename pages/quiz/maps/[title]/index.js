@@ -76,6 +76,7 @@ const QuizDashboard = () => {
   const showMeter = mapArrowActive ? styles.showMeter : '';
   const frameArrow = frameArrowActive ? styles.frameFilled : styles.frameNormal;
   const mapArrow = mapArrowActive ? styles.mapFilled : styles.mapNormal;
+  const frameFullHeight = frameArrowActive ? styles.frameFullHeight : '';
   const frameStyle = frameArrowActive ? styles.transformFrame : '';
   const boxStyle = frameArrowActive ? styles.transformBox : '';
   const mapLayout = mapArrowActive ? mapStyles.mapLayout : '';
@@ -151,7 +152,7 @@ const QuizDashboard = () => {
     <div id="quiz" className={styles.quiz}>
       <div className={styles.topContainer}>
         <div className={styles.login}>
-          <div className={styles.mainContainer}>
+          <div className={`${styles.mainContainer} ${frameFullHeight}`}>
             <div className={`${styles.leftContent} ${hideFrame}`}>
               <div className={styles.logo}>
                 <div className={styles.logoBox}>#GidiMaps</div>
