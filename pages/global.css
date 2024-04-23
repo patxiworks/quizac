@@ -194,3 +194,11 @@ a {
   width: auto !important;
   max-height: none !important;
 }
+
+.MuiDialogTitle-root {
+  padding: 5px 24px !important;
+}
+
+.MuiDialogActions-root {
+  justify-content: center !important;
+}

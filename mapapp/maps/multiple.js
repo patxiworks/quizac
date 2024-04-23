@@ -182,8 +182,7 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
         setCompleted(true);
         //showAlert();
         closeTimer();
-        const final_score = parseFloat(calculateTotalScore(guessDistances).toFixed(2));
-        //console.log(guessDistances)
+        const final_score = guessDistances.length ? parseFloat(calculateTotalScore(guessDistances).toFixed(2)) : 0;
         setScore(final_score);
         getScore(final_score, userStats); // lifted to parent component
     }

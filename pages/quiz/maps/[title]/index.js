@@ -155,7 +155,7 @@ const QuizDashboard = () => {
           <div className={`${styles.mainContainer} ${frameFullHeight}`}>
             <div className={`${styles.leftContent} ${hideFrame}`}>
               <div className={styles.logo}>
-                <div className={styles.logoBox}>#GidiMaps</div>
+                <div className={styles.logoBox}>#CityMaps</div>
               </div>
               <iframe className={styles.gacFrame} src={`https://embed.culturalspot.org/embedv2/asset/${title}`}></iframe>
               <div className={styles.imageFooter}></div>
