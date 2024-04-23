@@ -13,6 +13,7 @@ import mapStyles from "@/mapapp/styles/map.module.css";
 
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
+// not used ...
 const rawTitles = [{
   "id":"oAHFI58N8r97Cg",
   "group":"Aerial shots",
@@ -42,7 +43,7 @@ const QuizDashboard = () => {
   const [quizTitle, setQuizTitle] = useState('');
 
   const [categories, setCategories] = useState([]);
-  const [titles, setTitles] = useState(rawTitles);
+  const [titles, setTitles] = useState([]);
   const [groupTitles, setGroupTitles] = useState([]);
   const [groups, setGroups] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -94,6 +95,8 @@ const QuizDashboard = () => {
 
   useEffect(() => {
     setStartQuiz(false);
+    getTitles('maps', setTitles); // get titles
+    console.log(titles)
   }, [title?.id]);
 
   const quizStart = () => {
@@ -155,9 +158,9 @@ const QuizDashboard = () => {
           <div className={`${styles.mainContainer} ${frameFullHeight}`}>
             <div className={`${styles.leftContent} ${hideFrame}`}>
               <div className={styles.logo}>
-                <div className={styles.logoBox}>#CityMaps</div>
+                <div className={styles.logoBox}>#MapMastery</div>
               </div>
-              <iframe className={styles.gacFrame} src={`https://embed.culturalspot.org/embedv2/asset/${title}`}></iframe>
+              <iframe className={styles.gacFrame} src={title ? `https://embed.culturalspot.org/embedv2/asset/${title}` : ''}></iframe>
               <div className={styles.imageFooter}></div>
               <div className={styles.navigation}>
                 <Link href={`/quiz/maps/${prevTitle}`}>
