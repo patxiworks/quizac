@@ -172,7 +172,7 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
     const closeTimer = () => {
         const interval = setInterval(() => {
             setEndCount((prevCounter) => prevCounter + 1);
-        }, 1000);
+        }, 500);
       
         return () => clearInterval(interval);
     }
