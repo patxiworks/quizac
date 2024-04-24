@@ -188,7 +188,8 @@ a {
 
 .MuiDialogContent-root {
   padding: 0 !important;
-  border-bottom: none !important;
+  overflow: hidden;
+  overflow-y: hidden;
 }
 
 .MuiDialog-paper {
