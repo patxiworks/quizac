@@ -105,7 +105,7 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
           break;
         case 3:
           image = restrictedDemo
-          text = "The marker is placed at a random point 20km from the location. Trace your way to the correct location within a restricted window. You have " + settings.duration + " seconds and a max of " + settings.maxattempts + " steps"
+          text = "The marker is placed at a random point 20km from the location. Trace your way to the correct location within a restricted window. You have " + settings.duration + " seconds and a maximum of " + settings.maxattempts + " steps"
           break;
       }
       return [image, text];
@@ -278,6 +278,7 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
                   keepMounted
                   open={open}
                   onClose={closePreDialog}
+                  onCancel={closePostDialog}
                   title="How to play"
                   content={
                     <>
@@ -295,8 +296,8 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
                       />
                     </>
                   }
-                  prompt="Click to start"
-                  //value={value}
+                  prompt="Start"
+                  cancel={true}
               />
               <div className={styles.alertBox}>
                 <Collapse in={!open && startTimer && end}>
@@ -315,10 +316,10 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
               <Wrapper apiKey="AIzaSyCfDcAwQpZwQFFftgsXsO5Kan9Xixsc7U0" render={render}>
                   {
                   gameSettings.type === 'single'
-                  ? <SingleMarker settings={gameSettings} title={title} timerStart={startTimer} showAlert={showAlert} getScore={getQuizScore} getTime={getQuizTime} endQuiz={()=>setStart(false)} />
+                  ? <SingleMarker settings={gameSettings} title={title} timerStart={startTimer} showAlert={showAlert} getScore={getQuizScore} getTime={getQuizTime} endQuiz={closePostDialog} />
                   : gameSettings.type === 'multiple'
-                      ? <MultipleMarker settings={gameSettings} title={title} timerStart={startTimer} showAlert={showAlert} getScore={getQuizScore} getTime={getQuizTime} endQuiz={()=>setStart(false)} />
-                      : <RestrictedMarker settings={gameSettings} title={title} timerStart={startTimer} showAlert={showAlert} getScore={getQuizScore} getTime={getQuizTime} endQuiz={()=>setStart(false)} />
+                      ? <MultipleMarker settings={gameSettings} title={title} timerStart={startTimer} showAlert={showAlert} getScore={getQuizScore} getTime={getQuizTime} endQuiz={closePostDialog} />
+                      : <RestrictedMarker settings={gameSettings} title={title} timerStart={startTimer} showAlert={showAlert} getScore={getQuizScore} getTime={getQuizTime} endQuiz={closePostDialog} />
                   }
               </Wrapper>
             </>

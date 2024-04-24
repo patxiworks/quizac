@@ -8,7 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 
 function ConfirmationDialogMaps(props) {
-  const { onClose, value: valueProp, open, ...other } = props;
+  const { onClose, onCancel, value: valueProp, open, ...other } = props;
   const [value, setValue] = React.useState(valueProp);
 
   React.useEffect(() => {
@@ -17,9 +17,13 @@ function ConfirmationDialogMaps(props) {
     }
   }, [valueProp, open]);
 
-  const handleCancel = () => {
+  const handleOkay = () => {
     onClose();
   };
+
+  const handleCancel = () => {
+    onCancel();
+  }
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -37,7 +41,8 @@ function ConfirmationDialogMaps(props) {
         {props.content}
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={handleCancel}>
+        {props.cancel ? <Button onClick={handleCancel}>Cancel</Button> : ''}
+        <Button autoFocus onClick={handleOkay}>
           {props.prompt}
         </Button>
       </DialogActions>
