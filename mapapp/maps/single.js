@@ -134,7 +134,7 @@ const SingleMarker = ({settings, title, timerStart, showAlert, getScore, getTime
     const closeTimer = () => {
         const interval = setInterval(() => {
             setEndCount((prevCounter) => prevCounter + 1);
-        }, 1000);
+        }, 500);
       
         return () => clearInterval(interval);
     }

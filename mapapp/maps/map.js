@@ -159,7 +159,7 @@ const MapGuess = ({ quizData: data, quizDataError: error, category, title }) => 
     }
 
     const shareText = (score) => {
-      return "I played the Lagos Mapping Game and scored " + score.toFixed(2) + ". Try it yourself: "+window.location.origin + pathname
+      return "I played the *#MapMastery* game and scored *" + score.toFixed(2) + "* 😅! \n\nTry it yourself: "+window.location.origin + pathname
     }
 
     //Handle the quizDataError state
