@@ -200,5 +200,5 @@ a {
 }
 
 .MuiDialogActions-root {
-  justify-content: center !important;
+  justify-content: space-between !important;
 }

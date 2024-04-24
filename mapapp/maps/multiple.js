@@ -205,7 +205,6 @@ const MultipleMarker = ({settings, title, timerStart, showAlert, getScore, getTi
 
     useEffect(() => {
         function placeMarker(location, map) {
-            console.log(check_count)
             curr_coordinates = [];
             const marker = new google.maps.Marker({
                 position: location, 
